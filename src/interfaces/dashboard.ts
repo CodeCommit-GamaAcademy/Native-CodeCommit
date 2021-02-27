@@ -9,8 +9,9 @@ export interface Plano {
 export interface Lancamentos {
   conta: number,
   data: string,
+  decricao: string,
   id: number,
-  plano: Plano,
+  planoConta: Plano,
   tipo: string,
   valor: number,
 }
