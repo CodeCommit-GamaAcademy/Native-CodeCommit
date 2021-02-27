@@ -16,6 +16,7 @@ export const SafeAreaContainer = styled.SafeAreaView`
 
 export const ContainerScrollView = styled.ScrollView`
   flex: 1;
+  background: #8c52e5;
 `;
 
 export const Container = styled.KeyboardAvoidingView`
