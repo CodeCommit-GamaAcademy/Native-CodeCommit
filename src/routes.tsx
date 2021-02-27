@@ -28,10 +28,6 @@ const Routes: React.FC = () => {
                 />
 
                 <Screen 
-                    component={Password}
-                    name="ForgetPassword"
-                />
-                <Screen
                     name="RegisterSucceded"
                     component={ Succeded }
                 />
