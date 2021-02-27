@@ -1,3 +1,4 @@
+import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 
 export const Container = styled.SafeAreaView`
@@ -50,4 +51,56 @@ export const PlusButton = styled.TouchableOpacity`
     border-radius: 8px;
 
     background-color: #8C52E5;
+`
+
+// Add Plans Modal
+
+export const ModalContainer = styled.SafeAreaView`
+    flex: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, .4);
+    z-index: 100;
+    width: ${ Dimensions.get('window').width }px;
+    height: ${ Dimensions.get('window').height }px;
+
+    justify-content: center;
+    align-items: center;
+    padding: 0px 20px;
+`
+
+export const ModalContent = styled.KeyboardAvoidingView`
+    background-color: #fff;
+
+    padding: 20px;
+    width: 100%;
+`
+
+export const ModalTitle = styled.View`
+    justify-content: center;
+    align-items: center;
+`
+export const TitleText = styled.Text`
+    justify-content: center;
+    align-items: center;
+
+    font-size: 24px;
+`
+
+export const SelectView = styled.View`
+    width: 100%;
+    padding: 0;
+`
+
+export const TextArea = styled.TextInput`
+
+`
+
+export const AddButton = styled.TouchableOpacity`
+
+`
+
+export const ButtonText = styled.Text`
+
 `
