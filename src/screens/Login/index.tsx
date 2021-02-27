@@ -11,11 +11,15 @@ const Login: React.FC = () => {
   const navigator = useNavigation();
 
   const handleGoForgetPassword = useCallback(() => {
-      navigator.navigate('ForgetPassword');
+    navigator.navigate('ForgetPassword');
   }, [ navigator ]);
   const handleGoRegister = useCallback(() => {
-      navigator.navigate('Register');
+    navigator.navigate('Register');
   }, [ navigator ]);
+
+  const handleGoHome = useCallback(() => {
+    navigator.navigate('Transferir')
+  }, [navigator]);
   
   return (
     <SafeAreaContainer>
@@ -30,7 +34,7 @@ const Login: React.FC = () => {
             <InputForm placeholder="Digite seu usuário" />
             <InputForm isLastChild={true} secureTextEntry={true} placeholder="Digite seu senha" />
 
-            <ButtonSubmit>
+            <ButtonSubmit onPress={ handleGoHome } >
               <ButtonSubmitText>Continuar</ButtonSubmitText>
               <Feather name="arrow-right" size={20} color="#fff" />
             </ButtonSubmit>

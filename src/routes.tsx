@@ -8,6 +8,7 @@ import Transfer from './screens/Dashboard/Transfer';
 import Deposit from './screens/Dashboard/Deposit';
 import Plans from './screens/Dashboard/Plans';
 import Password from './screens/ForgotPassword';
+import TabRoutes from '../src/routes/tabRoutes';
 
 import Register from './screens/Register';
 
@@ -38,8 +39,9 @@ const Routes: React.FC = () => {
                     component={Home}
                     name="Home" />
                 <Screen
-                    component={Transfer}
+                    component={TabRoutes}
                     name="Transferir"
+                    options={{ gestureEnabled: false}}
                 />
                 <Screen
                     component={Releases}
