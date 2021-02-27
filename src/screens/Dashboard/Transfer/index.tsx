@@ -31,10 +31,12 @@ const Transfer: React.FC = () => {
                 onValueChange={(value) => setPlano(value)}
                 value={plano}
                 items={[
-                  { label: 'Plano 1', value: 'plano1' },
-                  { label: 'Plano 2', value: 'plano2' },
-                  { label: 'Plano 3', value: 'plano3' },
+                  { label: 'Receita', value: 'R', color: '#000' },
+                  { label: 'Despesa', value: 'D', color: '#000' },
+                  { label: 'Transferências entre contas', value: 'TC', color: '#000' },
+                  { label: 'Transferências entre usuários', value: 'TU', color: '#000' },
                 ]}
+                style={{ inputAndroid:{ color: '#000' }}}
                 Icon={() => {
                   return <Feather name="chevron-down" size={24} color="#878686" />;
                 }}
@@ -46,10 +48,10 @@ const Transfer: React.FC = () => {
                 onValueChange={(value) => setTransacao(value)}
                 value={transacao}
                 items={[
-                  { label: 'Transação 1', value: 'transação1' },
-                  { label: 'Transação 2', value: 'transação2' },
-                  { label: 'Transação 3', value: 'transação3' },
+                  { label: 'Conta Banco', value: 'CB', color: '#000' },
+                  { label: 'Conta Crédito', value: 'CC', color: '#000' }
                 ]}
+                style={{ inputAndroid:{ color: '#000' }}}
                 Icon={() => {
                   return <Feather name="chevron-down" size={24} color="#878686" />;
                 }}
