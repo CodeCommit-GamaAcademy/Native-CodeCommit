@@ -67,7 +67,7 @@ const Login: React.FC = () => {
             />
 
             {loading ? (
-              <Loader />
+              <Loader marginTop={34} />
             )
               : (
                 <ButtonSubmit onPress={handleGoHome} >
