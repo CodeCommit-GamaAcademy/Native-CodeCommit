@@ -1,8 +1,7 @@
 import { BottomTabBarOptions, BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
 
-import { TabContainer, Container, ItemLayout, Text } from './style';
+import { Container, ItemLayout, LabelText, TouchableButton, TabContainer } from './style';
 import { Ionicons } from '@expo/vector-icons';
 
 interface MenuProps {
@@ -56,27 +55,27 @@ export default function Menu(props: MenuProps) {
             });
           };
 
-          return (
-            <TouchableOpacity
-              accessibilityRole="button"
-              accessibilityState={isFocused ? { selected: true } : {}}
-              accessibilityLabel={options.tabBarAccessibilityLabel}
-              testID={options.tabBarTestID}
-              onPress={onPress}
-              onLongPress={onLongPress}
-              style={{ flex: 1 }}
-              key={index}
-            >
-              <ItemLayout >
-                {iconLogo}
-                <Text style={{ color: isFocused ? '#FFFFFF' : '#FFFFFA', fontSize:12 }}>
-                  {label}
-                </Text>
-              </ItemLayout>
-            </TouchableOpacity>
-          )
-        })}
-        
+        return (
+          <TouchableButton
+            accessibilityRole="button"
+            accessibilityState={isFocused ? { selected: true } : {}}
+            accessibilityLabel={options.tabBarAccessibilityLabel}
+            testID={options.tabBarTestID}
+            onPress={onPress}
+            onLongPress={onLongPress}
+            key={index}
+          >
+            <ItemLayout>
+              {iconLogo}
+              <LabelText 
+                isFocused={ isFocused }
+              >
+                {label}
+              </LabelText>
+            </ItemLayout>
+          </TouchableButton>
+        )
+      })}
       </TabContainer>
     </Container>
   );
