@@ -8,6 +8,7 @@ import Loader from '../../components/Loader';
 import GamaLogo from '../../assets/logo.png';
 import { useNavigation } from '@react-navigation/native';
 import api from '../../services/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login: React.FC = () => {
   const navigator = useNavigation();
@@ -30,9 +31,12 @@ const Login: React.FC = () => {
         senha: password,
       });
 
+      await AsyncStorage.setItem('@token_user', response.token);
+      await AsyncStorage.setItem('@user_name', response.usuario.nome);
+
       navigator.navigate('Dashboard');
     } catch (err) {
-      // console.log(username, password);
+
     } finally {
       setLoading(false);
     }
