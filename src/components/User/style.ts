@@ -5,8 +5,8 @@ export const Container = styled.SafeAreaView`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-top: 50px;
-  height: ${Dimensions.get('window').height - 520};
+  margin-top: 10px;
+  height: 150px;
   width: ${Dimensions.get('window').width - 30};
 `;
 

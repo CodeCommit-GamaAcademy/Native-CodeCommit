@@ -1,52 +1,66 @@
+import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
-flex: 1;
-justify-content: center;
-align-items: center;
-background: #E5E5E5;
+export const ContainerScrollView = styled.ScrollView`
+  background: #8C52E5;
+  flex: 1;
+  height: ${Dimensions.get('window').height}px;
+`
 
-`;
+export const Container = styled.KeyboardAvoidingView`
+  align-items: center;
+  flex: 1;
+  width: ${Dimensions.get('window').width}px;
+`
 
-export const BoxContent = styled.View`
-width: 100%;
-background: #fff;
-width: 90%;
-border-radius: 10px;
-`;
+export const ContainerForm = styled.View`
+  background: #FFF;
+  border-radius: 8px;
+  height: 100%;
+  justify-content: space-around;
+  padding: 5px 25px 25px;
+  width: 95%;
 
-export const TopTitle = styled.Text`
+`
 
-font-family: Roboto;
-font-style: normal;
-font-weight: 500;
-font-size: 26px;
-line-height: 30px;
-display: flex;
-align-items: center;
-text-align: center;
-`; 
-
-export const CardTitle  = styled.Text`
-
-font-family: Roboto;
-font-style: normal;
-font-weight: 500;
-font-size: 18px;
-line-height: 21px;
-/* identical to box height */
-
-display: flex;
-align-items: center;
-text-align: left;
-`; 
+export const TitleForm = styled.Text`
+  font-size: 18px;
+  color: #9B9B9B;
+`
 
 export const InputForm = styled.TextInput`
-  width: 100%;
-  color: #878686;
+  border-bottom-width: 1px;
   border-color: #878686;
   border-style: solid;
-  border-bottom-width: 1px;
   font-size: 14px;
-  padding: 12px 6px;
-  `
+  height: 42px;
+  margin-bottom: 40px;
+  padding: 0 6px;
+
+`
+
+export const SelectForm = styled.View`
+  border-bottom-width: 1px;
+  border-color: #878686;
+  border-style: solid;
+  font-size: 14px;
+  height: 42px;
+  margin-bottom: 40px;
+  padding: 0 6px;
+`
+
+export const ButtonSubmit = styled.TouchableOpacity`
+  background: #68de5a;
+  margin-top: 30px;
+  padding: 26px 30px;
+  border-radius: 20px;
+  flex-direction: row;
+  justify-content: space-between;
+`
+
+export const ButtonSubmitText = styled.Text`
+  color: #fff;
+  font-weight: bold;
+  justify-content: space-between;
+  font-size: 16px;
+`

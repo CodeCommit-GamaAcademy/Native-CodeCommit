@@ -6,7 +6,8 @@ import Menu from './components/Menu/Menu';
 import Releases from './screens/Dashboard/Releases';
 import Transfer from './screens/Dashboard/Transfer';
 import Deposit from './screens/Dashboard/Deposit';
-import Plans from './screens/Dashboard/Plans';
+import User from './components/User';
+// import Plans from './screens/Dashboard/Plans';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -30,10 +31,10 @@ const Routes: React.FC = () => {
                     component={ Deposit }
                     name="Depositar"
                 />
-                <Screen 
+                {/* <Screen 
                     component={ Plans }
                     name="Planos"
-                />
+                /> */}
             </Navigator>
         </NavigationContainer>
     );
