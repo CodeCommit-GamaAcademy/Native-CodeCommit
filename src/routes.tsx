@@ -1,10 +1,8 @@
 import React from 'react';
-import { View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from './screens/Home';
 import Login from './screens/Login';
 import { NavigationContainer } from '@react-navigation/native';
-import Menu from './components/Menu/Menu';
 import Releases from './screens/Dashboard/Releases';
 import Transfer from './screens/Dashboard/Transfer';
 import Deposit from './screens/Dashboard/Deposit';
@@ -21,17 +19,16 @@ const Routes: React.FC = () => {
                 screenOptions={{ headerShown: false }}
             >
                 {/* Rotas */}
-                
-                <Screen 
-                    component={ Register }
-                    name="Register"
-                />
 
                 <Screen
                     component={Login}
                     name="Login"
                 />
-
+                
+                <Screen 
+                    component={ Register }
+                    name="Register"
+                />
                 <Screen
                     component={Home}
                     name="Home" />
