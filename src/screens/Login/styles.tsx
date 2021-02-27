@@ -3,7 +3,13 @@ import styled from 'styled-components/native';
 
 export const LogoImg = styled.Image`
   margin-bottom: 60px;
+  margin-top: 15px
 `;
+
+export const SafeAreaContainer = styled.SafeAreaView`
+  background-color: #8c52e5;
+  flex: 1;
+`
 
 export const ContainerScrollView = styled.ScrollView`
   flex: 1;
@@ -24,6 +30,7 @@ export const CardForm = styled.View`
   width: 90%;
   padding: 42px 36px;
   border-radius: 8px;
+  margin-top: -30px;
 `;
 
 export const TitleForm = styled.Text`
@@ -50,7 +57,7 @@ export const InputForm = styled.TextInput<{ isLastChild?: boolean }>`
 export const ButtonSubmit = styled.TouchableOpacity`
   background: #68DE5A;
   margin-top: 50px;
-  padding: 16px 26px;
+  padding: 20px;
   border-radius: 20px;
   height: 56px;
   flex-direction: row;
@@ -59,7 +66,9 @@ export const ButtonSubmit = styled.TouchableOpacity`
 
 export const ButtonSubmitText = styled.Text`
   color: #fff;
+  font-weight: bold;
   justify-content: space-between;
+  font-size: 16px;
 `;
 
 export const LinkForm = styled.TouchableOpacity<{ isLastChild?: boolean }>`

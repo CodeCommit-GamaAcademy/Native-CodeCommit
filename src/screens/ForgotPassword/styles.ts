@@ -7,13 +7,27 @@ export const Container = styled.SafeAreaView`
     justify-content: center;
 `;
 
+export const ScrollContainer = styled.ScrollView`
+    flex: 1;
+`
+
+export const AvoidContainer = styled.KeyboardAvoidingView`
+    flex: 1;
+    align-items: center;
+`
+
+export const LogoImage = styled.Image`
+  margin-bottom: 60px;
+  margin-top: 25px
+`;
+
 export const Card = styled.View`
     align-items: center;
     width: 325px;
     height: 532px;
     background: #fff;
     border-radius: 8px;
-    margin-top: 10px;
+    margin-top: -25px;
 `
 export const Title = styled.Text`
     margin-top: 50px;
