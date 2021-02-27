@@ -1,15 +1,24 @@
 import React from 'react';
-import { View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+
 import { Container, Wellcome } from '../User/style';
 
 // import { Container } from './styles';
 
-const User: React.FC = () => {
+interface IUserProps {
+  showCancel?: boolean;
+}
+
+const User: React.FC<IUserProps> = ({ showCancel = false }) => {
   return (
     <Container>
       <Wellcome>Olá, Usuário</Wellcome>
-      <Ionicons name="person-circle-outline" size={30} color={'#FBFBFB'}/>
+      { !showCancel ? (
+        <Ionicons name="person-circle-outline" size={30} color={'#FBFBFB'}/>
+        ) : (
+        <Ionicons name="close" size={30} color={'#FBFBFB'}/>
+      ) }
     </Container> 
   );
 }
