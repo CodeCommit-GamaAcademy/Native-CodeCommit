@@ -3,6 +3,7 @@ import React, { useCallback, useState } from 'react';
 import { LogoImg, SafeAreaContainer, ContainerScrollView, Container, CardForm, TitleForm, InputForm, ButtonSubmit, ButtonSubmitText, LinkForm, LinkFormText } from './styles';
 
 import { Feather } from '@expo/vector-icons';
+import Loader from '../../components/Loader';
 
 import GamaLogo from '../../assets/logo.png';
 import { useNavigation } from '@react-navigation/native';
@@ -12,6 +13,7 @@ const Login: React.FC = () => {
   const navigator = useNavigation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleGoForgetPassword = useCallback(() => {
     navigator.navigate('ForgetPassword');
@@ -20,14 +22,21 @@ const Login: React.FC = () => {
     navigator.navigate('Register');
   }, [navigator]);
 
-  const handleGoHome = useCallback(() => {
+  const handleGoHome = useCallback(async () => {
+    setLoading(true);
+    try {
+      const { data: response } = await api.post('login', {
+        usuario: username,
+        senha: password,
+      });
 
-    // const { status } = await api.get('/login');
+    } catch (err) {
 
-    // navigator.navigate('Transferir');
-    console.log(username, password);
+    } finally {
+      setLoading(false);
+    }
 
-  }, [navigator]);
+  }, [navigator, username, password]);
 
   return (
     <ContainerScrollView>
@@ -52,10 +61,16 @@ const Login: React.FC = () => {
               placeholder="Digite seu senha"
             />
 
-            <ButtonSubmit onPress={handleGoHome} >
-              <ButtonSubmitText>Continuar</ButtonSubmitText>
-              <Feather name="arrow-right" size={20} color="#fff" />
-            </ButtonSubmit>
+            {loading ? (
+              <Loader />
+            )
+              : (
+                <ButtonSubmit onPress={handleGoHome} >
+                  <ButtonSubmitText>Continuar</ButtonSubmitText>
+                  <Feather name="arrow-right" size={20} color="#fff" />
+                </ButtonSubmit>
+              )}
+
             <LinkForm onPress={handleGoForgetPassword} >
               <LinkFormText>Esqueci minha senha</LinkFormText>
               <Feather name="arrow-right" size={20} color="#8c52e5" />
