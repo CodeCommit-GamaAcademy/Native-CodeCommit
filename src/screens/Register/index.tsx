@@ -41,12 +41,14 @@ const Register: React.FC = () => {
             });
 
             if (status === 200 || status === 201) {
-                const response = await api.post<{token: string }>('/login', {
+                const { data } = await api.post<{token: string, usuario: { nome: string } }>('/login', {
                     "usuario": username,
                     "senha": password
                 });
 
-                await AsyncStorage.setItem('@token_user', response.data.token);
+                await AsyncStorage.setItem('@token_user', data.token);
+                await AsyncStorage.setItem('@user_name', data.usuario.nome);
+
 
                 navigator.navigate('Dashboard');
             } else {
