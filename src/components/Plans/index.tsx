@@ -22,9 +22,9 @@ const Plans: React.FC<PlansProps> = ( props ) => {
     let valueRecept = 0;
     let valueExpenditure = 0;
     launchs.forEach( (launch) => {
-      if ( launch.plano.tipoMovimento === 'R' ) {
+      if ( launch.planoConta.tipoMovimento === 'R' ) {
         valueRecept += launch.valor;
-      } else if ( launch.plano.tipoMovimento === 'D' ) {
+      } else if ( launch.planoConta.tipoMovimento === 'D' ) {
         valueExpenditure += launch.valor;
       }
     });
