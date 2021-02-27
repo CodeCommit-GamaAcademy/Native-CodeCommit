@@ -50,7 +50,7 @@ const Register: React.FC = () => {
                 await AsyncStorage.setItem('@user_name', data.usuario.nome);
 
 
-                navigator.navigate('Dashboard');
+                navigator.navigate('RegisterSucceded');
             } else {
                 console.log('error');
             }
