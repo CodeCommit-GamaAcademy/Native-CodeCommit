@@ -11,11 +11,10 @@ const Transfer: React.FC = () => {
         Olá, (nome do usuário)
       </TopTitle>
       <BoxContent>
-<CardTitle> Transferências </CardTitle>
+        <CardTitle> Transferências </CardTitle>
         <InputForm placeholder="Destinatário"></InputForm>
         <InputForm placeholder="teste"></InputForm>
         <InputForm placeholder="Valor da Transferência"></InputForm>
-
       </BoxContent>
     </Container>
   );

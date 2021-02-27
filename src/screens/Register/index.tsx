@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Feather } from '@expo/vector-icons';
 
 import { SafeAreaContainer, ScrollContainer, Container, FormContainer, Logo, FormTitle, FormInput, SubmitButton, SubmitText, SubmitTextWrapper, ReturnLink, ReturnText } from './styles';
+import Loader from '../../components/Loader';
 
 import LogoImg from '../../assets/logo.png';
 import { Platform } from 'react-native';
@@ -18,17 +19,18 @@ const Register: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const [isFilled, setIsFilled] = useState(true);
 
     const handleGoLogin = useCallback(() => {
         navigator.navigate('Login');
-    }, [ navigator ]);
+    }, [navigator]);
 
     const handleSubmit = useCallback(async () => {
-
+        setLoading(true);
         // Validate TODO
-        if ( password !== confirmPassword ) {
+        if (password !== confirmPassword) {
             return;
         }
 
@@ -41,7 +43,7 @@ const Register: React.FC = () => {
             });
 
             if (status === 200 || status === 201) {
-                const { data } = await api.post<{token: string, usuario: { nome: string } }>('/login', {
+                const { data } = await api.post<{ token: string, usuario: { nome: string } }>('/login', {
                     "usuario": username,
                     "senha": password
                 });
@@ -50,65 +52,71 @@ const Register: React.FC = () => {
                 await AsyncStorage.setItem('@user_name', data.usuario.nome);
 
 
-                navigator.navigate('Dashboard');
+                navigator.navigate('RegisterSucceded');
             } else {
                 console.log('error');
             }
-        } catch(err) {
+        } catch (err) {
             console.log(err.response);
+        } finally {
+            setLoading(false);
         }
-    }, [ cpf, username, name, password, confirmPassword, navigator ]);
+    }, [cpf, username, name, password, confirmPassword, navigator]);
 
     return (
         <SafeAreaContainer>
             <ScrollContainer>
 
                 <Container
-                    enabled={Platform.OS === 'ios'} 
+                    enabled={Platform.OS === 'ios'}
                     behavior="padding"
                 >
-                    <Logo source={ LogoImg } />
+                    <Logo source={LogoImg} />
                     <FormContainer>
                         <FormTitle>Peça sua conta e cartão de crédito do Gama Bank</FormTitle>
 
-                        <FormInput 
+                        <FormInput
                             placeholder="Digite seu CPF"
-                            onChangeText={ text => setCpf(text) }
-                            value={ cpf }
+                            onChangeText={text => setCpf(text)}
+                            value={cpf}
                         />
-                        <FormInput 
+                        <FormInput
                             placeholder="Escolha um nome de usuário"
-                            onChangeText={ text => setUsername(text) }
-                            value={ username }
+                            onChangeText={text => setUsername(text)}
+                            value={username}
                         />
-                        <FormInput 
+                        <FormInput
                             placeholder="Nome completo"
-                            onChangeText={ text => setName(text) }
-                            value={ name }
+                            onChangeText={text => setName(text)}
+                            value={name}
                         />
-                        <FormInput 
+                        <FormInput
                             placeholder="Digite sua senha"
-                            onChangeText={ text => setPassword(text) }
-                            value={ password }
+                            onChangeText={text => setPassword(text)}
+                            value={password}
                             secureTextEntry
                         />
-                        <FormInput 
+                        <FormInput
                             placeholder="Confirme sua senha"
-                            onChangeText={ text => setConfirmPassword(text) }
-                            value={ confirmPassword }
+                            onChangeText={text => setConfirmPassword(text)}
+                            value={confirmPassword}
                             secureTextEntry
                         />
 
-                        <SubmitButton
-                            isActive={isFilled}
-                            onPress={ handleSubmit }
-                            disabled={ !isFilled }
-                        >
-                            <SubmitTextWrapper>
-                                <SubmitText isActive={ isFilled } >Continuar</SubmitText>
-                                <Feather name="arrow-right" size={20} color={isFilled ? "#fff" : "#9B9B9B"} />
-                            </SubmitTextWrapper>
-                        </SubmitButton>
+                        {loading ? (
+                            <Loader marginTop={9} />
+                        ) : (
+                                <SubmitButton
+                                    isActive={isFilled}
+                                    onPress={handleSubmit}
+                                    disabled={!isFilled}
+                                >
+                                    <SubmitTextWrapper>
+                                        <SubmitText isActive={isFilled} >Continuar</SubmitText>
+                                        <Feather name="arrow-right" size={20} color={isFilled ? "#fff" : "#9B9B9B"} />
+                                    </SubmitTextWrapper>
+                                </SubmitButton>
+                            )}
 
                         <ReturnLink onPress={handleGoLogin} >
                             <ReturnText>&#60; Voltar para login</ReturnText>

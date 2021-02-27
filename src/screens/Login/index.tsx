@@ -2,18 +2,24 @@ import React, { useCallback, useState } from 'react';
 
 import { LogoImg, SafeAreaContainer, ContainerScrollView, Container, CardForm, TitleForm, InputForm, ButtonSubmit, ButtonSubmitText, LinkForm, LinkFormText } from './styles';
 
+import { useDispatch } from 'react-redux';
+
 import { Feather } from '@expo/vector-icons';
 import Loader from '../../components/Loader';
 
 import GamaLogo from '../../assets/logo.png';
 import { useNavigation } from '@react-navigation/native';
 import api from '../../services/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { sign_in } from '../../store/user/actions';
+import { UserResponse } from '../../types/User';
 
 const Login: React.FC = () => {
   const navigator = useNavigation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const handleGoForgetPassword = useCallback(() => {
     navigator.navigate('ForgetPassword');
@@ -25,14 +31,23 @@ const Login: React.FC = () => {
   const handleGoHome = useCallback(async () => {
     setLoading(true);
     try {
-      const { data: response } = await api.post('login', {
+      const { data: response } = await api.post<UserResponse>('login', {
         usuario: username,
         senha: password,
       });
 
+      await AsyncStorage.setItem('@token_user', response.token);
+      await AsyncStorage.setItem('@user_name', response.usuario.nome);
+
+      dispatch(sign_in({
+        login: response.usuario.login,
+        name: response.usuario.nome,
+        token: response.token,
+      }))
+
       navigator.navigate('Dashboard');
     } catch (err) {
-      // console.log(username, password);
+
     } finally {
       setLoading(false);
     }
@@ -63,7 +78,7 @@ const Login: React.FC = () => {
             />
 
             {loading ? (
-              <Loader />
+              <Loader marginTop={34} />
             )
               : (
                 <ButtonSubmit onPress={handleGoHome} >
