@@ -9,7 +9,6 @@ background: #E5E5E5;
 `;
 
 export const BoxContent = styled.View`
-width: 100%;
 background: #fff;
 width: 90%;
 border-radius: 10px;
@@ -17,7 +16,7 @@ border-radius: 10px;
 
 export const TopTitle = styled.Text`
 
-font-family: Roboto;
+/* font-family: Roboto; */
 font-style: normal;
 font-weight: 500;
 font-size: 26px;
@@ -29,7 +28,7 @@ text-align: center;
 
 export const CardTitle  = styled.Text`
 
-font-family: Roboto;
+/* font-family: Roboto; */
 font-style: normal;
 font-weight: 500;
 font-size: 18px;
@@ -49,4 +48,4 @@ export const InputForm = styled.TextInput`
   border-bottom-width: 1px;
   font-size: 14px;
   padding: 12px 6px;
-  `
+`

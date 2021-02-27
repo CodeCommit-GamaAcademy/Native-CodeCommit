@@ -1,8 +1,8 @@
 import { BottomTabBarOptions, BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
-import { TabContainer, Container, ItemLayout } from './style';
+import { TabContainer, Container, ItemLayout, Text } from './style';
 import { Ionicons } from '@expo/vector-icons';
 
 interface MenuProps {
@@ -65,8 +65,9 @@ export default function Menu(props: MenuProps) {
               onPress={onPress}
               onLongPress={onLongPress}
               style={{ flex: 1 }}
+              key={index}
             >
-              <ItemLayout>
+              <ItemLayout >
                 {iconLogo}
                 <Text style={{ color: isFocused ? '#FFFFFF' : '#FFFFFA', fontSize:12 }}>
                   {label}

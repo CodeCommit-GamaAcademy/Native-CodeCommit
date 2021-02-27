@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import Balance from '../../../components/Balance';
 import User from '../../../components/User';
 import Plans from '../../../components/Plans';
-import { Container } from './style';
+import { Container, ScrollContainer } from './style';
 import { ScrollView } from 'react-native-gesture-handler';
 import Launchs from '../../../components/Launchs';
 

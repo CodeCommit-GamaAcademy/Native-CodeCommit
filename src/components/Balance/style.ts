@@ -6,8 +6,8 @@ export const Container = styled.SafeAreaView`
   background-color: #FFFFFF;
   border-radius: 19px;
   align-content: center;
-  height: ${Dimensions.get('window').height - 460};
-  width: ${Dimensions.get('window').width - 50};
+  height: ${Dimensions.get('window').height - 460}px;
+  width: ${Dimensions.get('window').width - 50}px;
 `;
 
 export const Title = styled.Text`

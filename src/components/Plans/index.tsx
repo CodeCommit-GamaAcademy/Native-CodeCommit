@@ -2,7 +2,6 @@ import React from 'react';
 import { View } from 'react-native';
 import { Container, Line, Paragraph, Title, Value, ValueNegative } from './style';
 
-// import { Container } from './styles';
 
 const Plans: React.FC = () => {
   return (
