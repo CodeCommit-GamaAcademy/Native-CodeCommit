@@ -1,14 +1,15 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Menu from './components/Menu/Menu';
+import Home from './screens/Home';
+import Login from './screens/Login';
+import { NavigationContainer } from '@react-navigation/native';
 import Releases from './screens/Dashboard/Releases';
 import Transfer from './screens/Dashboard/Transfer';
 import Deposit from './screens/Dashboard/Deposit';
 import Plans from './screens/Dashboard/Plans';
 import Password from './screens/ForgotPassword';
 
-
+import Register from './screens/Register';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -16,7 +17,7 @@ const Routes: React.FC = () => {
     return (
         <NavigationContainer>
             <Navigator
-                screenOptions={{ headerShown: false }} // tabBar={ props => <Menu menu={props}/>}
+                screenOptions={{ headerShown: false }}
             >
                 <Screen 
                     component={Password}
@@ -24,20 +25,32 @@ const Routes: React.FC = () => {
                 />
                 {/* Rotas */}
 
+                <Screen
+                    component={Login}
+                    name="Login"
+                />
+                
                 <Screen 
-                    component={ Transfer }
+                    component={ Register }
+                    name="Register"
+                />
+                <Screen
+                    component={Home}
+                    name="Home" />
+                <Screen
+                    component={Transfer}
                     name="Transferir"
                 />
-                <Screen 
-                    component={ Releases }
+                <Screen
+                    component={Releases}
                     name="Lancamentos"
                 />
-                <Screen 
-                    component={ Deposit }
+                <Screen
+                    component={Deposit}
                     name="Depositar"
                 />
-                <Screen 
-                    component={ Plans }
+                <Screen
+                    component={Plans}
                     name="Planos"
                 />
             </Navigator>
