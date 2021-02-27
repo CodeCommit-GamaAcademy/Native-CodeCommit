@@ -49,3 +49,11 @@ export const Line = styled.View`
   height: 20px;
   width: 1px;
 `
+
+export const NullValues = styled.Text`
+  align-self: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight: 500;
+  color: #34A6E7;
+`
