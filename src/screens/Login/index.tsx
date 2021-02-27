@@ -30,8 +30,9 @@ const Login: React.FC = () => {
         senha: password,
       });
 
+      navigator.navigate('Dashboard');
     } catch (err) {
-
+      // console.log(username, password);
     } finally {
       setLoading(false);
     }

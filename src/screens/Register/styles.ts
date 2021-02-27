@@ -6,7 +6,7 @@ export const SafeAreaContainer = styled.SafeAreaView`
 `
 
 export const ScrollContainer = styled.ScrollView`
-
+    
 `
 
 export const Container = styled.KeyboardAvoidingView`
@@ -43,7 +43,7 @@ export const FormInput = styled.TextInput`
     padding-bottom: 12px;
 `
 
-export const SubmitButton = styled.TouchableHighlight<{ isActive: boolean }>`
+export const SubmitButton = styled.TouchableOpacity<{ isActive: boolean }>`
     background: ${ props => props.isActive ? '#68DE5A' : '#D8D8D8' };
 
     padding: 16px 20px;

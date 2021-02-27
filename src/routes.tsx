@@ -36,24 +36,9 @@ const Routes: React.FC = () => {
                     name="ForgetPassword"
                 />
                 <Screen
-                    component={Home}
-                    name="Home" />
-                <Screen
                     component={TabRoutes}
-                    name="Transferir"
+                    name="Dashboard"
                     options={{ gestureEnabled: false}}
-                />
-                <Screen
-                    component={Releases}
-                    name="Lancamentos"
-                />
-                <Screen
-                    component={Deposit}
-                    name="Depositar"
-                />
-                <Screen
-                    component={Plans}
-                    name="Planos"
                 />
             </Navigator>
         </NavigationContainer>
