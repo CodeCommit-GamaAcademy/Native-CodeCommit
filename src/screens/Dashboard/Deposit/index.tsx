@@ -1,16 +1,17 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { Container } from './style';
+import { Container, ScrollContainer } from './style';
 
-// import { Container } from './styles';
 
 const Deposit: React.FC = () => {
   return (
-    <Container>
-      <Text>
-        Depósitar
-      </Text>
-    </Container>
+    <ScrollContainer>
+      <Container>
+            <Text>
+              Depósitar
+            </Text>
+      </Container>
+    </ScrollContainer>
   );
 }
 

@@ -12,9 +12,9 @@ const Transfer: React.FC = () => {
       </TopTitle>
       <BoxContent>
 <CardTitle> Transferências </CardTitle>
-        <InputForm name="teste" placeholder="Destinatário"></InputForm>
-        <InputForm name="teste" placeholder="teste"></InputForm>
-        <InputForm name="teste" placeholder="Valor da Transferência"></InputForm>
+        <InputForm placeholder="Destinatário"></InputForm>
+        <InputForm placeholder="teste"></InputForm>
+        <InputForm placeholder="Valor da Transferência"></InputForm>
 
       </BoxContent>
     </Container>
