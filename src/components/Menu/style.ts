@@ -16,7 +16,16 @@ export const TabContainer = styled.View`
 `;
 
 export const ItemLayout = styled.View`
-  justify-content: center;
-  align-items: center;
-  height: 100%;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+`
+
+export const LabelText = styled.Text<{ isFocused: boolean }>`
+    color: ${ props => props.isFocused ? '#FFFFFF' : '#FFFFFA' };
+    font-size: 12px;
+`
+
+export const TouchableButton = styled.TouchableOpacity`
+  flex: 1;
 `
