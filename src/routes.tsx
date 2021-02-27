@@ -1,40 +1,47 @@
 import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
+import Login from './screens/Login';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from './screens/Home';
-import Menu from './components/Menu/Menu';
-import Releases from './screens/Dashboard/Releases';
-import Transfer from './screens/Dashboard/Transfer';
-import Deposit from './screens/Dashboard/Deposit';
-import User from './components/User';
-// import Plans from './screens/Dashboard/Plans';
+import Password from './screens/ForgotPassword';
+import TabRoutes from './routes/tabRoutes';
 
-const { Navigator, Screen } = createBottomTabNavigator();
+import Register from './screens/Register';
+import Succeded from './screens/Register/Succeded';
+
+const { Navigator, Screen } = createStackNavigator();
 
 const Routes: React.FC = () => {
     return (
         <NavigationContainer>
             <Navigator
-                tabBar={ props => <Menu menu={props}/>}
+                screenOptions={{ headerShown: false }}
             >
                 {/* Rotas */}
+                <Screen
+                    component={Login}
+                    name="Login"
+                />
+                
+                <Screen 
+                    component={ Register }
+                    name="Register"
+                />
 
                 <Screen 
-                    component={ Transfer }
-                    name="Transferir"
+                    name="RegisterSucceded"
+                    component={ Succeded }
                 />
+
                 <Screen 
-                    component={ Releases }
-                    name="Lancamentos"
+                    component={Password}
+                    name="ForgetPassword"
                 />
-                <Screen 
-                    component={ Deposit }
-                    name="Depositar"
+                
+                <Screen
+                    component={TabRoutes}
+                    name="Dashboard"
+                    options={{ gestureEnabled: false}}
                 />
-                {/* <Screen 
-                    component={ Plans }
-                    name="Planos"
-                /> */}
             </Navigator>
         </NavigationContainer>
     );
