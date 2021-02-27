@@ -27,7 +27,6 @@ const Login: React.FC = () => {
     // navigator.navigate('Transferir');
     console.log(username, password);
 
-
   }, [navigator]);
 
   return (
