@@ -20,3 +20,8 @@ export interface Conta {
   lancamentos: Lancamentos[],
   saldo: number,
 }
+
+export interface Contas {
+  contaBanco: Conta,
+  contaCredito: Conta,
+}

@@ -1,10 +1,11 @@
 import { createStore, Store } from 'redux';
 import rootReducer from './rootReducer';
+import { UserData } from './user/types';
 
-interface ApplicationStore {
-
+export interface ApplicationStore {
+  user: UserData | null;
 }
 
-const store: Store<ApplicationStore> = createStore( rootReducer );
+const store: Store<ApplicationStore> = createStore(rootReducer);
 
 export default store;
