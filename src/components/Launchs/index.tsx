@@ -5,6 +5,9 @@ import { Container, Line, Paragraph, Title, Value, ValueNegative } from './style
 // import { Container } from './styles';
 
 const Launchs: React.FC = () => {
+
+  
+
   return (
     <Container>
       <Title>Últimos lancamentos</Title>
