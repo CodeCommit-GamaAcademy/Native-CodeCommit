@@ -4,7 +4,7 @@ import { LogoImg, ContainerScrollView, Container, CardForm, TitleForm, InputForm
 
 import { Feather } from '@expo/vector-icons';
 
-import GamaLogo from '../../assets/gama-logo.png';
+import GamaLogo from '../../assets/logo.png';
 
 const Login: React.FC = () => {
   return (
@@ -23,7 +23,6 @@ const Login: React.FC = () => {
           <ButtonSubmitText>Continuar</ButtonSubmitText>
           <Feather name="arrow-right" size={20} color="#fff" />
         </ButtonSubmit>
-
         <LinkForm>
           <LinkFormText>Esqueci minha senha</LinkFormText>
           <Feather name="arrow-right" size={20} color="#8c52e5" />
