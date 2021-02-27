@@ -24,8 +24,8 @@ const Login: React.FC = () => {
 
     // const { status } = await api.get('/login');
 
-    // navigator.navigate('Transferir');
-    console.log(username, password);
+    navigator.navigate('Dashboard');
+    // console.log(username, password);
 
   }, [navigator]);
 

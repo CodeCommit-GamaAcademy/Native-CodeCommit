@@ -1,12 +1,14 @@
 import React, { useCallback, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Feather } from '@expo/vector-icons';
 
 import { SafeAreaContainer, ScrollContainer, Container, FormContainer, Logo, FormTitle, FormInput, SubmitButton, SubmitText, SubmitTextWrapper, ReturnLink, ReturnText } from './styles';
 
 import LogoImg from '../../assets/logo.png';
-import { KeyboardAvoidingView, Platform } from 'react-native';
+import { Platform } from 'react-native';
+import api from '../../services/api';
 
 const Register: React.FC = () => {
     const navigator = useNavigation();
@@ -17,11 +19,43 @@ const Register: React.FC = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    const [isFilled, setIsFilled] = useState(false);
+    const [isFilled, setIsFilled] = useState(true);
 
     const handleGoLogin = useCallback(() => {
         navigator.navigate('Login');
     }, [ navigator ]);
+
+    const handleSubmit = useCallback(async () => {
+
+        // Validate TODO
+        if ( password !== confirmPassword ) {
+            return;
+        }
+
+        try {
+            const { status } = await api.post('/usuarios', {
+                "cpf": cpf,
+                "login": username,
+                "nome": name,
+                "senha": password,
+            });
+
+            if (status === 200 || status === 201) {
+                const response = await api.post<{token: string }>('/login', {
+                    "usuario": username,
+                    "senha": password
+                });
+
+                await AsyncStorage.setItem('@token_user', response.data.token);
+
+                navigator.navigate('Dashboard');
+            } else {
+                console.log('error');
+            }
+        } catch(err) {
+            console.log(err.response);
+        }
+    }, [ cpf, username, name, password, confirmPassword, navigator ]);
 
     return (
         <SafeAreaContainer>
@@ -37,34 +71,36 @@ const Register: React.FC = () => {
 
                         <FormInput 
                             placeholder="Digite seu CPF"
-                            value={ cpf }
                             onChangeText={ text => setCpf(text) }
+                            value={ cpf }
                         />
                         <FormInput 
                             placeholder="Escolha um nome de usuário"
-                            value={ username }
                             onChangeText={ text => setUsername(text) }
+                            value={ username }
                         />
                         <FormInput 
                             placeholder="Nome completo"
-                            value={ name }
                             onChangeText={ text => setName(text) }
+                            value={ name }
                         />
                         <FormInput 
                             placeholder="Digite sua senha"
-                            value={ password }
                             onChangeText={ text => setPassword(text) }
+                            value={ password }
                             secureTextEntry
                         />
                         <FormInput 
                             placeholder="Confirme sua senha"
-                            value={ confirmPassword }
                             onChangeText={ text => setConfirmPassword(text) }
+                            value={ confirmPassword }
                             secureTextEntry
                         />
 
                         <SubmitButton
                             isActive={isFilled}
+                            onPress={ handleSubmit }
+                            disabled={ !isFilled }
                         >
                             <SubmitTextWrapper>
                                 <SubmitText isActive={ isFilled } >Continuar</SubmitText>
