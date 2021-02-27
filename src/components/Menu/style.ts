@@ -1,6 +1,10 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
+  background: #8c52e5;
+`
+
+export const TabContainer = styled.View`
   flex-direction: row;
   background-color: #68DE5A;
   height: 80px;
