@@ -24,7 +24,7 @@ export const LogoImage = styled.Image`
 export const Card = styled.View`
     align-items: center;
     width: 325px;
-    height: 532px;
+    height: 515px;
     background: #fff;
     border-radius: 8px;
     margin-top: -25px;

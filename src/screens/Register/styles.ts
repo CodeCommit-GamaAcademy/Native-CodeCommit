@@ -28,6 +28,7 @@ export const FormContainer = styled.View`
     padding: 16px 32px;
     border-radius: 8px;
     margin-top: -30px;
+    width: 100%;
 `
 export const FormTitle = styled.Text`
     font-weight: 500;
