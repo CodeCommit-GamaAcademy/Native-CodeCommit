@@ -32,7 +32,7 @@ const Routes: React.FC = () => {
                 />
                 <Screen 
                     component={Password}
-                    name={"EsqueciSenha"}
+                    name="ForgetPassword"
                 />
                 <Screen
                     component={Home}

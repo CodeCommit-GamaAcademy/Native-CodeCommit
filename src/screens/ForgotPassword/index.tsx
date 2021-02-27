@@ -1,13 +1,20 @@
-import React from 'react';
-import { View, Text, Image } from 'react-native';
+import React, { useCallback } from 'react';
+import { Image } from 'react-native';
 import { Feather } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native';
 
 import { Container, Card, Title, InputContainer, Input, Button, ButtonText, ButtonLoginText, ButtonLogin  } from './styles';
 
 import logo from '../../assets/logo.png';
 
 const ForgotPassword: React.FC = () => {
-  return (
+    const navigator = useNavigation();
+
+    const handleGoLogin = useCallback(() => {
+        navigator.navigate('Login');
+    }, [ navigator ]);
+    
+    return (
       <Container>
           <Image source={logo} />
         <Card>
@@ -21,9 +28,9 @@ const ForgotPassword: React.FC = () => {
                     <Feather name="arrow-right" size={20} color="#fff" />
                 </Button>
             </InputContainer>
-                <ButtonLogin>
-                    <ButtonLoginText>Ir para login &gt;</ButtonLoginText>
-                </ButtonLogin>
+            <ButtonLogin onPress={ handleGoLogin } >
+                <ButtonLoginText>Ir para login &gt;</ButtonLoginText>
+            </ButtonLogin>
         </Card>
       </Container>
   );

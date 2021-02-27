@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 import { Feather } from '@expo/vector-icons';
 
@@ -8,6 +9,8 @@ import LogoImg from '../../assets/logo.png';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 
 const Register: React.FC = () => {
+    const navigator = useNavigation();
+
     const [cpf, setCpf] = useState('');
     const [name, setName] = useState('');
     const [username, setUsername] = useState('');
@@ -15,6 +18,10 @@ const Register: React.FC = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const [isFilled, setIsFilled] = useState(false);
+
+    const handleGoLogin = useCallback(() => {
+        navigator.navigate('Login');
+    }, [ navigator ]);
 
     return (
         <Container
@@ -62,7 +69,7 @@ const Register: React.FC = () => {
                     </SubmitTextWrapper>
                 </SubmitButton>
 
-                <ReturnLink>
+                <ReturnLink onPress={handleGoLogin} >
                     <ReturnText>&#60; Voltar para login</ReturnText>
                 </ReturnLink>
             </FormContainer>

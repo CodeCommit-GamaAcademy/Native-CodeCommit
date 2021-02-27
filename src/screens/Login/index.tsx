@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { LogoImg, ContainerScrollView, Container, CardForm, TitleForm, InputForm, ButtonSubmit, ButtonSubmitText, LinkForm, LinkFormText } from './styles';
 
 import { Feather } from '@expo/vector-icons';
 
 import GamaLogo from '../../assets/logo.png';
+import { useNavigation } from '@react-navigation/native';
 
 const Login: React.FC = () => {
+  const navigator = useNavigation();
+
+  const handleGoForgetPassword = useCallback(() => {
+      navigator.navigate('ForgetPassword');
+  }, [ navigator ]);
+  const handleGoRegister = useCallback(() => {
+      navigator.navigate('Register');
+  }, [ navigator ]);
+  
   return (
     // <ContainerScrollView>
     <Container>
@@ -23,11 +33,11 @@ const Login: React.FC = () => {
           <ButtonSubmitText>Continuar</ButtonSubmitText>
           <Feather name="arrow-right" size={20} color="#fff" />
         </ButtonSubmit>
-        <LinkForm>
+        <LinkForm onPress={ handleGoForgetPassword } >
           <LinkFormText>Esqueci minha senha</LinkFormText>
           <Feather name="arrow-right" size={20} color="#8c52e5" />
         </LinkForm>
-        <LinkForm isLastChild={true}>
+        <LinkForm onPress={ handleGoRegister } isLastChild={true}>
           <LinkFormText>Ainda não sou cliente</LinkFormText>
           <Feather name="arrow-right" size={20} color="#8c52e5" />
         </LinkForm>
