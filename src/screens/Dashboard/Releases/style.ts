@@ -5,3 +5,7 @@ export const Container = styled.SafeAreaView`
     align-items: center;
     background: #8C52E5;
 `;
+
+export const ScrollContainer = styled.ScrollView`
+    background: #8c52e5;
+`
