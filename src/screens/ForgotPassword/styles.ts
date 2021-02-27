@@ -1,3 +1,4 @@
+import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 
 export const Container = styled.SafeAreaView`
@@ -5,6 +6,7 @@ export const Container = styled.SafeAreaView`
     background: #8C52E5;
     align-items: center;
     justify-content: center;
+    height: ${ Dimensions.get('window').height }px;
 `;
 
 export const ScrollContainer = styled.ScrollView`
@@ -14,6 +16,7 @@ export const ScrollContainer = styled.ScrollView`
 export const AvoidContainer = styled.KeyboardAvoidingView`
     flex: 1;
     align-items: center;
+    justify-content: center;
 `
 
 export const LogoImage = styled.Image`
@@ -24,13 +27,14 @@ export const LogoImage = styled.Image`
 export const Card = styled.View`
     align-items: center;
     width: 325px;
-    height: 515px;
+
+    padding: 30px;
+
     background: #fff;
     border-radius: 8px;
     margin-top: -25px;
 `
 export const Title = styled.Text`
-    margin-top: 50px;
     font-size: 21px;
     font-weight: bold;
 `
@@ -74,6 +78,7 @@ export const ButtonLogin = styled.TouchableOpacity`
 `
 export const ButtonLoginText = styled.Text`
     color: #8c52e5;
+    margin-top: 32px;
     font-size: 13px;
     font-style: normal;
 `

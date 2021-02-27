@@ -46,8 +46,7 @@ export const FormInput = styled.TextInput`
 export const SubmitButton = styled.TouchableHighlight<{ isActive: boolean }>`
     background: ${ props => props.isActive ? '#68DE5A' : '#D8D8D8' };
 
-    padding: 20px;
-    height: 56px;
+    padding: 16px 20px;
     border-radius: 20px;
 `
 

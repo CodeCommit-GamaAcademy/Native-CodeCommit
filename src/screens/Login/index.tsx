@@ -22,8 +22,8 @@ const Login: React.FC = () => {
   }, [navigator]);
   
   return (
-    <SafeAreaContainer>
-      <ContainerScrollView>
+    <ContainerScrollView>
+      <SafeAreaContainer>
         <Container>
           <LogoImg
             source={GamaLogo}
@@ -48,8 +48,8 @@ const Login: React.FC = () => {
             </LinkForm>
           </CardForm>
         </Container>
-      </ContainerScrollView>
-    </SafeAreaContainer>
+      </SafeAreaContainer>
+    </ContainerScrollView>
   );
 }
 

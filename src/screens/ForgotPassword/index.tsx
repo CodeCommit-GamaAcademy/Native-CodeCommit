@@ -16,8 +16,8 @@ const ForgotPassword: React.FC = () => {
     }, [ navigator ]);
     
     return (
-        <Container>
-            <ScrollContainer>
+        <ScrollContainer>
+            <Container>
                 <AvoidContainer enabled={Platform.OS === 'ios'} behavior="padding" >
 
                     <LogoImage source={logo} />
@@ -37,8 +37,8 @@ const ForgotPassword: React.FC = () => {
                         </ButtonLogin>
                     </Card>
                 </AvoidContainer>
-            </ScrollContainer>
-        </Container>
+            </Container>
+        </ScrollContainer>
   );
 }
 

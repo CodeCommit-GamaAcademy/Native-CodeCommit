@@ -1,4 +1,4 @@
-import { RectButton } from 'react-native-gesture-handler';
+import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 
 export const LogoImg = styled.Image`
@@ -9,11 +9,13 @@ export const LogoImg = styled.Image`
 export const SafeAreaContainer = styled.SafeAreaView`
   background-color: #8c52e5;
   flex: 1;
+  justify-content: center;
+  align-items: center;
+  height: ${ Dimensions.get('window').height }px;
 `
 
 export const ContainerScrollView = styled.ScrollView`
   flex: 1;
-  height: auto;
 `;
 
 export const Container = styled.KeyboardAvoidingView`
@@ -43,7 +45,6 @@ export const TitleForm = styled.Text`
 `;
 
 export const InputForm = styled.TextInput<{ isLastChild?: boolean }>`
-  width: 100%;
   color: #878686;
   border-color: #878686;
   border-style: solid;
@@ -57,9 +58,8 @@ export const InputForm = styled.TextInput<{ isLastChild?: boolean }>`
 export const ButtonSubmit = styled.TouchableOpacity`
   background: #68DE5A;
   margin-top: 50px;
-  padding: 20px;
+  padding: 16px 20px;
   border-radius: 20px;
-  height: 56px;
   flex-direction: row;
   justify-content: space-between;
 `
