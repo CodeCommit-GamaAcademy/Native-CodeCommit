@@ -19,10 +19,6 @@ const Routes: React.FC = () => {
             <Navigator
                 screenOptions={{ headerShown: false }}
             >
-                <Screen 
-                    component={Password}
-                    name={"EsqueciSenha"}
-                />
                 {/* Rotas */}
 
                 <Screen
@@ -33,6 +29,10 @@ const Routes: React.FC = () => {
                 <Screen 
                     component={ Register }
                     name="Register"
+                />
+                <Screen 
+                    component={Password}
+                    name={"EsqueciSenha"}
                 />
                 <Screen
                     component={Home}

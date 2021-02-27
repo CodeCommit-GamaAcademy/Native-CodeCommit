@@ -4,7 +4,7 @@ import { Feather } from '@expo/vector-icons';
 
 import { Container, FormContainer, Logo, FormTitle, FormInput, SubmitButton, SubmitText, SubmitTextWrapper, ReturnLink, ReturnText } from './styles';
 
-import LogoImg from '../../assets/Logo.png';
+import LogoImg from '../../assets/logo.png';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 
 const Register: React.FC = () => {

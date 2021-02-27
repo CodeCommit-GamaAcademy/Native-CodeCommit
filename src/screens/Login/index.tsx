@@ -4,7 +4,7 @@ import { LogoImg, ContainerScrollView, Container, CardForm, TitleForm, InputForm
 
 import { Feather } from '@expo/vector-icons';
 
-import GamaLogo from '../../assets/Logo.png';
+import GamaLogo from '../../assets/logo.png';
 
 const Login: React.FC = () => {
   return (
