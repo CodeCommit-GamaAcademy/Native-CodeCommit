@@ -72,11 +72,12 @@ const Releases: React.FC = () => {
         {
           loading && accountInfo ? <Balance conta={accountInfo?.contaBanco}/> : <View></View>
         }
-        
         {
           loading && allLaunchs ? <Plans lancamentos={allLaunchs}/> : <View></View>
         }
-        <Launchs />
+        {
+          loading && allLaunchs ? <Launchs launchs={allLaunchs}/> : <View></View>
+        }
       </Container>
     </ScrollView>
     
