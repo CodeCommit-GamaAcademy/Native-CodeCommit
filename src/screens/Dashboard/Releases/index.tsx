@@ -68,12 +68,12 @@ const Releases: React.FC = () => {
 
   return (
     <Main>
-      <MenuContainer>
+      {/* <MenuContainer>
             
       </MenuContainer>
       <MenuLeft>
         <View></View>
-      </MenuLeft>
+      </MenuLeft> */}
       <ScrollView>
         <Container>
           

@@ -6,7 +6,8 @@ import { Plano } from '../../../interfaces/dashboard';
 import api from '../../../services/api';
 import { ApplicationStore } from '../../../store';
 
-import { CardTitle, CardType, CardUser, Container, PlansCard, PlansContainer, PlusButton } from './styles';
+import { CardTitle, CardType, CardUser, Container, Main, PlansCard, PlansContainer, PlusButton } from './styles';
+import Bottom from '../../../components/Bottom';
 
 const Plans: React.FC = () => {
   const [plans, setPlans] = useState<Plano[]>();
@@ -26,6 +27,7 @@ const Plans: React.FC = () => {
   }, [user]);
 
   if (plans) return (
+    <Main>
       <Container>
         <PlansContainer>
           {plans.map((plan, index) => (
@@ -43,6 +45,8 @@ const Plans: React.FC = () => {
           </PlusButton>
         </PlansContainer>
       </Container>
+      <Bottom />
+    </Main>
   );
   else return <Loader marginTop={0} />
 }
