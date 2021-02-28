@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Balance from '../../../components/Balance';
 import User from '../../../components/User';
@@ -9,15 +9,17 @@ import Launchs from '../../../components/Launchs';
 import { Contas, Lancamentos } from '../../../interfaces/dashboard';
 import api from '../../../services/api';
 import { ApplicationStore } from '../../../store';
-import { View } from 'react-native';
+import { Animated, View } from 'react-native';
 import Bottom from '../../../components/Bottom';
 
 const Releases: React.FC = () => {
   //setting store, and some states
+  const fadeAnim = useRef(new Animated.Value(0)).current;
   const store = useSelector( (store: ApplicationStore) => store );
   const [ allLaunchs, setAllLaunchs ] = useState<Lancamentos[]>();
   const [ accountInfo, setAccountInfo ] = useState<Contas>();
   const [ loading, setLoading ] = useState(false);
+  const [ hideOrShow, setHideOrShow ] = useState(false);
 
   //function to make month data get a 0 in position [0]
   //if your length is less than 2. 
@@ -66,20 +68,49 @@ const Releases: React.FC = () => {
     loadDashInformations();
   }, [])
 
+
+  const show = () => {
+    // Will change fadeAnim value to 1 in 5 seconds
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 5000,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const hide = () => {
+    // Will change fadeAnim value to 0 in 5 seconds
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 5000,
+      useNativeDriver: true,
+    }).start();
+  };
+
+
+  const showMenuLeft = () => {
+    setHideOrShow(!hideOrShow);
+  }
+
   return (
     <Main>
-      {/* <MenuContainer>
-            
-      </MenuContainer>
-      <MenuLeft>
-        <View></View>
-      </MenuLeft> */}
+      {
+        hideOrShow &&
+        <>
+          <MenuContainer>
+              
+          </MenuContainer>
+          <MenuLeft>
+            {
+              store.user ? <User hide={showMenuLeft} showCancel={true} hideName={true} fromRealeases={true} user={store.user} /> : <View></View>
+            }
+          </MenuLeft>
+        </>
+      }
       <ScrollView>
         <Container>
-          
-          
           {
-            loading && store.user ? <User /> : <View></View>
+            loading && store.user ? <User show={showMenuLeft} user={store.user} /> : <View></View>
           }
           {
             loading && accountInfo ? <Balance conta={accountInfo?.contaBanco}/> : <View></View>
