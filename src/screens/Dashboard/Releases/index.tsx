@@ -3,13 +3,14 @@ import { useSelector } from 'react-redux';
 import Balance from '../../../components/Balance';
 import User from '../../../components/User';
 import Plans from '../../../components/Plans';
-import { Container } from './style';
+import { Container, Main } from './style';
 import { ScrollView } from 'react-native-gesture-handler';
 import Launchs from '../../../components/Launchs';
 import { Contas, Lancamentos } from '../../../interfaces/dashboard';
 import api from '../../../services/api';
 import { ApplicationStore } from '../../../store';
 import { View } from 'react-native';
+import Bottom from '../../../components/Bottom';
 
 const Releases: React.FC = () => {
   //setting store, and some states
@@ -66,20 +67,33 @@ const Releases: React.FC = () => {
   }, [])
 
   return (
-    <ScrollView>
-      <Container>
-        <User />
-        {
-          loading && accountInfo ? <Balance conta={accountInfo?.contaBanco}/> : <View></View>
-        }
-        {
-          loading && allLaunchs ? <Plans lancamentos={allLaunchs}/> : <View></View>
-        }
-        {
-          loading && allLaunchs ? <Launchs launchs={allLaunchs}/> : <View></View>
-        }
-      </Container>
-    </ScrollView>
+    <Main>
+      <ScrollView>
+        <Container>
+          {/* <MenuContainer>
+            
+          </MenuContainer>
+          <MenuLeft>
+              <View></View>
+          </MenuLeft> */}
+          
+          {
+            loading && store.user ? <User account={store.user}/> : <View></View>
+          }
+          {
+            loading && accountInfo ? <Balance conta={accountInfo?.contaBanco}/> : <View></View>
+          }
+          {
+            loading && allLaunchs ? <Plans lancamentos={allLaunchs}/> : <View></View>
+          }
+          {
+            loading && allLaunchs ? <Launchs launchs={allLaunchs}/> : <View></View>
+          }
+          
+        </Container>
+      </ScrollView>
+      <Bottom />
+    </Main>
     
   );
 }
