@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import Balance from '../../../components/Balance';
 import User from '../../../components/User';
 import Plans from '../../../components/Plans';
-import { Container, Main } from './style';
+import { Container, Main, MenuContainer, MenuLeft } from './style';
 import { ScrollView } from 'react-native-gesture-handler';
 import Launchs from '../../../components/Launchs';
 import { Contas, Lancamentos } from '../../../interfaces/dashboard';
@@ -68,14 +68,15 @@ const Releases: React.FC = () => {
 
   return (
     <Main>
+      <MenuContainer>
+            
+      </MenuContainer>
+      <MenuLeft>
+        <View></View>
+      </MenuLeft>
       <ScrollView>
         <Container>
-          {/* <MenuContainer>
-            
-          </MenuContainer>
-          <MenuLeft>
-              <View></View>
-          </MenuLeft> */}
+          
           
           {
             loading && store.user ? <User account={store.user}/> : <View></View>
