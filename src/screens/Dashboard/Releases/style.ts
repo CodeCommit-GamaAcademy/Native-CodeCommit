@@ -6,7 +6,6 @@ export const Container = styled.SafeAreaView`
     background: #8C52E5;
 `;
 
-
 export const Main = styled.SafeAreaView`
   flex: 1;
   background: #8C52E5;
@@ -32,5 +31,5 @@ export const MenuContainer = styled.SafeAreaView`
     top: 0;
     right: 0;
     bottom: 0;
-    z-index: 1;
+    z-index: 100;
 `
