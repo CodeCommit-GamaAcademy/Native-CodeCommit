@@ -8,6 +8,11 @@ background: #E5E5E5;
 
 `;
 
+export const Main = styled.SafeAreaView`
+  flex: 1;
+  background: #8C52E5;
+`
+
 export const BoxContent = styled.View`
 width: 100%;
 background: #fff;
