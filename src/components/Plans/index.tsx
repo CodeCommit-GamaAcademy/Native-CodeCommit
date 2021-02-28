@@ -38,7 +38,7 @@ const Plans: React.FC<PlansProps> = ( props ) => {
       <Value>{currencyFormat(recept)}</Value>
       <Line></Line>
       <Paragraph>Tipo do plano: Despesas</Paragraph>
-      <ValueNegative>- {currencyFormat(expenditure)}</ValueNegative>
+      <ValueNegative>{currencyFormat(expenditure)}</ValueNegative>
     </Container>
   );
 }

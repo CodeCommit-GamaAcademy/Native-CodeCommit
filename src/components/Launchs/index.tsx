@@ -22,10 +22,10 @@ const Launchs: React.FC<LaunchsProps> = ( props ) => {
       }
       
       { 
-        launchs?.map( (launch) => {
+        launchs?.map( (launch, index) => {
           if (launch.tipo === 'R') {
             return (
-              <View key={launch.id}>
+              <View key={index}>
                 <Line></Line>
                 <Value>{currencyFormat(launch.valor)}</Value>
                 <Paragraph>{launch.data}</Paragraph>
