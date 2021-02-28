@@ -6,8 +6,8 @@ export const Container = styled.SafeAreaView`
   align-items: center;
   justify-content: space-between;
   margin-top: 50px;
-  height: ${Dimensions.get('window').height - 520};
-  width: ${Dimensions.get('window').width - 30};
+  height: ${Dimensions.get('window').height - 520}px;
+  width: ${Dimensions.get('window').width - 30}px;
 `;
 
 export const Wellcome = styled.Text`

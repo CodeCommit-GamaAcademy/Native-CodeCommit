@@ -12,6 +12,10 @@ export const TabContainer = styled.View`
   border-top-right-radius: 19px;
 `;
 
+export const Text = styled.Text`
+  font-size: 10px;
+`
+
 export const ItemLayout = styled.View`
     justify-content: center;
     align-items: center;

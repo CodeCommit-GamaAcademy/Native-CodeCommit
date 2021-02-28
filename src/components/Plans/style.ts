@@ -5,8 +5,8 @@ export const Container = styled.SafeAreaView`
   margin-top: 30px;
   background-color: #FFFFFF;
   border-radius: 19px;
-  height: ${Dimensions.get('window').height - 320};
-  width: ${Dimensions.get('window').width - 50};
+  height: ${Dimensions.get('window').height - 320}px;
+  width: ${Dimensions.get('window').width - 50}px;
 `;
 
 export const Title = styled.Text`
@@ -43,5 +43,5 @@ export const Line = styled.View`
   align-self: center;
   background: #9B9B9B;
   height: 1px;
-  width: ${Dimensions.get('window').width - 120};
+  width: ${Dimensions.get('window').width - 120}px;
 `

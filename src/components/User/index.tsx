@@ -1,49 +1,25 @@
-import React, { useRef, useState } from 'react';
-import { Animated, View } from 'react-native';
+import React from 'react';
+import { StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+
 import { Container, Wellcome } from '../User/style';
 import { UserData } from '../../store/user/types';
 
 // import { Container } from './styles';
 
-interface UserProps {
-  account: UserData,
+interface IUserProps {
+  showCancel?: boolean;
 }
 
-const User: React.FC<UserProps> = ( props ) => {
-
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-
-  const [ user, setUser ] = useState<UserData>( props.account );
-
-  const getFirstName = () => {
-    const arrayName = user.name.split(' ');
-    return arrayName[0];
-  }
-
-  const show = () => {
-    // Will change fadeAnim value to 1 in 5 seconds
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 500,
-      useNativeDriver: false,
-    }).start();
-  };
-
-  const hide = () => {
-    // Will change fadeAnim value to 0 in 5 seconds
-    Animated.timing(fadeAnim, {
-      toValue: 0,
-      duration: 500,
-      useNativeDriver: false,
-    }).start();
-  };
-
+const User: React.FC<IUserProps> = ({ showCancel = false }) => {
   return (
     <Container>
-      
-      <Wellcome>Olá, {getFirstName()}</Wellcome>
-      <Ionicons onPress={()=>console.log('teste')} name="person-circle-outline" size={30} color={'#FBFBFB'}/>
+      <Wellcome>Olá, Usuário</Wellcome>
+      { !showCancel ? (
+        <Ionicons name="person-circle-outline" size={30} color={'#FBFBFB'}/>
+        ) : (
+        <Ionicons name="close" size={30} color={'#FBFBFB'}/>
+      ) }
     </Container> 
   );
 }

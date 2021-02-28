@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Lancamentos } from '../../interfaces/dashboard';
 import { Container, Line, Paragraph, Title, Value, ValueNegative } from './style';
 
-// import { Container } from './styles';
 
 interface PlansProps {
   lancamentos: Lancamentos[];

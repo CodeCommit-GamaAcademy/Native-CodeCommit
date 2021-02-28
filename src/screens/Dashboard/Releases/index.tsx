@@ -79,7 +79,7 @@ const Releases: React.FC = () => {
           
           
           {
-            loading && store.user ? <User account={store.user}/> : <View></View>
+            loading && store.user ? <User /> : <View></View>
           }
           {
             loading && accountInfo ? <Balance conta={accountInfo?.contaBanco}/> : <View></View>
