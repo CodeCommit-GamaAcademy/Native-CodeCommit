@@ -11,6 +11,11 @@ export const Container = styled.SafeAreaView`
     padding-right: 20px;
 `;
 
+export const Main = styled.SafeAreaView`
+  flex: 1;
+  background: #8C52E5;
+`
+
 export const PlansContainer = styled.ScrollView`
     background-color: #fff;
     width: 100%;

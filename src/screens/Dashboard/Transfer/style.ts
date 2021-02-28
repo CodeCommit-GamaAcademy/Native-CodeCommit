@@ -7,6 +7,11 @@ export const ContainerScrollView = styled.ScrollView`
   height: ${Dimensions.get('window').height}px;
 `
 
+export const Main = styled.SafeAreaView`
+  flex: 1;
+  background: #8C52E5;
+`
+
 export const Container = styled.KeyboardAvoidingView`
   align-items: center;
   flex: 1;
