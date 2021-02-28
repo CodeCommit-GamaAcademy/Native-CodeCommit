@@ -13,6 +13,8 @@ export const Main = styled.SafeAreaView`
 
 export const MenuLeft = styled.SafeAreaView`
     position: absolute;
+    display: flex;
+    align-items: center;
     width: 80%;
     height: 100%;
     background: #FFFFFF;
