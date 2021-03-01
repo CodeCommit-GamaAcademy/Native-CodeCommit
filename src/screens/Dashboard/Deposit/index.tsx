@@ -3,10 +3,12 @@ import { Feather } from '@expo/vector-icons';
 import Bottom from '../../../components/Bottom';
 import { Container, ScrollContainer, TitleContainer, Title, DepositCard, HeaderCardContainer, CardTitle, InputContainer, Input, InputSelect, ButtonSubmit, ButtonText, Main } from './style';
 import RNPickerSelect from 'react-native-picker-select';
+import useChangeIfNotAuth from '../../../services/useChangeIfNotAuth';
 
 
 
 const Deposit: React.FC = () => {
+  useChangeIfNotAuth();
 
   return (
     <Main>

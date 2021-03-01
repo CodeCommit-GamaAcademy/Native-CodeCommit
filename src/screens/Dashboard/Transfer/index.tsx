@@ -6,12 +6,15 @@ import { useSelector } from 'react-redux';
 import Bottom from '../../../components/Bottom';
 
 import User from '../../../components/User';
+import useChangeIfNotAuth from '../../../services/useChangeIfNotAuth';
 import { ApplicationStore } from '../../../store';
 import { ContainerScrollView, Container, InputForm, ContainerForm, ButtonSubmit, ButtonSubmitText, TitleForm, SelectForm, Main } from './style';
 
 // import { Container } from './styles';
 
 const Transfer: React.FC = () => {
+  useChangeIfNotAuth();
+
   const store = useSelector( (store: ApplicationStore) => store );
   const [plano, setPlano] = useState('')
   const [transacao, setTransacao] = useState('')

@@ -31,7 +31,10 @@ import { AddButton,
 
 import Bottom from '../../../components/Bottom';
 
+import useChangeIfNotAuth from '../../../services/useChangeIfNotAuth';
+
 const Plans: React.FC = () => {
+  useChangeIfNotAuth();
   const navigator = useNavigation();
 
   const [plans, setPlans] = useState<Plano[]>();

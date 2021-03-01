@@ -13,6 +13,7 @@ import { Animated, View, StyleSheet, Dimensions } from 'react-native';
 import Bottom from '../../../components/Bottom';
 import { useNavigation } from '@react-navigation/native';
 import Loader from '../../../components/Loader';
+import useChangeIfNotAuth from '../../../services/useChangeIfNotAuth';
 
 const Releases: React.FC = () => {
   const navigator = useNavigation();
@@ -66,6 +67,7 @@ const Releases: React.FC = () => {
   //function to load informations about user, like
   //accountBank, accountCredit etc.
   const loadDashInformations = async () => {
+    useChangeIfNotAuth();
     const today = new Date();
     const date = new Date();
     const referenceDate = new Date(date.setDate(date.getMonth() - 365));
