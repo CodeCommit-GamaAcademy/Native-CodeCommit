@@ -11,8 +11,11 @@ import api from '../../../services/api';
 import { ApplicationStore } from '../../../store';
 import { Animated, View, StyleSheet, Dimensions } from 'react-native';
 import Bottom from '../../../components/Bottom';
+import { useNavigation } from '@react-navigation/native';
+import Loader from '../../../components/Loader';
 
 const Releases: React.FC = () => {
+  const navigator = useNavigation();
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const store = useSelector( (store: ApplicationStore) => store );
   const [ allLaunchs, setAllLaunchs ] = useState<Lancamentos[]>();
@@ -20,6 +23,13 @@ const Releases: React.FC = () => {
   const [ loading, setLoading ] = useState(false);
   const [ hideOrShow, setHideOrShow ] = useState(false);
   const [ plans, setPlans ] = useState(0);
+  const [ update, setUpdate ] = useState(false);
+
+  //here its a way to update this page everytime when 
+  //the navigation turn here
+  navigator.addListener('focus', () => {
+    setUpdate(!update);
+  });
 
   //function to get all users plans
   useEffect(() => {
@@ -36,7 +46,7 @@ const Releases: React.FC = () => {
       setPlans(count);
     })
     .catch(err => console.log(err.response));
-  }, [ store ]);
+  }, []);
 
   //function to make month data get a 0 in position [0]
   //if your length is less than 2. 
@@ -83,7 +93,7 @@ const Releases: React.FC = () => {
   //has rendered
   useEffect( () => {
     loadDashInformations();
-  }, [ store ])
+  }, [ update ])
 
 
   const show = () => {
@@ -144,6 +154,9 @@ const Releases: React.FC = () => {
       }
       <ScrollView>
         <Container>
+          {
+            !loading && <Loader changeColor={true} marginTop={34} />
+          }
           {
             loading && store.user ? <User show={showMenuLeft} user={store.user} /> : <View></View>
           }
