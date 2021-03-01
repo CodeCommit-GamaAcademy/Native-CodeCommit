@@ -3,23 +3,40 @@ import { useSelector } from 'react-redux';
 import Balance from '../../../components/Balance';
 import User from '../../../components/User';
 import Plans from '../../../components/Plans';
-import { Container, Main, MenuContainer, MenuLeft } from './style';
+import { Container, Main, MenuLeft, Paragraph, Value, Line, MenuContainer } from './style';
 import { ScrollView } from 'react-native-gesture-handler';
 import Launchs from '../../../components/Launchs';
-import { Contas, Lancamentos } from '../../../interfaces/dashboard';
+import { Contas, Lancamentos, Plano } from '../../../interfaces/dashboard';
 import api from '../../../services/api';
 import { ApplicationStore } from '../../../store';
-import { Animated, View } from 'react-native';
+import { Animated, View, StyleSheet, Dimensions } from 'react-native';
 import Bottom from '../../../components/Bottom';
 
 const Releases: React.FC = () => {
-  //setting store, and some states
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const store = useSelector( (store: ApplicationStore) => store );
   const [ allLaunchs, setAllLaunchs ] = useState<Lancamentos[]>();
   const [ accountInfo, setAccountInfo ] = useState<Contas>();
   const [ loading, setLoading ] = useState(false);
   const [ hideOrShow, setHideOrShow ] = useState(false);
+  const [ plans, setPlans ] = useState(0);
+
+  //function to get all users plans
+  useEffect(() => {
+    api.get<Plano[]>(`/lancamentos/planos-conta?login=${ store.user?.login }`, {
+      headers: {
+        Authorization: store.user?.token
+      }
+    })
+    .then(response => {
+      let count = 0
+      response.data.forEach(() => {
+        count += 1;
+      })
+      setPlans(count);
+    })
+    .catch(err => console.log(err.response));
+  }, [ store ]);
 
   //function to make month data get a 0 in position [0]
   //if your length is less than 2. 
@@ -66,45 +83,63 @@ const Releases: React.FC = () => {
   //has rendered
   useEffect( () => {
     loadDashInformations();
-  }, [])
+  }, [ store ])
 
 
   const show = () => {
-    // Will change fadeAnim value to 1 in 5 seconds
+    // Will change fadeAnim value to 0 in 0.7 seconds
     Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 5000,
-      useNativeDriver: true,
+      toValue: - Dimensions.get('window').width + 80,
+      duration: 700,
+      useNativeDriver: false,
     }).start();
   };
 
   const hide = () => {
-    // Will change fadeAnim value to 0 in 5 seconds
+    // Will change fadeAnim value to 0 in 0.7 seconds
     Animated.timing(fadeAnim, {
       toValue: 0,
-      duration: 5000,
-      useNativeDriver: true,
+      duration: 700,
+      useNativeDriver: false,
     }).start();
   };
+  
+  const showMenuLeft = (action:string) => {
 
-
-  const showMenuLeft = () => {
     setHideOrShow(!hideOrShow);
+    if (action === 'hide') hide();
+    if (action === 'show') show();
   }
 
   return (
     <Main>
       {
-        hideOrShow &&
         <>
-          <MenuContainer>
-              
-          </MenuContainer>
+        <Animated.View style={[
+          styles.fadingContainer,
+          {
+            left: fadeAnim,
+          }
+        ]}>
           <MenuLeft>
             {
               store.user ? <User hide={showMenuLeft} showCancel={true} hideName={true} fromRealeases={true} user={store.user} /> : <View></View>
             }
-          </MenuLeft>
+            <MenuContainer>
+              <Paragraph>Seu nome:</Paragraph>
+              <Value>{store.user?.name}</Value>
+              <Paragraph>Email:</Paragraph>
+              <Value>email@email.com</Value>
+              <Paragraph>Username:</Paragraph>
+              <Value>{store.user?.login}</Value>
+              <Paragraph>CPF:</Paragraph>
+              <Value>000.000.000-00</Value>
+              <Line></Line>
+              <Paragraph>Você tem:</Paragraph>
+              <Value>{plans} planos de conta</Value>
+            </MenuContainer>
+          </MenuLeft> 
+        </Animated.View>
         </>
       }
       <ScrollView>
@@ -121,7 +156,6 @@ const Releases: React.FC = () => {
           {
             loading && allLaunchs ? <Launchs launchs={allLaunchs}/> : <View></View>
           }
-          
         </Container>
       </ScrollView>
       <Bottom />
@@ -129,5 +163,20 @@ const Releases: React.FC = () => {
     
   );
 }
+
+const styles = StyleSheet.create({
+  fadingContainer: {
+    position: 'absolute',
+    backgroundColor: "white",
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width - 80,
+    zIndex: 100,
+    top: 0,
+    right: 0,
+    marginLeft: Dimensions.get('window').width,
+    display: 'flex',
+    alignItems: 'center',
+  },
+});
 
 export default Releases;
