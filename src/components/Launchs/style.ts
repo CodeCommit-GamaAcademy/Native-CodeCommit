@@ -6,6 +6,9 @@ export const Container = styled.SafeAreaView`
   margin-bottom: 60px;
   background-color: #FFFFFF;
   border-radius: 19px;
+
+  padding: 20px 0;
+  
   width: ${Dimensions.get('window').width - 50}px;
 `;
 
