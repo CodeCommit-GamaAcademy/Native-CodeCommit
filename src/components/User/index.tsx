@@ -28,13 +28,13 @@ const User: React.FC<IUserProps> = ({ showCancel = false, hideName = false, from
       {
         !hideName 
         ? <Wellcome fromReleases={fromRealeases}>Olá, { formatName(props.user.name) }</Wellcome>
-        : <Ionicons onPress={() => props.show && props.show()} name="person-circle-outline" size={30} color={fromRealeases ? '#8c52e5' : '#FBFBFB'}/>
+        : <Ionicons onPress={() => props.show && props.show('show')} name="person-circle-outline" size={30} color={fromRealeases ? '#8c52e5' : '#FBFBFB'}/>
       }
       
       { !showCancel && !hideName ? (
-        <Ionicons onPress={() => props.show && props.show()} name="person-circle-outline" size={30} color={'#FBFBFB'}/>
+        <Ionicons onPress={() => props.show && props.show('show')} name="person-circle-outline" size={30} color={'#FBFBFB'}/>
         ) : (
-        <Ionicons onPress={() => props.hide && props.hide()} name="close" size={30} color={fromRealeases ? '#8c52e5' : '#FBFBFB'}/>
+        <Ionicons onPress={() => props.hide && props.hide('hide')} name="close" size={30} color={fromRealeases ? '#8c52e5' : '#FBFBFB'}/>
       ) 
       }
 
