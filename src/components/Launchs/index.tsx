@@ -34,7 +34,7 @@ const Launchs: React.FC<LaunchsProps> = ( props ) => {
           }
           if (launch.tipo === 'D') {
             return (
-              <View>
+              <View key={index}>
                 <Line></Line>
                 <ValueNegative>{currencyFormat(launch.valor)}</ValueNegative>
                 <Paragraph>{launch.data}</Paragraph>
