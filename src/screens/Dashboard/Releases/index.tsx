@@ -66,10 +66,10 @@ const Releases: React.FC = () => {
   //function to load informations about user, like
   //accountBank, accountCredit etc.
   const loadDashInformations = async () => {
-    setLoading(false);
     const today = new Date();
     const date = new Date();
     const referenceDate = new Date(date.setDate(date.getMonth() - 365));
+
     try {
       const response = await api.get<Contas>(`dashboard?fim=${formatDate(today.toDateString())}&inicio=${formatDate(referenceDate.toDateString())}&login=${store.user?.login}`, {
         headers: {
@@ -86,7 +86,7 @@ const Releases: React.FC = () => {
       setAccountInfo(response.data);
       setLoading(true);
     } catch (err) {
-      // console.log(username, password);
+      console.log(err);
     }
   };
   //hook to call loadDashInformations everytime that it
