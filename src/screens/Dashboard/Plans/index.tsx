@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import Loader from '../../../components/Loader';
 import { Plano } from '../../../interfaces/dashboard';
 import api from '../../../services/api';
 import { ApplicationStore } from '../../../store';
-
-import { Text } from 'react-native';
-
-import RNPickerSelector from 'react-native-picker-select'
+import RNPickerSelector from 'react-native-picker-select';
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import { SafeAreaViewProps } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 
 import { AddButton, 
   CardTitle, 
@@ -17,24 +17,34 @@ import { AddButton,
   Container, 
   ModalContainer, 
   ModalContent, 
-  ModalTitle, 
   PlansCard, 
   PlansContainer, 
   PlusButton, 
   SelectView, 
-  TextArea, 
   TitleText, 
   ButtonText, 
-  Main
+  Main,
+  SpanTitle,
+  DescriptionWrapper,
+  DescriptionLabel
 } from './styles';
 
 import Bottom from '../../../components/Bottom';
 
 const Plans: React.FC = () => {
+  const navigator = useNavigation();
+
   const [plans, setPlans] = useState<Plano[]>();
-  const [ isAdding, setIsAdding ] = useState(true);
+  const [ isAdding, setIsAdding ] = useState(false);
+  const [ update, setUpdate ] = useState(false);
 
   const user = useSelector(( store: ApplicationStore ) => store.user);
+  
+  //here its a way to update this page everytime when 
+  //the navigation turn here
+  navigator.addListener('focus', () => {
+    setUpdate(!update);
+  });
 
   useEffect(() => {
     api.get<Plano[]>(`/lancamentos/planos-conta?login=${ user?.login }`, {
@@ -46,13 +56,12 @@ const Plans: React.FC = () => {
       setPlans(response.data);
     })
     .catch(err => console.log(err.response));
-  }, [user]);
+  }, [update, user]);
 
   if (plans) return (
     <Main>
+      { isAdding && <AddPlansModal closeModal={ () => setIsAdding(false) } setPlans={ setPlans } /> }
       <Container>
-        { isAdding && <AddPlansModal /> }
-
         <PlansContainer>
           {plans.map((plan, index) => (
             <PlansCard
@@ -64,7 +73,9 @@ const Plans: React.FC = () => {
             </PlansCard>
           ))}
 
-          <PlusButton>
+          <PlusButton
+            onPress={ () => setIsAdding(true) }
+          >
             <Feather name="plus" size={24} color="#fff"  />
           </PlusButton>
         </PlansContainer>
@@ -72,55 +83,119 @@ const Plans: React.FC = () => {
       <Bottom />
     </Main>
   );
-  else return <Loader marginTop={0} />
+  else return (
+    <Main>
+      <Container>
+        <Loader marginTop={0} changeColor />
+      </Container>
+      <Bottom />
+    </Main>
+  )
 }
 
-const AddPlansModal: React.FC = () => {
-  const [selectValue, setSelectValue] = useState('');
+interface AddPlansModalProps extends SafeAreaViewProps {
+  setPlans: Dispatch<SetStateAction<Plano[] | undefined>>;
+  closeModal: () => void;
+}
+
+const AddPlansModal: React.FC<AddPlansModalProps> = ({ closeModal, setPlans, ...props }) => {
+  const [type, setType] = useState('');
   const [description, setDescription] = useState('');
 
+  const user = useSelector((store: ApplicationStore) => store.user);
+
+  const handleAddPlan = useCallback(async () => {
+
+    // Validation TODO
+    if ( !type || !description ) return;
+
+    const data = {
+      descricao: description,
+      id: 0,
+      login: user!.login,
+      padrao: true,
+      tipoMovimento: type
+    }
+
+    try {
+      const { status } = await api.post('/lancamentos/planos-conta', data, {
+        headers: {
+          Authorization: user?.token
+        }
+      });
+
+      if ( status === 200 || status === 201 ) {
+        setPlans(previewPlans => {
+          if ( previewPlans )
+            return [...previewPlans, data];
+
+          return undefined;
+        });
+      } else {
+        alert('Something went wrong...');
+      }
+
+      closeModal();
+    } catch (err) {
+      console.log(err.response);
+    }
+  }, []);
+
   return (
-    <ModalContainer>
+    <ModalContainer { ...props }>
       <ModalContent>
-        <Feather 
-          name='x' 
-          size={ 18 } 
-          style={{ position: 'absolute', left: 8, top: 8 }}
-        />
-        <ModalTitle>
-          <TitleText>
-            <MaterialIcons name="event-note" size={18} style={{ marginRight: 12 }} />
-            <Text >Adicionar um plano</Text>
-          </TitleText>
 
-          <SelectView>
-            <RNPickerSelector 
+        
+          <Feather 
+            name='x' 
+            size={ 18 } 
+            onPress={ closeModal }
+            style={{ position: 'absolute', top: 12, left: 12 }}
+          />
 
-              onValueChange={(value) => setSelectValue(value)}
+        <TitleText>
+          <MaterialIcons name="event-note" color="#444444" size={24} style={{ marginRight: 8 }} /> 
+          <SpanTitle >Adicionar um plano</SpanTitle>
+        </TitleText>
 
-              items={[
-                {label: 'Receita', value: 'R', color: '#000'},
-                {label: 'Despesa', value: 'D', color: '#000'},
-                {label: 'Transferências entre contas', value: 'TC', color: '#000'},
-                {label: 'Transferências entre usuários', value: 'TU', color: '#000'},
-              ]}
+        <SelectView>
+          <RNPickerSelector 
 
-              style={{ inputAndroid: { color: '#000' }, inputIOS: { color: '#000' } }}
+            onValueChange={(value) => setType(value)}
 
-              placeholder={{ label: 'Escolha o tipo', value: '' }}
-            />
+            items={[
+              {label: 'Receita', value: 'R', color: '#000'},
+              {label: 'Despesa', value: 'D', color: '#000'},
+              {label: 'Transferências entre contas', value: 'TC', color: '#000'},
+              {label: 'Transferências entre usuários', value: 'TU', color: '#000'},
+            ]}
 
-            <TextArea 
-              onChangeText={ text => setDescription(text) }
-              placeholder="Descrição"
-            />
+            style={{ inputAndroid: { color: '#000' }, inputIOS: { color: '#000' } }}
 
-            <AddButton>
-              <Feather name="plus" />
-              <ButtonText>Adicionar</ButtonText>
-            </AddButton>
-          </SelectView>
-        </ModalTitle>
+            placeholder={{ label: 'Escolha o tipo', value: '' }}
+          />
+        </SelectView>
+
+        <DescriptionWrapper
+          hasContent={!!description}
+        >
+
+          <TextInput 
+            onChangeText={ text => setDescription(text) }
+            placeholder="Descrição"
+            maxLength={20}
+          />
+
+          <DescriptionLabel>Restante: {20 - description.length} </DescriptionLabel>
+        </DescriptionWrapper>
+
+        <AddButton
+          onPress={ handleAddPlan }
+        >
+          <Feather name="plus" size={14} color="#fff" />
+          <ButtonText>Adicionar</ButtonText>
+        </AddButton>
+
       </ModalContent>
     </ModalContainer>
   );

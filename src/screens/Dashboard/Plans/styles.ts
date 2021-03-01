@@ -82,30 +82,60 @@ export const ModalContent = styled.KeyboardAvoidingView`
     width: 100%;
 `
 
-export const ModalTitle = styled.View`
+export const TitleText = styled.View`
     justify-content: center;
     align-items: center;
-`
-export const TitleText = styled.Text`
-    justify-content: center;
-    align-items: center;
+    flex-direction: row;
 
-    font-size: 24px;
+    margin: 12px 0 24px 0;
+`
+
+export const SpanTitle = styled.Text`
+    font-size: 26px;
+    color: #444444;
 `
 
 export const SelectView = styled.View`
     width: 100%;
     padding: 0;
+
+    border-bottom-width: 1px;
+    border-bottom-color: #444444;
+    margin-bottom: 24px;
 `
 
-export const TextArea = styled.TextInput`
+export const DescriptionWrapper = styled.View<{ hasContent: boolean }>`
+    padding: 8px 18px;
+    border: 1px solid ${ props => props.hasContent ? '#68DE5A' : '#444444' };
+`
 
+export const DescriptionLabel = styled.Text`
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    font-size: 8px;
+    color: #999999;
 `
 
 export const AddButton = styled.TouchableOpacity`
+    width: 100%;
 
+    border: 0;
+    border-radius: 8px;
+    background: #8C52E5;
+
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 24px;
+    padding: 16px 0px;
 `
 
 export const ButtonText = styled.Text`
+    color: #fff;
+    font-weight: 500;
+    font-size: 16px;
 
+    margin-left: 6px;
 `
