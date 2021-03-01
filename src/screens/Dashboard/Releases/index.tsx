@@ -125,31 +125,31 @@ const Releases: React.FC = () => {
     <Main>
       {
         <>
-        <Animated.View style={[
-          styles.fadingContainer,
-          {
-            left: fadeAnim,
-          }
-        ]}>
-          <MenuLeft>
+          <Animated.View style={[
+            styles.fadingContainer,
             {
-              store.user ? <User hide={showMenuLeft} showCancel={true} hideName={true} fromRealeases={true} user={store.user} /> : <View></View>
+              left: fadeAnim,
             }
-            <MenuContainer>
-              <Paragraph>Seu nome:</Paragraph>
-              <Value>{store.user?.name}</Value>
-              <Paragraph>Email:</Paragraph>
-              <Value>email@email.com</Value>
-              <Paragraph>Username:</Paragraph>
-              <Value>{store.user?.login}</Value>
-              <Paragraph>CPF:</Paragraph>
-              <Value>000.000.000-00</Value>
-              <Line></Line>
-              <Paragraph>Você tem:</Paragraph>
-              <Value>{plans} planos de conta</Value>
-            </MenuContainer>
-          </MenuLeft> 
-        </Animated.View>
+          ]}>
+            <MenuLeft>
+              {
+                store.user && <User hide={showMenuLeft} showCancel={true} hideName={true} fromRealeases={true} user={store.user} />
+              }
+              <MenuContainer>
+                <Paragraph>Seu nome:</Paragraph>
+                <Value>{store.user?.name}</Value>
+                <Paragraph>Email:</Paragraph>
+                <Value>email@email.com</Value>
+                <Paragraph>Username:</Paragraph>
+                <Value>{store.user?.login}</Value>
+                <Paragraph>CPF:</Paragraph>
+                <Value>000.000.000-00</Value>
+                <Line></Line>
+                <Paragraph>Você tem:</Paragraph>
+                <Value>{plans} planos de conta</Value>
+              </MenuContainer>
+            </MenuLeft> 
+          </Animated.View>
         </>
       }
       <ScrollView>
@@ -158,16 +158,16 @@ const Releases: React.FC = () => {
             !loading && <Loader changeColor={true} marginTop={34} />
           }
           {
-            loading && store.user ? <User show={showMenuLeft} user={store.user} /> : <View></View>
+            loading && store.user && <User show={showMenuLeft} user={store.user} />
           }
           {
-            loading && accountInfo ? <Balance conta={accountInfo?.contaBanco}/> : <View></View>
+            loading && accountInfo && <Balance conta={accountInfo?.contaBanco}/>
           }
           {
-            loading && allLaunchs ? <Plans lancamentos={allLaunchs}/> : <View></View>
+            loading && allLaunchs && <Plans lancamentos={allLaunchs}/>
           }
           {
-            loading && allLaunchs ? <Launchs launchs={allLaunchs}/> : <View></View>
+            loading && allLaunchs && <Launchs launchs={allLaunchs}/>
           }
         </Container>
       </ScrollView>
