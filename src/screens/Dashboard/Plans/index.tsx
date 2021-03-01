@@ -24,8 +24,11 @@ import { AddButton,
   SelectView, 
   TextArea, 
   TitleText, 
-  ButtonText 
+  ButtonText, 
+  Main
 } from './styles';
+
+import Bottom from '../../../components/Bottom';
 
 const Plans: React.FC = () => {
   const [plans, setPlans] = useState<Plano[]>();
@@ -46,6 +49,7 @@ const Plans: React.FC = () => {
   }, [user]);
 
   if (plans) return (
+    <Main>
       <Container>
         { isAdding && <AddPlansModal /> }
 
@@ -65,6 +69,8 @@ const Plans: React.FC = () => {
           </PlusButton>
         </PlansContainer>
       </Container>
+      <Bottom />
+    </Main>
   );
   else return <Loader marginTop={0} />
 }

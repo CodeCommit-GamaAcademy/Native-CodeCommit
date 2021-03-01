@@ -11,7 +11,12 @@ const { Navigator, Screen } = createBottomTabNavigator();
 const TabRoutes: React.FC = () =>{
     return (
             <Navigator
-                tabBar={ props => <Menu menu={props}/>}
+                // tabBar={ props => <Menu menu={props}/>}
+                screenOptions= {
+                    {
+                        tabBarVisible: false,
+                    }
+                }
             >
                 {/* Rotas */}
 

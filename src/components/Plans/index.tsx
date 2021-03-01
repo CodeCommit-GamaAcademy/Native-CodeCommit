@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Lancamentos } from '../../interfaces/dashboard';
 import { Container, Line, Paragraph, Title, Value, ValueNegative } from './style';
 
-// import { Container } from './styles';
 
 interface PlansProps {
   lancamentos: Lancamentos[];
@@ -22,9 +21,9 @@ const Plans: React.FC<PlansProps> = ( props ) => {
     let valueRecept = 0;
     let valueExpenditure = 0;
     launchs.forEach( (launch) => {
-      if ( launch.plano.tipoMovimento === 'R' ) {
+      if ( launch.planoConta.tipoMovimento === 'R' ) {
         valueRecept += launch.valor;
-      } else if ( launch.plano.tipoMovimento === 'D' ) {
+      } else if ( launch.planoConta.tipoMovimento === 'D' ) {
         valueExpenditure += launch.valor;
       }
     });
@@ -39,7 +38,7 @@ const Plans: React.FC<PlansProps> = ( props ) => {
       <Value>{currencyFormat(recept)}</Value>
       <Line></Line>
       <Paragraph>Tipo do plano: Despesas</Paragraph>
-      <ValueNegative>- {currencyFormat(expenditure)}</ValueNegative>
+      <ValueNegative>{currencyFormat(expenditure)}</ValueNegative>
     </Container>
   );
 }

@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import RNPickerSelect from 'react-native-picker-select';
 
 export const Container = styled.SafeAreaView`
     flex: 1;
@@ -6,6 +7,11 @@ export const Container = styled.SafeAreaView`
     align-items: center;
     background: #8C52E5;
 `;
+
+export const Main = styled.SafeAreaView`
+  flex: 1;
+  background: #8C52E5;
+`
 
 export const ScrollContainer = styled.ScrollView`
     flex: 1;
@@ -51,6 +57,14 @@ export const InputContainer = styled.View`
 `
 
 export const Input = styled.TextInput`
+    margin-bottom: 30px;
+    border-bottom-width: 1px;
+    border-bottom-color: #878686;
+    padding-bottom: 12px;
+    margin-top: 45px;
+`
+
+export const InputSelect = styled.View`
     margin-bottom: 30px;
     border-bottom-width: 1px;
     border-bottom-color: #878686;

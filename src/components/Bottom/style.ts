@@ -1,8 +1,12 @@
+import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-  background: #8c52e5;
+  background: transparent;
+  width: 100%;
+  z-index: 2;
 `
+
 
 export const TabContainer = styled.View`
   flex-direction: row;
@@ -11,10 +15,6 @@ export const TabContainer = styled.View`
   border-top-left-radius: 19px;
   border-top-right-radius: 19px;
 `;
-
-export const Text = styled.Text`
-  font-size: 10px;
-`
 
 export const ItemLayout = styled.View`
     justify-content: center;
