@@ -2,10 +2,8 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-import { Container, Wellcome } from '../User/style';
+import { Container, Welcome } from '../User/style';
 import { UserData } from '../../store/user/types';
-
-// import { Container } from './styles';
 
 interface IUserProps {
   showCancel?: boolean;
@@ -27,7 +25,7 @@ const User: React.FC<IUserProps> = ({ showCancel = false, hideName = false, from
     <Container>
       {
         !hideName 
-        ? <Wellcome fromReleases={fromRealeases}>Olá, { formatName(props.user.name) }</Wellcome>
+        ? <Welcome fromReleases={fromRealeases}>Olá, { formatName(props.user.name) }</Welcome>
         : <Ionicons onPress={() => props.show && props.show('show')} name="person-circle-outline" size={30} color={fromRealeases ? '#8c52e5' : '#FBFBFB'}/>
       }
       
