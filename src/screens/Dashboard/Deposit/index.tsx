@@ -1,14 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Feather } from '@expo/vector-icons';
 import Bottom from '../../../components/Bottom';
 import { Container, ScrollContainer, TitleContainer, Title, DepositCard, HeaderCardContainer, CardTitle, InputContainer, Input, InputSelect, ButtonSubmit, ButtonText, Main } from './style';
 import RNPickerSelect from 'react-native-picker-select';
-import useChangeIfNotAuth from '../../../services/useChangeIfNotAuth';
+import { useNavigation } from '@react-navigation/native';
+import ValidateCurrentToken from '../../../services/ValidateCurrentToken';
+import updateStore from '../../../services/updateStore';
 
 
 
 const Deposit: React.FC = () => {
-  useChangeIfNotAuth();
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const GetAuth = async () => {
+      await ValidateCurrentToken();
+      const isLogged = await updateStore();
+
+      if ( !isLogged ) navigation.navigate('Login');
+    }
+
+    GetAuth();
+  }, []);
+  
 
   return (
     <Main>
