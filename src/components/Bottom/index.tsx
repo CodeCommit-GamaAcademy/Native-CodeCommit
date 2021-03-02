@@ -16,8 +16,8 @@ export default function Bottom() {
 
   const { currentScreen } = useSelector((store: ApplicationStore) => store.app);
 
-  const handleChangePage = useCallback((RouteName: string) => {
-    if ( RouteName !== currentScreen ) navigator.navigate(RouteName);
+  const handleChangePage = useCallback((RouteName: string, optionsToNavige?: object) => {
+    if ( RouteName !== currentScreen ) navigator.navigate(RouteName, optionsToNavige);
   }, [ currentScreen ]);
   
   return (
@@ -25,7 +25,7 @@ export default function Bottom() {
       <TabContainer>
           <TouchableButton
             accessibilityRole="button"
-            onPress={() => handleChangePage('Transferir') }
+            onPress={() => handleChangePage('Transferir', { routerType: 'transfer' })  }
           >
             <ItemLayout>
               <Ionicons name="swap-horizontal-outline" size={25} color="white" />
@@ -51,7 +51,7 @@ export default function Bottom() {
           </TouchableButton>
           <TouchableButton
             accessibilityRole="button"
-            onPress={() => handleChangePage('Depositar')}
+            onPress={() => handleChangePage('Depositar', { routerType: 'deposit' })}
           >
             <ItemLayout>
               <DepositSvg />

@@ -28,11 +28,3 @@ interface User {
   senha: string;
   senhaTemporaria: string;
 }
-
-export interface TokenPayload {
-  sub: string;
-  idUsuario: number;
-  authorities: string[];
-  iat: number;
-  exp: number;
-}
