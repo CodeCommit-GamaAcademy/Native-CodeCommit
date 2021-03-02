@@ -28,6 +28,7 @@ export const PlansContainer = styled.ScrollView`
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     padding: 20px;
+    margin-top: -20px;
 `
 
 export const PlansCard = styled.View`
