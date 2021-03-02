@@ -31,8 +31,8 @@ export const LabelText = styled.Text<{ isFocused: boolean }>`
 
 export const TouchableButton = styled.TouchableOpacity<{ isLastOne?: boolean }>`
   flex: 1;
-  ${props => !props.isLastOne && `
+  /* ${props => !props.isLastOne && `
     border-right-width: .5px;
     border-right-color: lightgray;
-  `}
+  `} */
 `
