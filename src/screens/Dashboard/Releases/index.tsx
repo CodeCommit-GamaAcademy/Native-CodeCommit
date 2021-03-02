@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import Balance from '../../../components/Balance';
 import User from '../../../components/User';
 import Plans from '../../../components/Plans';
-import { Container, Main, MenuLeft, Paragraph, Value, Line, MenuContainer } from './style';
+import { Container, Main, MenuLeft, Paragraph, Value, Line, MenuContainer, LogoutButton, LogoutText } from './style';
 import { ScrollView } from 'react-native-gesture-handler';
 import Launchs from '../../../components/Launchs';
 import { Contas, Lancamentos, Plano } from '../../../interfaces/dashboard';
@@ -13,6 +13,9 @@ import { Animated, View, StyleSheet, Dimensions } from 'react-native';
 import Bottom from '../../../components/Bottom';
 import { useNavigation } from '@react-navigation/native';
 import Loader from '../../../components/Loader';
+import ValidateCurrentToken from '../../../services/ValidateCurrentToken';
+import updateStore from '../../../services/updateStore';
+import { Feather } from '@expo/vector-icons';
 
 const Releases: React.FC = () => {
   const navigator = useNavigation();
@@ -30,6 +33,17 @@ const Releases: React.FC = () => {
   navigator.addListener('focus', () => {
     setUpdate(!update);
   });
+  
+  useEffect(() => {
+    const GetAuth = async () => {
+      await ValidateCurrentToken();
+      const isLogged = await updateStore();
+
+      if ( !isLogged ) navigator.navigate('Login');
+    }
+
+    GetAuth();
+  }, []);
 
   //function to get all users plans
   useEffect(() => {
@@ -144,9 +158,14 @@ const Releases: React.FC = () => {
                 <Value>{store.user?.login}</Value>
                 <Paragraph>CPF:</Paragraph>
                 <Value>000.000.000-00</Value>
-                <Line></Line>
+                <Line />
                 <Paragraph>Você tem:</Paragraph>
                 <Value>{plans} planos de conta</Value>
+                <Line />
+                <LogoutButton>
+                  <Feather size={14} color="#8C52E5" name="log-out" />
+                  <LogoutText>Sair</LogoutText>
+                </LogoutButton>
               </MenuContainer>
             </MenuLeft> 
           </Animated.View>

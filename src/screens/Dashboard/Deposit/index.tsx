@@ -1,18 +1,36 @@
-import React, { useCallback, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Feather } from '@expo/vector-icons';
 import Bottom from '../../../components/Bottom';
 import { Container, ScrollContainer, TitleContainer, Title, DepositCard, HeaderCardContainer, CardTitle, InputContainer, Input, InputSelect, ButtonSubmit, ButtonText, Main } from './style';
 import RNPickerSelect from 'react-native-picker-select';
+import { useNavigation } from '@react-navigation/native';
+import ValidateCurrentToken from '../../../services/ValidateCurrentToken';
+import updateStore from '../../../services/updateStore';
 import api from '../../../services/api';
+import { Text } from 'react-native';
 
 
 
 const Deposit: React.FC = () => {
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const GetAuth = async () => {
+      await ValidateCurrentToken();
+      const isLogged = await updateStore();
+
+      if ( !isLogged ) navigation.navigate('Login');
+    }
+
+    GetAuth();
+  }, []);
+  
 
   const [destinatario, setDestinatario] = useState('');
   const [planoConta, setPlanoConta] = useState('');
   const [transacao, setTrasacao] = useState('');
   const [valor, setValor] = useState('');
+  const [isDeposit, setIsdeposit] = useState(false);
 
   const handleDeposit = useCallback(async () => {
     try {
@@ -40,10 +58,14 @@ const Deposit: React.FC = () => {
           </TitleContainer>
             <DepositCard>
               <HeaderCardContainer>
+              { isDeposit ? <CardTitle>Transferências</CardTitle> :
                 <CardTitle>Depósitos</CardTitle>
+              }
               </HeaderCardContainer>
               <InputContainer>
+              {isDeposit ? 
                 <Input placeholder="Destinatário" value={destinatario} onChangeText={(text) => setDestinatario(text)}></Input>
+               : <></> }
                 <InputSelect>
                   <RNPickerSelect
                       placeholder={{label:"Plano de conta"}}

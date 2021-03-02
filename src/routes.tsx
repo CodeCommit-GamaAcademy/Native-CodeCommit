@@ -10,6 +10,7 @@ import Register from './screens/Register';
 import Succeded from './screens/Register/Succeded';
 import Loader from './components/Loader';
 import updateStore from './services/updateStore';
+import ValidateCurrentToken from './services/ValidateCurrentToken';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -19,6 +20,8 @@ const Routes: React.FC = () => {
     
     useEffect(() => {
         const GetAsyncStorage = async () => {
+            await ValidateCurrentToken();
+
             const isLogged = await updateStore();
     
             if ( !isLogged ) setInitialRoute('Login');

@@ -13,33 +13,22 @@ export const Container = styled.SafeAreaView`
 `;
 
 export const Title = styled.Text`
-  margin-left: 60px;
   margin-top: 20px;
   margin-bottom: 40px;
   color: #9B9B9B;
+  text-align: center;
 `
 
-export const Value = styled.Text`
+export const Value = styled.Text<{ negative?: boolean }>`
   align-self: center;
-  margin-left: 25px;
   margin-top: 10px;
   font-size: 24px;
   font-weight: 500;
-  color: #34A6E7;
-`
-
-export const ValueNegative = styled.Text`
-  align-self: center;
-  margin-left: 25px;
-  margin-top: 10px;
-  font-size: 24px;
-  font-weight: 500;
-  color: #F45F5F;
+  color: ${ props => props.negative ? '#F45F5F' : '#34A6E7' }
 `
 
 export const Paragraph = styled.Text`
   align-self: center;
-  margin-left: 25px;
   margin-top: 10px;
   margin-bottom: 20px;
   font-size: 12px;

@@ -31,14 +31,12 @@ export const MenuContainer = styled.ScrollView`
 
 export const Paragraph = styled.Text`
     align-self: flex-start;
-    margin-left: 25px;
     font-size: 12px;
     color: #9B9B9B;
 `
 
 export const Value = styled.Text`
     align-self: flex-start;
-    margin-left: 25px;
     margin-bottom: 20px;
     margin-right: 10px;
     font-size: 16px;
@@ -53,4 +51,14 @@ export const Line = styled.View`
     background: #9B9B9B;
     height: 1px;
     width: ${Dimensions.get('window').width - 160}px;
+`
+
+export const LogoutButton = styled.TouchableOpacity`
+    flex-direction: row;
+    align-items: center;
+`
+
+export const LogoutText = styled.Text`
+    margin-left: 6px;
+    color: #8C52E5;
 `
