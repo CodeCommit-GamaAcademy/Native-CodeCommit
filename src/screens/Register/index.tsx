@@ -10,9 +10,12 @@ import Loader from '../../components/Loader';
 import LogoImg from '../../assets/logo.png';
 import { Platform } from 'react-native';
 import api from '../../services/api';
+import { useToast } from 'react-native-styled-toast'
+
 
 const Register: React.FC = () => {
     const navigator = useNavigation();
+    const { toast } = useToast();
 
     const [cpf, setCpf] = useState('');
     const [name, setName] = useState('');
@@ -31,6 +34,16 @@ const Register: React.FC = () => {
         setLoading(true);
         // Validate TODO
         if (password !== confirmPassword) {
+            toast(
+                { 
+                  message: 'As senhas não batem!', 
+                  color: 'error', 
+                  iconColor: 'error', 
+                  accentColor: 'error', 
+                  iconName: 'x' 
+                });
+            setLoading(false);
+            
             return;
         }
 
@@ -51,12 +64,27 @@ const Register: React.FC = () => {
                 await AsyncStorage.setItem('@token_user', data.token);
                 await AsyncStorage.setItem('@user_name', data.usuario.nome);
 
-
+                toast({ message: 'Usuário registrado com sucesso!' });
                 navigator.navigate('RegisterSucceded');
             } else {
-                console.log('error');
+                toast(
+                    { 
+                      message: 'Ocorreu algum erro!', 
+                      color: 'error', 
+                      iconColor: 'error', 
+                      accentColor: 'error', 
+                      iconName: 'x' 
+                    });
             }
         } catch (err) {
+            toast(
+                { 
+                  message: 'Preencha todas as informações!', 
+                  color: 'error', 
+                  iconColor: 'error', 
+                  accentColor: 'error', 
+                  iconName: 'x' 
+                });
             console.log(err.response);
         } finally {
             setLoading(false);

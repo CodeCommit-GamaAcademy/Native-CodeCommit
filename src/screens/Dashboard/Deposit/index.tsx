@@ -66,7 +66,6 @@ const Deposit: React.FC = () => {
       });
 
       if (status !== 200) throw new Error('Something went wrong with request');
-      console.log("transação realizada com sucesso")
       clearForm()
 
       const plans = await api.post('lancamentos/planos-conta', {

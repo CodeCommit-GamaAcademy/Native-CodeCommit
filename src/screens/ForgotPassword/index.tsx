@@ -9,8 +9,11 @@ import { Container, ScrollContainer, AvoidContainer, LogoImage, Card, Title, Inp
 import logo from '../../assets/logo.png';
 import Loader from '../../components/Loader';
 import api from '../../services/api';
+import { useToast } from 'react-native-styled-toast'
+
 
 const ForgotPassword: React.FC = () => {
+    const { toast } = useToast();
     const [username, setUsername] = useState('');
     const [isValidUsername, setIsvalidUsername] = useState(false);
     const [password, setPassword] = useState('');
@@ -39,6 +42,14 @@ const ForgotPassword: React.FC = () => {
             }
         } catch (err) {
             console.log(err);
+            toast(
+                { 
+                  message: 'Usuário não encontrado!', 
+                  color: 'error', 
+                  iconColor: 'error', 
+                  accentColor: 'error', 
+                  iconName: 'x' 
+                });
         } finally {
             setLoading(false);
         }
@@ -46,11 +57,17 @@ const ForgotPassword: React.FC = () => {
 
     const handleSubmitNewPassword = useCallback(async () => {
         setLoading(true);
-        console.log(password, confirmPassword);
         try {
             if (password !== confirmPassword) {
                 // Validation TO DO
-                console.log('err');
+                toast(
+                    { 
+                      message: 'As senhas não batem!', 
+                      color: 'error', 
+                      iconColor: 'error', 
+                      accentColor: 'error', 
+                      iconName: 'x' 
+                    });
                 return;
             }
 
@@ -61,15 +78,25 @@ const ForgotPassword: React.FC = () => {
 
             if (data.status === 200 || data.status === 201) {
                 navigator.navigate('Login');
+                toast({ message: 'Senha alterada com sucesso!' });
             } else {
                 navigator.navigate('ForgetPassword');
             }
         } catch (err) {
             // Error TO DO 
+            console.log(err.response);
+            toast(
+                { 
+                  message: 'Ocorreu algum erro!', 
+                  color: 'error', 
+                  iconColor: 'error', 
+                  accentColor: 'error', 
+                  iconName: 'x' 
+                });
         } finally {
             setLoading(false);
         }
-    }, [password, confirmPassword]);
+    }, [password, confirmPassword, temporaryPassword, navigator, toast]);
 
     return (
         <ScrollContainer>
@@ -80,8 +107,8 @@ const ForgotPassword: React.FC = () => {
                         <Title>Redefinir senha</Title>
                         {isValidUsername ? (
                             <InputContainer>
-                                <Input secureTextEntry={true} placeholder="Nova senha" />
-                                <Input secureTextEntry={true} placeholder="Confirmar nova senha" />
+                                <Input onChangeText={ text => setPassword(text) } value={ password } secureTextEntry={true} placeholder="Nova senha" />
+                                <Input onChangeText={ text => setConfirmPassword(text) } value={ confirmPassword } secureTextEntry={true} placeholder="Confirmar nova senha" />
                                 {loading ? (
                                     <Loader marginTop={30} />
                                 ) : (
@@ -93,7 +120,7 @@ const ForgotPassword: React.FC = () => {
                             </InputContainer>
                         ) : (
                                 <InputContainer hasStyle>
-                                    <Input onChangeText={(text) => setUsername(text)} placeholder="Nome de usuário" />
+                                    <Input value={ username } onChangeText={(text) => setUsername(text)} placeholder="Nome de usuário" />
                                     {loading ? (
                                         <Loader marginTop={30} />
                                     ) : (
