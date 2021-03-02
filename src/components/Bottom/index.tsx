@@ -11,13 +11,14 @@ import PlansSvg from '../../assets/svgs/Plans';
 
 export default function Bottom() {
   const navigator = useNavigation();
-
+  
   return (
     <Container>
       <TabContainer>
           <TouchableButton
             accessibilityRole="button"
-            onPress={() => navigator.navigate('Transferir') }
+            onPress={() => navigator.navigate('Transferir', { isDeposit:false }) }
+            
           >
             <ItemLayout>
               <Ionicons name="swap-horizontal-outline" size={25} color="white" />
