@@ -84,6 +84,7 @@ const ForgotPassword: React.FC = () => {
             }
         } catch (err) {
             // Error TO DO 
+            console.log(err.response);
             toast(
                 { 
                   message: 'Ocorreu algum erro!', 
@@ -95,7 +96,7 @@ const ForgotPassword: React.FC = () => {
         } finally {
             setLoading(false);
         }
-    }, [password, confirmPassword]);
+    }, [password, confirmPassword, temporaryPassword, navigator, toast]);
 
     return (
         <ScrollContainer>
@@ -106,8 +107,8 @@ const ForgotPassword: React.FC = () => {
                         <Title>Redefinir senha</Title>
                         {isValidUsername ? (
                             <InputContainer>
-                                <Input secureTextEntry={true} placeholder="Nova senha" />
-                                <Input secureTextEntry={true} placeholder="Confirmar nova senha" />
+                                <Input onChangeText={ text => setPassword(text) } value={ password } secureTextEntry={true} placeholder="Nova senha" />
+                                <Input onChangeText={ text => setConfirmPassword(text) } value={ confirmPassword } secureTextEntry={true} placeholder="Confirmar nova senha" />
                                 {loading ? (
                                     <Loader marginTop={30} />
                                 ) : (
@@ -119,7 +120,7 @@ const ForgotPassword: React.FC = () => {
                             </InputContainer>
                         ) : (
                                 <InputContainer hasStyle>
-                                    <Input onChangeText={(text) => setUsername(text)} placeholder="Nome de usuário" />
+                                    <Input value={ username } onChangeText={(text) => setUsername(text)} placeholder="Nome de usuário" />
                                     {loading ? (
                                         <Loader marginTop={30} />
                                     ) : (
