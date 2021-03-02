@@ -12,7 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import api from '../../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { sign_in } from '../../store/user/actions';
-import { UserResponse } from '../../types/User';
+import { UserResponse } from '../../types/user';
 import { useToast } from 'react-native-styled-toast'
 
 const Login: React.FC = () => {
