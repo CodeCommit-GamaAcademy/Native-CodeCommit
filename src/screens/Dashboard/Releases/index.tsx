@@ -67,7 +67,7 @@ const Releases: React.FC = () => {
 
   const handleLogout = useCallback(async () => {
     await AsyncStorage.removeItem('@token_user');
-    await AsyncStorage.removeItem('@user_name');
+    await AsyncStorage.removeItem('@user_data');
 
     dispatch(sign_out());
 
@@ -163,13 +163,13 @@ const Releases: React.FC = () => {
               }
               <MenuContainer>
                 <Paragraph>Seu nome:</Paragraph>
-                <Value>{store.user?.name}</Value>
+                <Value>{ store.user?.name }</Value>
                 <Paragraph>Email:</Paragraph>
                 <Value>email@email.com</Value>
                 <Paragraph>Username:</Paragraph>
-                <Value>{store.user?.login}</Value>
+                <Value>{ store.user?.login }</Value>
                 <Paragraph>CPF:</Paragraph>
-                <Value>000.000.000-00</Value>
+                <Value>{ store.user?.cpf }</Value>
                 <Line />
                 <Paragraph>Você tem:</Paragraph>
                 <Value>{plans} planos de conta</Value>
