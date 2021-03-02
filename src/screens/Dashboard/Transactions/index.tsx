@@ -39,7 +39,7 @@ const Transactions: React.FC<RouteProps> = (props) => {
   );
 
   useEffect(() => {
-    dispatch(set_current_screen('Deposit'));
+    dispatch(set_current_screen(props.route.params.routerType === 'deposit' ? 'Depositar' : 'Tranferir'));
   }, []);
 
   useEffect(() => {

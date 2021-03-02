@@ -41,7 +41,7 @@ const Releases: React.FC = () => {
   });
 
   useEffect(() => {
-    dispatch(set_current_screen('Releases'));
+    dispatch(set_current_screen('Lancamentos'));
   }, []);
 
   useEffect(() => {

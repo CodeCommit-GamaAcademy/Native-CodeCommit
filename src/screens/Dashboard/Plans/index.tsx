@@ -41,7 +41,7 @@ const Plans: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(set_current_screen('Plans'));
+    dispatch(set_current_screen('Planos'));
   }, []);
 
   useEffect(() => {
