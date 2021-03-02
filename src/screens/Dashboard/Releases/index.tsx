@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import Balance from '../../../components/Balance';
 import User from '../../../components/User';
 import Plans from '../../../components/Plans';
-import { Container, Main, MenuLeft, Paragraph, Value, Line, MenuContainer, LogoutButton, LogoutText } from './style';
+import { Container, Main, MainContainer, MenuLeft, Paragraph, Value, Line, MenuContainer, LogoutButton, LogoutText } from './style';
 import { ScrollView } from 'react-native-gesture-handler';
 import Launchs from '../../../components/Launchs';
 import { Contas, Lancamentos, Plano } from '../../../interfaces/dashboard';
 import api from '../../../services/api';
 import { ApplicationStore } from '../../../store';
-import { Animated, StyleSheet, Dimensions } from 'react-native';
+import { Animated, StyleSheet, Dimensions, RefreshControl } from 'react-native';
 import Bottom from '../../../components/Bottom';
 import { useNavigation } from '@react-navigation/native';
 import Loader from '../../../components/Loader';
@@ -147,64 +147,78 @@ const Releases: React.FC = () => {
     if (action === 'show') show();
   }
 
-  return (
-    <Main>
-      {
-        <>
-          <Animated.View style={[
-            styles.fadingContainer,
-            {
-              left: fadeAnim,
-            }
-          ]}>
-            <MenuLeft>
-              {
-                store.user && <User hide={showMenuLeft} showCancel={true} onCancel={() => showMenuLeft('hide')} hideName={true} fromRealeases={true} user={store.user} />
-              }
-              <MenuContainer>
-                <Paragraph>Seu nome:</Paragraph>
-                <Value>{ store.user?.name }</Value>
-                <Paragraph>Email:</Paragraph>
-                <Value>email@email.com</Value>
-                <Paragraph>Username:</Paragraph>
-                <Value>{ store.user?.login }</Value>
-                <Paragraph>CPF:</Paragraph>
-                <Value>{ store.user?.cpf }</Value>
-                <Line />
-                <Paragraph>Você tem:</Paragraph>
-                <Value>{plans} planos de conta</Value>
-                <Line />
-                <LogoutButton onPress={handleLogout}>
-                  <Feather size={14} color="#8C52E5" name="log-out" />
-                  <LogoutText>Sair</LogoutText>
-                </LogoutButton>
-              </MenuContainer>
-            </MenuLeft>
-          </Animated.View>
-        </>
-      }
-      <ScrollView>
-        <Container>
-          {
-            !loading && <Loader changeColor={true} marginTop={34} />
-          }
-          {
-            loading && store.user && <User show={showMenuLeft} user={store.user} />
-          }
-          {
-            loading && accountInfo && <Balance conta={accountInfo?.contaBanco} />
-          }
-          {
-            loading && allLaunchs && <Plans lancamentos={allLaunchs} />
-          }
-          {
-            loading && allLaunchs && <Launchs launchs={allLaunchs} />
-          }
-        </Container>
-      </ScrollView>
-      <Bottom />
-    </Main>
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = () => {
+    setRefreshing(true);
+    loadDashInformations();
+    setRefreshing(false);
+  }
 
+  return (
+    <>
+      <Main>
+        <MainContainer
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
+          <ScrollView>
+            <Container>
+              {
+                !loading && <Loader changeColor={true} marginTop={34} />
+              }
+              {
+                loading && store.user && <User show={showMenuLeft} user={store.user} />
+              }
+              {
+                loading && accountInfo && <Balance conta={accountInfo?.contaBanco} />
+              }
+              {
+                loading && allLaunchs && <Plans lancamentos={allLaunchs} />
+              }
+              {
+                loading && allLaunchs && <Launchs launchs={allLaunchs} />
+              }
+            </Container>
+          </ScrollView>
+        </MainContainer>
+        {
+          <>
+            <Animated.View style={[
+              styles.fadingContainer,
+              {
+                left: fadeAnim,
+              }
+            ]}>
+              <MenuLeft>
+                {
+                  store.user && <User hide={showMenuLeft} showCancel={true} onCancel={() => showMenuLeft('hide')} hideName={true} fromRealeases={true} user={store.user} />
+                }
+                <MenuContainer>
+                  <Paragraph>Seu nome:</Paragraph>
+                  <Value>{ store.user?.name }</Value>
+                  <Paragraph>Email:</Paragraph>
+                  <Value>email@email.com</Value>
+                  <Paragraph>Username:</Paragraph>
+                  <Value>{ store.user?.login }</Value>
+                  <Paragraph>CPF:</Paragraph>
+                  <Value>{ store.user?.cpf }</Value>
+                  <Line />
+                  <Paragraph>Você tem:</Paragraph>
+                  <Value>{plans} planos de conta</Value>
+                  <Line />
+                  <LogoutButton onPress={handleLogout}>
+                    <Feather size={14} color="#8C52E5" name="log-out" />
+                    <LogoutText>Sair</LogoutText>
+                  </LogoutButton>
+                </MenuContainer>
+              </MenuLeft>
+            </Animated.View>
+          </>
+        }
+      </Main>
+      <Bottom />
+    </>
   );
 }
 
