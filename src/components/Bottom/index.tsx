@@ -4,9 +4,14 @@ import { Container, ItemLayout, LabelText, TouchableButton, TabContainer } from 
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
+import LaunchsSvg from '../../assets/svgs/Launchs';
+import DepositSvg from '../../assets/svgs/Deposit';
+import PlansSvg from '../../assets/svgs/Plans';
+
 
 export default function Bottom() {
   const navigator = useNavigation();
+
   return (
     <Container>
       <TabContainer>
@@ -28,7 +33,7 @@ export default function Bottom() {
             onPress={() => navigator.navigate('Lancamentos')}
           >
             <ItemLayout>
-              <Ionicons name="swap-horizontal-outline" size={25} color="white" />
+              <LaunchsSvg  />
               <LabelText 
                 isFocused={ true }
               >
@@ -41,7 +46,7 @@ export default function Bottom() {
             onPress={() => navigator.navigate('Depositar')}
           >
             <ItemLayout>
-              <Ionicons name="swap-horizontal-outline" size={25} color="white" />
+              <DepositSvg />
               <LabelText 
                 isFocused={ true }
               >
@@ -51,10 +56,11 @@ export default function Bottom() {
           </TouchableButton>
           <TouchableButton
             accessibilityRole="button"
+            isLastOne
             onPress={() => navigator.navigate('Planos')}
           >
             <ItemLayout>
-              <Ionicons name="swap-horizontal-outline" size={25} color="white" />
+              <PlansSvg />
               <LabelText 
                 isFocused={ true }
               >

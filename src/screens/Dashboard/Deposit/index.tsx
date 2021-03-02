@@ -24,6 +24,8 @@ const Deposit: React.FC = () => {
   const [valor, setValor] = useState('');
   const [isDeposit, setIsdeposit] = useState(true);
 
+  const user = useSelector((store: ApplicationStore) => store.user);
+
   useEffect(() => {
     const GetAuth = async () => {
       await ValidateCurrentToken();
@@ -67,8 +69,11 @@ const Deposit: React.FC = () => {
       console.log("transação realizada com sucesso")
       clearForm()
 
-    } catch (err) {
-      console.log(err);
+      const plans = await api.post('lancamentos/planos-conta', {
+        tipoMovimento: transacao
+      }, { headers: { Authorization: user?.token } });
+    }catch(err){ 
+      console.log(err)
     }
 
   }, isDeposit ? [planoConta, transacao, valor, store?.login, store?.token] : [destinatario, planoConta, transacao, valor, store?.login, store?.token])
@@ -84,14 +89,14 @@ const Deposit: React.FC = () => {
     <Main>
       <ScrollContainer>
         <Container>
-          { store && <User user={store} showCancel={true} /> }
-          <DepositCard>
-            <HeaderCardContainer>
-            { isDeposit ? <CardTitle>Depósitos</CardTitle> :
+          {user && <User user={ user } showCancel onCancel={() => navigation.navigate('Lancamentos')} />}
+            <DepositCard>
+              <HeaderCardContainer>
+              { isDeposit ? <CardTitle>Depósitos</CardTitle> :
               <CardTitle>Transferências</CardTitle>
-            }
-            </HeaderCardContainer>
-            <InputContainer>
+              }
+              </HeaderCardContainer>
+              <InputContainer>
               {isDeposit ? 
                 <></>
                 :
