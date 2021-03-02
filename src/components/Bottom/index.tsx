@@ -17,7 +17,7 @@ export default function Bottom() {
       <TabContainer>
           <TouchableButton
             accessibilityRole="button"
-            onPress={() => navigator.navigate('Transferir') }
+            onPress={() => navigator.navigate('Transferir', {routerType: 'transfer'}) }
             
           >
             <ItemLayout>
@@ -44,7 +44,7 @@ export default function Bottom() {
           </TouchableButton>
           <TouchableButton
             accessibilityRole="button"
-            onPress={() => navigator.navigate('Depositar')}
+            onPress={() => navigator.navigate('Depositar', {routerType: 'deposit'})}
           >
             <ItemLayout>
               <DepositSvg />

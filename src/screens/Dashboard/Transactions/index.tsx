@@ -14,7 +14,17 @@ import { ApplicationStore } from '../../../store';
 import { Contas, Plano } from '../../../interfaces/dashboard';
 import User from '../../../components/User';
 
-const Deposit: React.FC = () => {
+interface RouterType {
+  routerType: string
+}
+
+interface RouteProps {
+  route: {
+    params: RouterType
+  }
+}
+
+const Transactions: React.FC<RouteProps> = (props) => {
   const navigation = useNavigation();
   const store = useSelector( (store: ApplicationStore) => store.user );
 
@@ -22,9 +32,9 @@ const Deposit: React.FC = () => {
   const [planoConta, setPlanoConta] = useState('');
   const [transacao, setTransacao] = useState('');
   const [valor, setValor] = useState('');
-  const [isDeposit, setIsdeposit] = useState(true);
-
-  const user = useSelector((store: ApplicationStore) => store.user);
+  const [isDeposit, setIsdeposit] = useState(
+    props.route.params.routerType == 'deposit' ? true : false
+  );
 
   useEffect(() => {
     const GetAuth = async () => {
@@ -65,12 +75,9 @@ const Deposit: React.FC = () => {
         }
       });
 
-      if (status !== 200) throw new Error('Something went wrong with request');
+      if (status !== 200) throw new Error('Something went wrong with request')
       clearForm()
 
-      const plans = await api.post('lancamentos/planos-conta', {
-        tipoMovimento: transacao
-      }, { headers: { Authorization: user?.token } });
     }catch(err){ 
       console.log(err)
     }
@@ -88,7 +95,7 @@ const Deposit: React.FC = () => {
     <Main>
       <ScrollContainer>
         <Container>
-          {user && <User user={ user } showCancel onCancel={() => navigation.navigate('Lancamentos')} />}
+          {store && <User user={ store } showCancel onCancel={() => navigation.navigate('Lancamentos')} />}
             <DepositCard>
               <HeaderCardContainer>
               { isDeposit ? <CardTitle>Depósitos</CardTitle> :
@@ -154,4 +161,4 @@ const Deposit: React.FC = () => {
   );
 }
 
-export default Deposit;
+export default Transactions;
