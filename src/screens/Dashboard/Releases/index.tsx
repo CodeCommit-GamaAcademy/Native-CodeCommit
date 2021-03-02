@@ -9,7 +9,7 @@ import Launchs from '../../../components/Launchs';
 import { Contas, Lancamentos, Plano } from '../../../interfaces/dashboard';
 import api from '../../../services/api';
 import { ApplicationStore } from '../../../store';
-import { Animated, View, StyleSheet, Dimensions } from 'react-native';
+import { Animated, StyleSheet, Dimensions } from 'react-native';
 import Bottom from '../../../components/Bottom';
 import { useNavigation } from '@react-navigation/native';
 import Loader from '../../../components/Loader';
