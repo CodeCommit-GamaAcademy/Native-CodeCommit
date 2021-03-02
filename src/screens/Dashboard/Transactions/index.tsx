@@ -13,7 +13,6 @@ import api from '../../../services/api';
 import { ApplicationStore } from '../../../store';
 import { Contas, Plano } from '../../../interfaces/dashboard';
 import User from '../../../components/User';
-import { set_current_screen } from '../../../store/app/actions';
 
 interface RouterType {
   routerType: string
@@ -28,7 +27,6 @@ interface RouteProps {
 const Transactions: React.FC<RouteProps> = (props) => {
   const navigation = useNavigation();
   const store = useSelector( (store: ApplicationStore) => store.user );
-  const dispatch = useDispatch();
 
   const [destinatario, setDestinatario] = useState('');
   const [planoConta, setPlanoConta] = useState('');
@@ -37,10 +35,6 @@ const Transactions: React.FC<RouteProps> = (props) => {
   const [isDeposit, setIsdeposit] = useState(
     props.route.params.routerType == 'deposit' ? true : false
   );
-
-  useEffect(() => {
-    dispatch(set_current_screen(props.route.params.routerType === 'deposit' ? 'Depositar' : 'Tranferir'));
-  }, []);
 
   useEffect(() => {
     const GetAuth = async () => {
