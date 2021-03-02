@@ -13,6 +13,8 @@ import api from '../../../services/api';
 import { ApplicationStore } from '../../../store';
 import { Contas, Plano } from '../../../interfaces/dashboard';
 import User from '../../../components/User';
+import { useToast } from 'react-native-styled-toast'
+import Loader from '../../../components/Loader';
 
 interface RouterType {
   routerType: string
@@ -24,16 +26,17 @@ interface RouteProps {
   }
 }
 
-const Transactions: React.FC<RouteProps> = (props) => {
-  console.log(props.route.params.routerType);
-  
+const Transactions: React.FC<RouteProps> = (props) => {  
+  const { toast } = useToast();
   const navigation = useNavigation();
   const store = useSelector( (store: ApplicationStore) => store.user );
 
+  const [loading, setLoading] = useState(false);
   const [destinatario, setDestinatario] = useState('');
   const [planoConta, setPlanoConta] = useState('');
   const [transacao, setTransacao] = useState('');
   const [valor, setValor] = useState('');
+  const [userExist, setUserExist] = useState(true);
   const [isDeposit, setIsdeposit] = useState(
     props.route.params.routerType === 'deposit' ? true : false
   );
@@ -50,6 +53,7 @@ const Transactions: React.FC<RouteProps> = (props) => {
   }, []);
 
   const handleSubmit = useCallback(async () => {
+    setLoading(true);
     try {
       const myAccount = await api.get<Contas>(`dashboard?fim=2021-03-22&inicio=2021-02-22&login=${store?.login}`, {
         headers: {
@@ -62,6 +66,39 @@ const Transactions: React.FC<RouteProps> = (props) => {
           Authorization: store?.token,
         }
       });
+      
+      if (!isDeposit) {
+        const check = await api.get<Plano[]>(`lancamentos/planos-conta?login=${destinatario.trim()}`, {
+          headers: {
+            Authorization: store?.token,
+          }
+        });
+        check.data.length === 0 ? setUserExist(false) : setUserExist(true);
+      }
+      
+      if ( !userExist ) {
+        toast(
+          { 
+            message: 'Este usuário parece não existir!', 
+            color: 'error', 
+            iconColor: 'error', 
+            accentColor: 'error', 
+            iconName: 'x' 
+          });
+          return;
+      }
+
+      if ( Number.parseFloat(valor) <= 0 || valor === '' ) {
+        toast(
+          { 
+            message: 'Valor não pode ser nulo ou negativo!', 
+            color: 'error', 
+            iconColor: 'error', 
+            accentColor: 'error', 
+            iconName: 'x' 
+          });
+          return;
+      }
 
       const {status} = await api.post('lancamentos', {
         "conta": planoConta == "CB" ? myAccount.data.contaBanco.id : myAccount.data.contaCredito.id,
@@ -79,10 +116,21 @@ const Transactions: React.FC<RouteProps> = (props) => {
 
       if (status !== 200) throw new Error('Something went wrong with request')
       clearForm()
+      toast({message:"Transferencia feita com sucesso!"});
+      navigation.navigate('Lancamentos');
 
     }catch(err){ 
-      console.log(err.response)
+      toast(
+        { 
+          message: 'Aconteceu algo de errado!', 
+          color: 'error', 
+          iconColor: 'error', 
+          accentColor: 'error', 
+          iconName: 'x' 
+        });
       
+    }finally {
+      setLoading(false);
     }
 
   }, isDeposit ? [planoConta, transacao, valor, store?.login, store?.token] : [destinatario, planoConta, transacao, valor, store?.login, store?.token])
@@ -150,10 +198,16 @@ const Transactions: React.FC<RouteProps> = (props) => {
                 value={valor}
                 onChangeText={(text) => setValor(text)}
               />
-              <ButtonSubmit onPress={handleSubmit}>
-                <ButtonText> {isDeposit ? 'Realizar depósito' : 'Realizar transferência'}</ButtonText>
-                <Feather name="arrow-right" size={20} color='#fff' />
-              </ButtonSubmit>
+              {
+                loading ? (<Loader marginTop={34} />) : 
+                (
+                  <ButtonSubmit onPress={handleSubmit}>
+                    <ButtonText> {isDeposit ? 'Realizar depósito' : 'Realizar transferência'}</ButtonText>
+                    <Feather name="arrow-right" size={20} color='#fff' />
+                  </ButtonSubmit>
+                )
+              }
+              
           </DepositCard>
         </Container>
       </ScrollContainer>
