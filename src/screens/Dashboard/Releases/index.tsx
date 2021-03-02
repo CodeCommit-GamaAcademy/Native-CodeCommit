@@ -33,7 +33,7 @@ const Releases: React.FC = () => {
   const [hideOrShow, setHideOrShow] = useState(false);
   const [plans, setPlans] = useState(0);
   const [update, setUpdate] = useState(false);
-  const [ isExiting, setIsExiting ] = useState(true);
+  const [ isExiting, setIsExiting ] = useState(false);
 
   //here its a way to update this page everytime when 
   //the navigation turn here
@@ -161,7 +161,7 @@ const Releases: React.FC = () => {
   return (
     <>
       <Main>
-        {isExiting && <LogoutModal />}
+        {isExiting && <LogoutModal accept={ handleLogout } decline={ () => setIsExiting(false) } />}
         <MainContainer
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -208,7 +208,7 @@ const Releases: React.FC = () => {
                 <Paragraph>Você tem:</Paragraph>
                 <Value>{plans} planos de conta</Value>
                 <Line />
-                <LogoutButton onPress={handleLogout}>
+                <LogoutButton onPress={() => setIsExiting(true)}>
                   <Feather size={14} color="#8C52E5" name="log-out" />
                   <LogoutText>Sair</LogoutText>
                 </LogoutButton>

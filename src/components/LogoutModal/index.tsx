@@ -1,23 +1,32 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ViewProps } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 
-import { ButtonsWrapper, ButtonText, Container, ModalContainer, ModalTitle } from './styles';
+import { ButtonContainer, ButtonsWrapper, ButtonText, Container, ModalContainer, ModalTitle } from './styles';
 
-const LogoutModal: React.FC = () => {
+interface LogoutModalProps extends ViewProps {
+    accept: () => void;
+    decline: () => void;
+}
+
+const LogoutModal: React.FC<LogoutModalProps> = ({ accept, decline, ...props }) => {
     return (
-        <Container>
+        <Container {...props} >
             <ModalContainer>
                 <ModalTitle>Tem certeza que deseja sair?</ModalTitle>
 
                 <ButtonsWrapper>
-                    <RectButton style={styles.button}>
-                        <ButtonText>Sim</ButtonText>
-                    </RectButton>
+                    <ButtonContainer isAcceptButton >
+                        <RectButton style={styles.button} onPress={ accept } >
+                            <ButtonText>Sim</ButtonText>
+                        </RectButton>
+                    </ButtonContainer>
                     
-                    <RectButton style={styles.button}>
-                        <ButtonText>Não</ButtonText>
-                    </RectButton>
+                    <ButtonContainer>
+                        <RectButton style={styles.button} onPress={ decline } >
+                            <ButtonText>Não</ButtonText>
+                        </RectButton>
+                    </ButtonContainer>
                 </ButtonsWrapper>
             </ModalContainer>
         </Container>
@@ -30,8 +39,6 @@ const styles = StyleSheet.create({
     button: {
         paddingVertical: 16,
         paddingHorizontal: 36,
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: '#a100ff'
+        borderRadius: 8
     }
 });
