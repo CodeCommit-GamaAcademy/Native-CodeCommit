@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Menu from '../components/Menu/Menu';
 import Releases from '../screens/Dashboard/Releases';
 import Transfer from '../screens/Dashboard/Transfer';
 import Deposit from '../screens/Dashboard/Deposit';
@@ -25,14 +24,14 @@ const TabRoutes: React.FC = () =>{
                     component={Home}
                     name="Home" /> */}
                 <Screen
+                    component={Releases}
+                    name="Lancamentos"
+                />
+                <Screen
                     component={Transfer}
                     name="Transferir"
                     initialParams={{ routerType: 'transfer',
                     isDeposit:false }} 
-                />
-                <Screen
-                    component={Releases}
-                    name="Lancamentos"
                 />
                 <Screen
                     component={Deposit}
