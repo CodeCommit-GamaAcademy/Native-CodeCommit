@@ -26,12 +26,14 @@ import { AddButton,
   Main,
   SpanTitle,
   DescriptionWrapper,
-  DescriptionLabel
+  DescriptionLabel,
+  HeaderWrapper
 } from './styles';
 
 import Bottom from '../../../components/Bottom';
 import ValidateCurrentToken from '../../../services/ValidateCurrentToken';
 import updateStore from '../../../services/updateStore';
+import User from '../../../components/User';
 
 const Plans: React.FC = () => {
   const navigation = useNavigation();
@@ -74,6 +76,9 @@ const Plans: React.FC = () => {
   if (plans) return (
     <Main>
       { isAdding && <AddPlansModal closeModal={ () => setIsAdding(false) } setPlans={ setPlans } /> }
+      <HeaderWrapper>
+        { user && <User user={ user } showCancel onCancel={() => navigation.navigate('Lancamentos')} /> }
+      </HeaderWrapper>
       <Container>
         <PlansContainer>
           {plans.map((plan, index) => (

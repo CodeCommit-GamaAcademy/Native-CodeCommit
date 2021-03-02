@@ -45,7 +45,7 @@ const Transfer: React.FC <RouteProp<{ params: { routerType: string } }, 'params'
     <Main>
       <ContainerScrollView>
         <Container enabled={Platform.OS === 'ios'} behavior="padding">
-          { store.user && <User user={store.user} showCancel={true} />}
+          { store.user && <User user={store.user} showCancel={true} onCancel={() => navigation.navigate('Lancamentos')} />}
           <ContainerForm>
             <TitleForm>
               Transferências

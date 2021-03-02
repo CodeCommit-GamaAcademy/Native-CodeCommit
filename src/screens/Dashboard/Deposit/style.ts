@@ -8,7 +8,7 @@ export const Container = styled.SafeAreaView`
     background: #8C52E5;
 `;
 
-export const Main = styled.SafeAreaView`
+export const Main = styled.KeyboardAvoidingView`
   flex: 1;
   background: #8C52E5;
 `

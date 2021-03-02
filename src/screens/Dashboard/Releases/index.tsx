@@ -140,7 +140,7 @@ const Releases: React.FC = () => {
     }).start();
   };
 
-  const showMenuLeft = (action: string) => {
+  const showMenuLeft = (action: 'hide' | 'show') => {
 
     setHideOrShow(!hideOrShow);
     if (action === 'hide') hide();
@@ -159,7 +159,7 @@ const Releases: React.FC = () => {
           ]}>
             <MenuLeft>
               {
-                store.user && <User hide={showMenuLeft} showCancel={true} hideName={true} fromRealeases={true} user={store.user} />
+                store.user && <User hide={showMenuLeft} showCancel={true} onCancel={() => showMenuLeft('hide')} hideName={true} fromRealeases={true} user={store.user} />
               }
               <MenuContainer>
                 <Paragraph>Seu nome:</Paragraph>
