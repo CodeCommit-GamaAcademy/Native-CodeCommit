@@ -13,6 +13,7 @@ export const Container = styled.View`
 export const HeaderWrapper = styled.View`
     padding-left: 20px;
     width: 100%;
+    margin-top: -50px;
 `
 
 export const Main = styled.SafeAreaView`
@@ -26,7 +27,7 @@ export const PlansContainer = styled.ScrollView`
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     padding: 20px;
-    margin-top: -20px;
+    margin-top: -50px;
 `
 
 export const PlansCard = styled.View`
