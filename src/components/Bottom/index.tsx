@@ -18,7 +18,7 @@ export default function Bottom() {
 
   const handleChangePage = useCallback((RouteName: string, optionsToNavige?: object) => {
     if ( RouteName !== currentScreen ) navigator.navigate(RouteName, optionsToNavige);
-  }, [ currentScreen ]);
+  }, [ currentScreen, navigator ]);
   
   return (
     <Container>

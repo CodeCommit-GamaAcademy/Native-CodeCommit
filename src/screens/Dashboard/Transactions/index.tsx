@@ -26,6 +26,8 @@ interface RouteProps {
 }
 
 const Transactions: React.FC<RouteProps> = (props) => {
+  console.log(props.route.params.routerType);
+  
   const navigation = useNavigation();
   const store = useSelector( (store: ApplicationStore) => store.user );
   const dispatch = useDispatch();
@@ -39,7 +41,7 @@ const Transactions: React.FC<RouteProps> = (props) => {
   );
 
   useEffect(() => {
-    dispatch(set_current_screen(props.route.params.routerType === 'deposit' ? 'Depositar' : 'Tranferir'));
+    dispatch(set_current_screen(props.route.params.routerType === 'deposit' ? 'Depositar' : 'Transferir'));
   }, []);
 
   useEffect(() => {
