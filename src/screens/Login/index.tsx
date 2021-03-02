@@ -13,8 +13,10 @@ import api from '../../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { sign_in } from '../../store/user/actions';
 import { UserResponse } from '../../types/User';
+import { useToast } from 'react-native-styled-toast'
 
 const Login: React.FC = () => {
+  const { toast } = useToast();
   const navigator = useNavigation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -44,10 +46,17 @@ const Login: React.FC = () => {
         name: response.usuario.nome,
         token: response.token,
       }))
-
+      toast({ message: 'Seja bem vindo(a)!' });
       navigator.navigate('Dashboard');
     } catch (err) {
-
+      toast(
+        { 
+          message: 'Usuário ou senha incorretos!', 
+          color: 'error', 
+          iconColor: 'error', 
+          accentColor: 'error', 
+          iconName: 'x' 
+        });
     } finally {
       setLoading(false);
     }
