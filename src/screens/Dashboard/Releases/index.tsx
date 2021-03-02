@@ -19,6 +19,7 @@ import { Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { sign_out } from '../../../store/user/actions';
 import maskCPF from '../../../utils/maskCpf';
+import LogoutModal from '../../../components/LogoutModal';
 
 const Releases: React.FC = () => {
   const navigator = useNavigation();
@@ -32,6 +33,7 @@ const Releases: React.FC = () => {
   const [hideOrShow, setHideOrShow] = useState(false);
   const [plans, setPlans] = useState(0);
   const [update, setUpdate] = useState(false);
+  const [ isExiting, setIsExiting ] = useState(true);
 
   //here its a way to update this page everytime when 
   //the navigation turn here
@@ -159,6 +161,7 @@ const Releases: React.FC = () => {
   return (
     <>
       <Main>
+        {isExiting && <LogoutModal />}
         <MainContainer
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -212,8 +215,8 @@ const Releases: React.FC = () => {
               </MenuContainer>
             </MenuLeft>
           </Animated.View>
+        <Bottom />
       </Main>
-      <Bottom />
     </>
   );
 }
