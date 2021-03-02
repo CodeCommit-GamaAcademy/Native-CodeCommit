@@ -6,11 +6,16 @@ import RNPickerSelect from 'react-native-picker-select';
 import { useNavigation } from '@react-navigation/native';
 import ValidateCurrentToken from '../../../services/ValidateCurrentToken';
 import updateStore from '../../../services/updateStore';
+import User from '../../../components/User';
+import { useSelector } from 'react-redux';
+import { ApplicationStore } from '../../../store';
 
 
 
 const Deposit: React.FC = () => {
   const navigation = useNavigation();
+
+  const user = useSelector((store: ApplicationStore) => store.user);
 
   useEffect(() => {
     const GetAuth = async () => {
@@ -28,10 +33,7 @@ const Deposit: React.FC = () => {
     <Main>
       <ScrollContainer>
         <Container>
-          <TitleContainer>
-            <Title>Olá, Usuário</Title>
-            <Feather name="x" size={20} color="#fff" />
-          </TitleContainer>
+          {user && <User user={ user } showCancel />}
             <DepositCard>
               <HeaderCardContainer>
                 <CardTitle>Depósitos</CardTitle>
