@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { Container, Welcome } from '../User/style';
 import { UserData } from '../../store/user/types';
+import { BorderlessButton } from 'react-native-gesture-handler';
 
 interface IUserProps {
   showCancel?: boolean;
@@ -31,9 +32,17 @@ const User: React.FC<IUserProps> = ({ showCancel = false, hideName = false, from
       }
       
       { !showCancel && !hideName ? (
-          <Ionicons onPress={() => props.show && props.show('show')} name="person-circle-outline" size={30} color={'#FBFBFB'}/>
+            <BorderlessButton
+              style={styles.button}
+            >
+              <Ionicons onPress={() => props.show && props.show('show')} name="person-circle-outline" size={30} color={'#FBFBFB'}/>
+            </BorderlessButton>
           ) : (
-          <Ionicons onPress={onCancel ? onCancel : () => {}} name="close" size={30} color={fromRealeases ? '#8c52e5' : '#FBFBFB'}/>
+            <BorderlessButton
+              style={styles.button}
+            >
+              <Ionicons onPress={onCancel ? onCancel : () => {}} name="close" size={30} color={fromRealeases ? '#8c52e5' : '#FBFBFB'}/>
+            </BorderlessButton>
         ) 
       }
 
@@ -43,3 +52,10 @@ const User: React.FC<IUserProps> = ({ showCancel = false, hideName = false, from
 }
 
 export default User;
+
+const styles = StyleSheet.create({
+    button: {
+      justifyContent: 'center',
+      alignContent: 'center'
+    }
+});

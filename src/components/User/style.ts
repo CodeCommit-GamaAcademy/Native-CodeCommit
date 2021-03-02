@@ -1,11 +1,10 @@
 import styled from 'styled-components/native';
-import { Dimensions } from 'react-native';
 
 export const Container = styled.SafeAreaView`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin: 100px 0 50px 0px;
+  margin: 100px 0 20px 0px;
   width: 90%;
 `;
 

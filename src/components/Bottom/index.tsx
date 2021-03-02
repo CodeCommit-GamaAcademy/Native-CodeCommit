@@ -11,22 +11,13 @@ import PlansSvg from '../../assets/svgs/Plans';
 
 export default function Bottom() {
   const navigator = useNavigation();
-
-  const [ currentScreen, setCurrentScreen ] = useState('Lancamentos');
-
-  const handleChangePage = useCallback((RouteName: string, optionsToNavige?: object) => {
-    if ( RouteName != currentScreen ) {
-      setCurrentScreen(RouteName);
-      navigator.navigate(RouteName, optionsToNavige);
-    }
-  }, [ navigator, currentScreen ]);
   
   return (
     <Container>
       <TabContainer>
           <TouchableButton
             accessibilityRole="button"
-            onPress={() => handleChangePage('Transferir', { routerType: 'transfer' })  }
+            onPress={() => navigator.navigate('Transferir', { routerType: 'transfer' })  }
           >
             <ItemLayout>
               <Ionicons name="swap-horizontal-outline" size={25} color="white" />
@@ -39,7 +30,7 @@ export default function Bottom() {
           </TouchableButton>
           <TouchableButton
             accessibilityRole="button"
-            onPress={() => handleChangePage('Lancamentos')}
+            onPress={() => navigator.navigate('Lancamentos')}
           >
             <ItemLayout>
               <LaunchsSvg  />
@@ -52,7 +43,7 @@ export default function Bottom() {
           </TouchableButton>
           <TouchableButton
             accessibilityRole="button"
-            onPress={() => handleChangePage('Depositar', { routerType: 'deposit' })}
+            onPress={() => navigator.navigate('Depositar', { routerType: 'deposit' })}
           >
             <ItemLayout>
               <DepositSvg />
@@ -66,7 +57,7 @@ export default function Bottom() {
           <TouchableButton
             accessibilityRole="button"
             isLastOne
-            onPress={() => handleChangePage('Planos')}
+            onPress={() => navigator.navigate('Planos')}
           >
             <ItemLayout>
               <PlansSvg />

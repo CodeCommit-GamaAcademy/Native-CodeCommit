@@ -96,7 +96,7 @@ const Transactions: React.FC<RouteProps> = (props) => {
 
   return (
     <Main>
-      <ScrollContainer>
+        <ScrollContainer>
         <Container>
           {store && <User user={ store } showCancel onCancel={() => navigation.navigate('Lancamentos')} />}
             <DepositCard>
@@ -105,7 +105,6 @@ const Transactions: React.FC<RouteProps> = (props) => {
               <CardTitle>Transferências</CardTitle>
               }
               </HeaderCardContainer>
-              <InputContainer>
               {isDeposit ? 
                 <></>
                 :
@@ -155,7 +154,6 @@ const Transactions: React.FC<RouteProps> = (props) => {
                 <ButtonText> {isDeposit ? 'Realizar depósito' : 'Realizar transferência'}</ButtonText>
                 <Feather name="arrow-right" size={20} color='#fff' />
               </ButtonSubmit>
-            </InputContainer>
           </DepositCard>
         </Container>
       </ScrollContainer>
