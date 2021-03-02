@@ -27,7 +27,8 @@ const TabRoutes: React.FC = () =>{
                 <Screen
                     component={Transfer}
                     name="Transferir"
-                    initialParams={{ routerType: 'transfer' }} 
+                    initialParams={{ routerType: 'transfer',
+                    isDeposit:false }} 
                 />
                 <Screen
                     component={Releases}
@@ -36,6 +37,7 @@ const TabRoutes: React.FC = () =>{
                 <Screen
                     component={Deposit}
                     name="Depositar"
+                    initialParams={{ routerType: 'deposit' }} 
                 />
                 <Screen
                     component={Plans}
