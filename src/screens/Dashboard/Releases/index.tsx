@@ -33,7 +33,7 @@ const Releases: React.FC = () => {
   const [hideOrShow, setHideOrShow] = useState(false);
   const [plans, setPlans] = useState(0);
   const [update, setUpdate] = useState(false);
-  const [ isExiting, setIsExiting ] = useState(true);
+  const [ isExiting, setIsExiting ] = useState(false);
 
   //here its a way to update this page everytime when 
   //the navigation turn here

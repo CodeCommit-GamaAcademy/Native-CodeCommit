@@ -1,15 +1,13 @@
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 
-export const Container = styled.SafeAreaView`
+export const Container = styled.View`
     background-color: #8C52E5;
     flex: 1;
 
     justify-content: center;
     align-items: center;
-    padding-top: 50px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 50px 20px 0px 20px;
 `;
 
 export const HeaderWrapper = styled.View`
@@ -66,7 +64,7 @@ export const PlusButton = styled.TouchableOpacity`
 
 // Add Plans Modal
 
-export const ModalContainer = styled.SafeAreaView`
+export const ModalContainer = styled.View`
     flex: 1;
     position: absolute;
     top: 0;
