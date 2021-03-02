@@ -67,7 +67,6 @@ const Register: React.FC = () => {
                 toast({ message: 'Usuário registrado com sucesso!' });
                 navigator.navigate('RegisterSucceded');
             } else {
-                console.log('error');
                 toast(
                     { 
                       message: 'Ocorreu algum erro!', 

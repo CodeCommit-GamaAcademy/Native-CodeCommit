@@ -57,11 +57,9 @@ const ForgotPassword: React.FC = () => {
 
     const handleSubmitNewPassword = useCallback(async () => {
         setLoading(true);
-        console.log(password, confirmPassword);
         try {
             if (password !== confirmPassword) {
                 // Validation TO DO
-                console.log('err');
                 toast(
                     { 
                       message: 'As senhas não batem!', 
