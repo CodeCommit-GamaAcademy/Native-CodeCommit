@@ -9,8 +9,11 @@ import { Container, ScrollContainer, AvoidContainer, LogoImage, Card, Title, Inp
 import logo from '../../assets/logo.png';
 import Loader from '../../components/Loader';
 import api from '../../services/api';
+import { useToast } from 'react-native-styled-toast'
+
 
 const ForgotPassword: React.FC = () => {
+    const { toast } = useToast();
     const [username, setUsername] = useState('');
     const [isValidUsername, setIsvalidUsername] = useState(false);
     const [password, setPassword] = useState('');
@@ -39,6 +42,14 @@ const ForgotPassword: React.FC = () => {
             }
         } catch (err) {
             console.log(err);
+            toast(
+                { 
+                  message: 'Usuário não encontrado!', 
+                  color: 'error', 
+                  iconColor: 'error', 
+                  accentColor: 'error', 
+                  iconName: 'x' 
+                });
         } finally {
             setLoading(false);
         }
@@ -51,6 +62,14 @@ const ForgotPassword: React.FC = () => {
             if (password !== confirmPassword) {
                 // Validation TO DO
                 console.log('err');
+                toast(
+                    { 
+                      message: 'As senhas não batem!', 
+                      color: 'error', 
+                      iconColor: 'error', 
+                      accentColor: 'error', 
+                      iconName: 'x' 
+                    });
                 return;
             }
 
@@ -61,11 +80,20 @@ const ForgotPassword: React.FC = () => {
 
             if (data.status === 200 || data.status === 201) {
                 navigator.navigate('Login');
+                toast({ message: 'Senha alterada com sucesso!' });
             } else {
                 navigator.navigate('ForgetPassword');
             }
         } catch (err) {
             // Error TO DO 
+            toast(
+                { 
+                  message: 'Ocorreu algum erro!', 
+                  color: 'error', 
+                  iconColor: 'error', 
+                  accentColor: 'error', 
+                  iconName: 'x' 
+                });
         } finally {
             setLoading(false);
         }
