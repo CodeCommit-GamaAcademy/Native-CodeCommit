@@ -2,21 +2,22 @@ import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-    background-color: #8C52E5;
     flex: 1;
+    background-color: #8C52E5;
 
     justify-content: center;
     align-items: center;
     padding: 50px 20px 0px 20px;
+
+    margin-bottom: 20px;
 `;
 
 export const HeaderWrapper = styled.View`
     padding-left: 20px;
     width: 100%;
-    margin-top: -50px;
 `
 
-export const Main = styled.SafeAreaView`
+export const Main = styled.View`
   flex: 1;
   background: #8C52E5;
 `
@@ -24,10 +25,8 @@ export const Main = styled.SafeAreaView`
 export const PlansContainer = styled.ScrollView`
     background-color: #fff;
     width: 100%;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+    border-radius: 8px;
     padding: 20px;
-    margin-top: -50px;
 `
 
 export const PlansCard = styled.View`
