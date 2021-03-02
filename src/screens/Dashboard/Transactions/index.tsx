@@ -35,7 +35,7 @@ const Transactions: React.FC<RouteProps> = (props) => {
   const [transacao, setTransacao] = useState('');
   const [valor, setValor] = useState('');
   const [isDeposit, setIsdeposit] = useState(
-    props.route.params.routerType == 'deposit' ? true : false
+    props.route.params.routerType === 'deposit' ? true : false
   );
 
   useEffect(() => {
@@ -81,7 +81,8 @@ const Transactions: React.FC<RouteProps> = (props) => {
       clearForm()
 
     }catch(err){ 
-      console.log(err)
+      console.log(err.response)
+      
     }
 
   }, isDeposit ? [planoConta, transacao, valor, store?.login, store?.token] : [destinatario, planoConta, transacao, valor, store?.login, store?.token])
