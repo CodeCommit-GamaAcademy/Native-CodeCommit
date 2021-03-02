@@ -30,9 +30,22 @@ import { AddButton,
 } from './styles';
 
 import Bottom from '../../../components/Bottom';
+import ValidateCurrentToken from '../../../services/ValidateCurrentToken';
+import updateStore from '../../../services/updateStore';
 
 const Plans: React.FC = () => {
-  const navigator = useNavigation();
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const GetAuth = async () => {
+      await ValidateCurrentToken();
+      const isLogged = await updateStore();
+
+      if ( !isLogged ) navigation.navigate('Login');
+    }
+
+    GetAuth();
+  }, []);
 
   const [plans, setPlans] = useState<Plano[]>();
   const [ isAdding, setIsAdding ] = useState(false);
@@ -42,7 +55,7 @@ const Plans: React.FC = () => {
   
   //here its a way to update this page everytime when 
   //the navigation turn here
-  navigator.addListener('focus', () => {
+  navigation.addListener('focus', () => {
     setUpdate(!update);
   });
 

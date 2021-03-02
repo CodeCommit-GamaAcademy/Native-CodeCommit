@@ -1,17 +1,33 @@
 import { Feather } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import { Platform, View } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import { useSelector } from 'react-redux';
 import Bottom from '../../../components/Bottom';
 
 import User from '../../../components/User';
+import updateStore from '../../../services/updateStore';
+import ValidateCurrentToken from '../../../services/ValidateCurrentToken';
 import { ApplicationStore } from '../../../store';
 import { ContainerScrollView, Container, InputForm, ContainerForm, ButtonSubmit, ButtonSubmitText, TitleForm, SelectForm, Main } from './style';
 
 // import { Container } from './styles';
 
 const Transfer: React.FC = () => {
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const GetAuth = async () => {
+      await ValidateCurrentToken();
+      const isLogged = await updateStore();
+
+      if ( !isLogged ) navigation.navigate('Login');
+    }
+
+    GetAuth();
+  }, []);
+
   const store = useSelector( (store: ApplicationStore) => store );
   const [plano, setPlano] = useState('')
   const [transacao, setTransacao] = useState('')

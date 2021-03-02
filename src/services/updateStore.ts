@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwt from 'jwt-decode';
 import store from '../store';
-import { sign_in } from '../store/user/actions';
+import { sign_in, sign_out } from '../store/user/actions';
 
 type updateStoreType = () => Promise<boolean>
 
@@ -12,6 +12,8 @@ const updateStore: updateStoreType = async () => {
     if ( !fullToken || !username ) {
         await AsyncStorage.removeItem('@token_user');
         await AsyncStorage.removeItem('@user_name');
+
+        store.dispatch(sign_out());
 
         return false;
     }
