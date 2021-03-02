@@ -7,7 +7,7 @@ export const Container = styled.View`
 
     justify-content: center;
     align-items: center;
-    padding: 50px 20px 0px 20px;
+    padding: 40px 25px 0px 25px;
 `;
 
 export const HeaderWrapper = styled.View`
@@ -23,9 +23,8 @@ export const Main = styled.SafeAreaView`
 export const PlansContainer = styled.ScrollView`
     background-color: #fff;
     width: 100%;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    padding: 20px;
+    border-radius: 10px;
+    padding: 40px 25px 0px 25px;
     margin-top: -20px;
 `
 
@@ -125,7 +124,7 @@ export const AddButton = styled.TouchableOpacity`
     width: 100%;
 
     border: 0;
-    border-radius: 8px;
+    border-radius: 10px;
     background: #8C52E5;
 
     flex-direction: row;
