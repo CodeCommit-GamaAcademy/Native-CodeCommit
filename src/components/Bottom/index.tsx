@@ -17,7 +17,7 @@ export default function Bottom() {
       <TabContainer>
           <TouchableButton
             accessibilityRole="button"
-            onPress={() => navigator.navigate('Transferir', { isDeposit:false }) }
+            onPress={() => navigator.navigate('Transferir') }
             
           >
             <ItemLayout>
