@@ -13,6 +13,7 @@ export const Container = styled.View`
 export const HeaderWrapper = styled.View`
     padding-left: 20px;
     width: 100%;
+    margin-top: -50px;
 `
 
 export const Main = styled.SafeAreaView`
