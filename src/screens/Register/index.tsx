@@ -11,6 +11,7 @@ import LogoImg from '../../assets/logo.png';
 import { Platform } from 'react-native';
 import api from '../../services/api';
 import { useToast } from 'react-native-styled-toast'
+import { UserResponse } from '../../types/user';
 
 
 const Register: React.FC = () => {
@@ -56,13 +57,16 @@ const Register: React.FC = () => {
             });
 
             if (status === 200 || status === 201) {
-                const { data } = await api.post<{ token: string, usuario: { nome: string } }>('/login', {
+                const { data } = await api.post<UserResponse>('/login', {
                     "usuario": username,
                     "senha": password
                 });
 
                 await AsyncStorage.setItem('@token_user', data.token);
-                await AsyncStorage.setItem('@user_name', data.usuario.nome);
+                await AsyncStorage.setItem('@user_data', JSON.stringify({
+                    name: data.usuario.nome,
+                    cpf: data.usuario.cpf
+                }));
 
                 toast({ message: 'Usuário registrado com sucesso!' });
                 navigator.navigate('RegisterSucceded');

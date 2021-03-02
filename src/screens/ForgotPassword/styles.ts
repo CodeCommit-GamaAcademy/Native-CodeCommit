@@ -22,7 +22,6 @@ export const AvoidContainer = styled.KeyboardAvoidingView`
 
 export const LogoImage = styled.Image`
   margin-bottom: 60px;
-  margin-top: 25px;
 `;
 
 export const Card = styled.View`
@@ -32,7 +31,6 @@ export const Card = styled.View`
   background: #fff;
   border-radius: 8px;
   justify-content: space-between;
-  margin-top: -25px;
 `;
 export const Title = styled.Text`
   font-size: 21px;
@@ -40,7 +38,8 @@ export const Title = styled.Text`
 `;
 
 export const InputContainer = styled.View<{ hasStyle?: boolean }>`
-  margin-top: 40px;
+  margin-top: 20px;
+  margin-bottom: 80px;
   width: 259px;
   height: 224px;
 `;
@@ -74,11 +73,9 @@ export const ButtonText = styled.Text`
 `;
 
 export const ButtonLogin = styled.TouchableOpacity`
-  margin-top: 140px;
 `;
 export const ButtonLoginText = styled.Text`
   color: #8c52e5;
-  margin-top: 32px;
   font-size: 13px;
   font-style: normal;
 `;

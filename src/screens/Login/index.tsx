@@ -39,12 +39,16 @@ const Login: React.FC = () => {
       });
 
       await AsyncStorage.setItem('@token_user', response.token);
-      await AsyncStorage.setItem('@user_name', response.usuario.nome);
+      await AsyncStorage.setItem('@user_data', JSON.stringify({
+        name: response.usuario.nome,
+        cpf: response.usuario.cpf
+      }));
 
       dispatch(sign_in({
         login: response.usuario.login,
         name: response.usuario.nome,
         token: response.token,
+        cpf: response.usuario.cpf
       }))
       toast({ message: 'Seja bem vindo(a)!' });
       navigator.navigate('Dashboard');
