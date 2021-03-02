@@ -47,8 +47,8 @@ const Deposit: React.FC = () => {
 
       const plans = await api.post('lancamentos/planos-conta', {
         tipoMovimento: transacao
-      })
-    }catch(err){
+      }, { headers: { Authorization: user?.token } });
+    }catch(err){ 
       console.log(err)
     }
   }, [destinatario, planoConta, transacao, valor])
