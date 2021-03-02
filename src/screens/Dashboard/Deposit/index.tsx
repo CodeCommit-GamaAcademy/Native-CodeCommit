@@ -57,7 +57,7 @@ const Deposit: React.FC = () => {
     <Main>
       <ScrollContainer>
         <Container>
-          {user && <User user={ user } showCancel />}
+          {user && <User user={ user } showCancel onCancel={() => navigation.navigate('Lancamentos')} />}
             <DepositCard>
               <HeaderCardContainer>
               { isDeposit ? <CardTitle>Transferências</CardTitle> :
