@@ -72,7 +72,7 @@ export const InputSelect = styled.View`
     margin-top: 45px;
 `
 
-export const ButtonSubmit = styled.View`
+export const ButtonSubmit = styled.TouchableOpacity`
     width: 100%;
     height: 56px;
     background: #68DE5A;

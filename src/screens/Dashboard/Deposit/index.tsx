@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Feather } from '@expo/vector-icons';
 import Bottom from '../../../components/Bottom';
 import { Container, ScrollContainer, TitleContainer, Title, DepositCard, HeaderCardContainer, CardTitle, InputContainer, Input, InputSelect, ButtonSubmit, ButtonText, Main } from './style';
@@ -6,11 +6,18 @@ import RNPickerSelect from 'react-native-picker-select';
 import { useNavigation } from '@react-navigation/native';
 import ValidateCurrentToken from '../../../services/ValidateCurrentToken';
 import updateStore from '../../../services/updateStore';
+import User from '../../../components/User';
+import { useSelector } from 'react-redux';
+import { ApplicationStore } from '../../../store';
+import api from '../../../services/api';
+import { Text } from 'react-native';
 
 
 
 const Deposit: React.FC = () => {
   const navigation = useNavigation();
+
+  const user = useSelector((store: ApplicationStore) => store.user);
 
   useEffect(() => {
     const GetAuth = async () => {
@@ -24,24 +31,47 @@ const Deposit: React.FC = () => {
   }, []);
   
 
+  const [destinatario, setDestinatario] = useState('');
+  const [planoConta, setPlanoConta] = useState('');
+  const [transacao, setTrasacao] = useState('');
+  const [valor, setValor] = useState('');
+  const [isDeposit, setIsdeposit] = useState(false);
+
+  const handleDeposit = useCallback(async () => {
+    try {
+      const require = await api.post('lancamentos',{
+        contaDestino: destinatario,
+        planoConta: planoConta,
+        valor: valor
+      })
+
+      const plans = await api.post('lancamentos/planos-conta', {
+        tipoMovimento: transacao
+      }, { headers: { Authorization: user?.token } });
+    }catch(err){ 
+      console.log(err)
+    }
+  }, [destinatario, planoConta, transacao, valor])
+
   return (
     <Main>
       <ScrollContainer>
         <Container>
-          <TitleContainer>
-            <Title>Olá, Usuário</Title>
-            <Feather name="x" size={20} color="#fff" />
-          </TitleContainer>
+          {user && <User user={ user } showCancel />}
             <DepositCard>
               <HeaderCardContainer>
+              { isDeposit ? <CardTitle>Transferências</CardTitle> :
                 <CardTitle>Depósitos</CardTitle>
+              }
               </HeaderCardContainer>
               <InputContainer>
-                <Input placeholder="Destinatário"></Input>
+              {isDeposit ? 
+                <Input placeholder="Destinatário" value={destinatario} onChangeText={(text) => setDestinatario(text)}></Input>
+               : <></> }
                 <InputSelect>
                   <RNPickerSelect
                       placeholder={{label:"Plano de conta"}}
-                      onValueChange={(value) => console.log(value)}
+                      onValueChange={(value) => setPlanoConta(value)}
                       items={[
                           { label: 'Conta banco', value: 'cb' },
                           { label: 'Conta crédito', value: 'cc' },
@@ -54,7 +84,7 @@ const Deposit: React.FC = () => {
                 <InputSelect>
                   <RNPickerSelect
                     placeholder={{label:"Tipo de transação"}}
-                    onValueChange={(value) => console.log(value)}
+                    onValueChange={(value) => setTrasacao(value)}
                       items={[
                         { label: 'Receita', value: 'R' },
                         { label: 'Despesa', value: 'D' },
@@ -67,8 +97,8 @@ const Deposit: React.FC = () => {
                     }}
                   />
                 </InputSelect>
-                <Input placeholder="Valor de depósito"></Input>
-                <ButtonSubmit>
+                <Input placeholder="Valor de depósito" keyboardType='numeric' value={valor} onChangeText={(text) => setValor(text)}></Input>
+                <ButtonSubmit onPress={handleDeposit}>
                   <ButtonText>Realizar depósito</ButtonText>
                   <Feather name="arrow-right" size={20} color='#fff' />
                 </ButtonSubmit>

@@ -11,7 +11,7 @@ interface IUserProps {
   user: UserData,
   hide?: Function,
   show?: Function,
-  fromRealeases?: boolean,
+  fromRealeases?: boolean
 }
 
 const User: React.FC<IUserProps> = ({ showCancel = false, hideName = false, fromRealeases = false, ...props }) => {
