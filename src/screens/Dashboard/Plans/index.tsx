@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../../components/Loader';
 import { Plano } from '../../../interfaces/dashboard';
 import api from '../../../services/api';
@@ -34,9 +34,15 @@ import Bottom from '../../../components/Bottom';
 import ValidateCurrentToken from '../../../services/ValidateCurrentToken';
 import updateStore from '../../../services/updateStore';
 import User from '../../../components/User';
+import { set_current_screen } from '../../../store/app/actions';
 
 const Plans: React.FC = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(set_current_screen('Plans'));
+  }, []);
 
   useEffect(() => {
     const GetAuth = async () => {
@@ -117,6 +123,7 @@ interface AddPlansModalProps extends SafeAreaViewProps {
 }
 
 const AddPlansModal: React.FC<AddPlansModalProps> = ({ closeModal, setPlans, ...props }) => {
+
   const [type, setType] = useState('');
   const [description, setDescription] = useState('');
 

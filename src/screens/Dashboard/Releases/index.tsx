@@ -19,24 +19,30 @@ import { Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { sign_out } from '../../../store/user/actions';
 import maskCPF from '../../../utils/maskCpf';
+import { set_current_screen } from '../../../store/app/actions';
 
 const Releases: React.FC = () => {
   const navigator = useNavigation();
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const store = useSelector((store: ApplicationStore) => store);
+  const dispatch = useDispatch();
+
   const [allLaunchs, setAllLaunchs] = useState<Lancamentos[]>();
   const [accountInfo, setAccountInfo] = useState<Contas>();
   const [loading, setLoading] = useState(false);
   const [hideOrShow, setHideOrShow] = useState(false);
   const [plans, setPlans] = useState(0);
   const [update, setUpdate] = useState(false);
-  const dispatch = useDispatch();
 
   //here its a way to update this page everytime when 
   //the navigation turn here
   navigator.addListener('focus', () => {
     setUpdate(!update);
   });
+
+  useEffect(() => {
+    dispatch(set_current_screen('Releases'));
+  }, []);
 
   useEffect(() => {
     const GetAuth = async () => {

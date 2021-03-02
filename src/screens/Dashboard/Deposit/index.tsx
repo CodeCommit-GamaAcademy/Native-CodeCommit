@@ -3,7 +3,7 @@ import { Feather } from '@expo/vector-icons';
 import Bottom from '../../../components/Bottom';
 import RNPickerSelect from 'react-native-picker-select';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
 import { Container, ScrollContainer, DepositCard, HeaderCardContainer, CardTitle, InputContainer, Input, InputSelect, ButtonSubmit, ButtonText, Main } from './style';
@@ -13,10 +13,12 @@ import api from '../../../services/api';
 import { ApplicationStore } from '../../../store';
 import { Contas, Plano } from '../../../interfaces/dashboard';
 import User from '../../../components/User';
+import { set_current_screen } from '../../../store/app/actions';
 
 const Deposit: React.FC = () => {
   const navigation = useNavigation();
   const store = useSelector( (store: ApplicationStore) => store.user );
+  const dispatch = useDispatch();
 
   const [destinatario, setDestinatario] = useState('');
   const [planoConta, setPlanoConta] = useState('');
@@ -25,6 +27,10 @@ const Deposit: React.FC = () => {
   const [isDeposit, setIsdeposit] = useState(true);
 
   const user = useSelector((store: ApplicationStore) => store.user);
+
+  useEffect(() => {
+    dispatch(set_current_screen('Deposit'));
+  }, []);
 
   useEffect(() => {
     const GetAuth = async () => {
