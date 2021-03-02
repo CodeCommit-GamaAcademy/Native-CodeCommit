@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useImperativeHandle, forwardRef, useState, useCallback } from 'react';
 import { TextInputProps } from 'react-native';
 import { useField } from '@unform/core';
 
@@ -12,11 +12,34 @@ interface InputValueReference {
   value: string;
 }
 
-const Input: React.FC<InputProps> = ({ name, ...rest }) => {
+interface InputRef {
+  focus(): void;
+}
+
+const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = ({ name, ...rest }, ref) => {
   const inputElementRef = useRef<any>(null);
 
   const inputValueRef = useRef<InputValueReference>({ value: '' });
   const { registerField, fieldName, error } = useField(name);
+
+  const [isFocused, setIsFocused] = useState(false);
+  const [isFilled, setIsFilled] = useState(false);
+
+  const handleInputFocus = useCallback(() => {
+    setIsFocused(true);
+  }, []);
+
+  const handleInputBlur = useCallback(() => {
+    setIsFocused(false);
+
+    setIsFilled(!!(inputValueRef.current.value.length > 0));
+  }, []);
+
+  useImperativeHandle(ref, () => ({
+    focus() {
+      inputElementRef.current.focus();
+    }
+  }));
 
   useEffect(() => {
     // quando meu componente for montado eu "registro" ele dentro do unform
@@ -41,6 +64,11 @@ const Input: React.FC<InputProps> = ({ name, ...rest }) => {
   return (
     <TextInput
       {...rest}
+      isFocused={isFocused}
+      isFilled={isFilled}
+      ref={inputElementRef}
+      onFocus={handleInputFocus}
+      onBlur={handleInputBlur}
       onChangeText={(value) => {
         inputValueRef.current.value = value;
       }}
@@ -48,4 +76,4 @@ const Input: React.FC<InputProps> = ({ name, ...rest }) => {
   )
 };
 
-export default Input;
+export default forwardRef(Input);
