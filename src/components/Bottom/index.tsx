@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { Container, ItemLayout, LabelText, TouchableButton, TabContainer } from './style';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,18 +7,25 @@ import { useNavigation } from '@react-navigation/native';
 import LaunchsSvg from '../../assets/svgs/Launchs';
 import DepositSvg from '../../assets/svgs/Deposit';
 import PlansSvg from '../../assets/svgs/Plans';
+import { useSelector } from 'react-redux';
+import { ApplicationStore } from '../../store';
 
 
 export default function Bottom() {
   const navigator = useNavigation();
+
+  const { currentScreen } = useSelector((store: ApplicationStore) => store.app);
+
+  const handleChangePage = useCallback((RouteName: string) => {
+    if ( RouteName !== currentScreen ) navigator.navigate(RouteName);
+  }, [ currentScreen ]);
   
   return (
     <Container>
       <TabContainer>
           <TouchableButton
             accessibilityRole="button"
-            onPress={() => navigator.navigate('Transferir') }
-            
+            onPress={() => handleChangePage('Transferir') }
           >
             <ItemLayout>
               <Ionicons name="swap-horizontal-outline" size={25} color="white" />
@@ -31,7 +38,7 @@ export default function Bottom() {
           </TouchableButton>
           <TouchableButton
             accessibilityRole="button"
-            onPress={() => navigator.navigate('Lancamentos')}
+            onPress={() => handleChangePage('Lancamentos')}
           >
             <ItemLayout>
               <LaunchsSvg  />
@@ -44,7 +51,7 @@ export default function Bottom() {
           </TouchableButton>
           <TouchableButton
             accessibilityRole="button"
-            onPress={() => navigator.navigate('Depositar')}
+            onPress={() => handleChangePage('Depositar')}
           >
             <ItemLayout>
               <DepositSvg />
@@ -58,7 +65,7 @@ export default function Bottom() {
           <TouchableButton
             accessibilityRole="button"
             isLastOne
-            onPress={() => navigator.navigate('Planos')}
+            onPress={() => handleChangePage('Planos')}
           >
             <ItemLayout>
               <PlansSvg />
