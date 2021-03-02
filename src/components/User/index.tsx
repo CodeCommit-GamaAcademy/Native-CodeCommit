@@ -12,9 +12,10 @@ interface IUserProps {
   hide?: Function,
   show?: Function,
   fromRealeases?: boolean,
+  onCancel?: () => void
 }
 
-const User: React.FC<IUserProps> = ({ showCancel = false, hideName = false, fromRealeases = false, ...props }) => {
+const User: React.FC<IUserProps> = ({ showCancel = false, hideName = false, fromRealeases = false, onCancel, ...props }) => {
 
   const formatName = (name: string) => {
     const arrayName = name.split(' ');
@@ -30,10 +31,10 @@ const User: React.FC<IUserProps> = ({ showCancel = false, hideName = false, from
       }
       
       { !showCancel && !hideName ? (
-        <Ionicons onPress={() => props.show && props.show('show')} name="person-circle-outline" size={30} color={'#FBFBFB'}/>
-        ) : (
-        <Ionicons onPress={() => props.hide && props.hide('hide')} name="close" size={30} color={fromRealeases ? '#8c52e5' : '#FBFBFB'}/>
-      ) 
+          <Ionicons onPress={() => props.show && props.show('show')} name="person-circle-outline" size={30} color={'#FBFBFB'}/>
+          ) : (
+          <Ionicons onPress={onCancel ? onCancel : () => {}} name="close" size={30} color={fromRealeases ? '#8c52e5' : '#FBFBFB'}/>
+        ) 
       }
 
 

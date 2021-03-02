@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Menu from '../components/Menu/Menu';
 import Releases from '../screens/Dashboard/Releases';
@@ -9,6 +9,7 @@ import Plans from '../screens/Dashboard/Plans';
 const { Navigator, Screen } = createBottomTabNavigator();
 
 const TabRoutes: React.FC = () =>{
+
     return (
             <Navigator
                 // tabBar={ props => <Menu menu={props}/>}
@@ -26,6 +27,7 @@ const TabRoutes: React.FC = () =>{
                 <Screen
                     component={Transfer}
                     name="Transferir"
+                    initialParams={{ routerType: 'transfer' }} 
                 />
                 <Screen
                     component={Releases}

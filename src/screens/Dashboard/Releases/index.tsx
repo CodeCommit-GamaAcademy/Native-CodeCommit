@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Balance from '../../../components/Balance';
 import User from '../../../components/User';
 import Plans from '../../../components/Plans';
-import { Container, Main, MenuLeft, Paragraph, Value, Line, MenuContainer } from './style';
+import { Container, Main, MenuLeft, Paragraph, Value, Line, MenuContainer, LogoutButton, LogoutText } from './style';
 import { ScrollView } from 'react-native-gesture-handler';
 import Launchs from '../../../components/Launchs';
 import { Contas, Lancamentos, Plano } from '../../../interfaces/dashboard';
@@ -15,30 +15,34 @@ import { useNavigation } from '@react-navigation/native';
 import Loader from '../../../components/Loader';
 import ValidateCurrentToken from '../../../services/ValidateCurrentToken';
 import updateStore from '../../../services/updateStore';
+import { Feather } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { sign_out } from '../../../store/user/actions';
 
 const Releases: React.FC = () => {
   const navigator = useNavigation();
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const store = useSelector( (store: ApplicationStore) => store );
-  const [ allLaunchs, setAllLaunchs ] = useState<Lancamentos[]>();
-  const [ accountInfo, setAccountInfo ] = useState<Contas>();
-  const [ loading, setLoading ] = useState(false);
-  const [ hideOrShow, setHideOrShow ] = useState(false);
-  const [ plans, setPlans ] = useState(0);
-  const [ update, setUpdate ] = useState(false);
+  const store = useSelector((store: ApplicationStore) => store);
+  const [allLaunchs, setAllLaunchs] = useState<Lancamentos[]>();
+  const [accountInfo, setAccountInfo] = useState<Contas>();
+  const [loading, setLoading] = useState(false);
+  const [hideOrShow, setHideOrShow] = useState(false);
+  const [plans, setPlans] = useState(0);
+  const [update, setUpdate] = useState(false);
+  const dispatch = useDispatch();
 
   //here its a way to update this page everytime when 
   //the navigation turn here
   navigator.addListener('focus', () => {
     setUpdate(!update);
   });
-  
+
   useEffect(() => {
     const GetAuth = async () => {
       await ValidateCurrentToken();
       const isLogged = await updateStore();
 
-      if ( !isLogged ) navigator.navigate('Login');
+      if (!isLogged) navigator.navigate('Login');
     }
 
     GetAuth();
@@ -46,33 +50,42 @@ const Releases: React.FC = () => {
 
   //function to get all users plans
   useEffect(() => {
-    api.get<Plano[]>(`/lancamentos/planos-conta?login=${ store.user?.login }`, {
+    api.get<Plano[]>(`/lancamentos/planos-conta?login=${store.user?.login}`, {
       headers: {
         Authorization: store.user?.token
       }
     })
-    .then(response => {
-      let count = 0
-      response.data.forEach(() => {
-        count += 1;
+      .then(response => {
+        let count = 0
+        response.data.forEach(() => {
+          count += 1;
+        })
+        setPlans(count);
       })
-      setPlans(count);
-    })
-    .catch(err => console.log(err.response));
+      .catch(err => console.log(err.response));
   }, []);
+
+  const handleLogout = useCallback(async () => {
+    await AsyncStorage.removeItem('@token_user');
+    await AsyncStorage.removeItem('@user_name');
+
+    dispatch(sign_out());
+
+    navigator.navigate('Login');
+  }, [dispatch, navigator]);
 
   //function to make month data get a 0 in position [0]
   //if your length is less than 2. 
-  const formatDate = useCallback((date:string) => {
+  const formatDate = useCallback((date: string) => {
     var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
 
-    if (month.length < 2) 
-        month = '0' + month;
-    if (day.length < 2) 
-        day = '0' + day;
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
     return [year, month, day].join('-');
   }, []);
 
@@ -90,8 +103,8 @@ const Releases: React.FC = () => {
         }
       });
       //make launchs ordered
-      const initLaunchs = [...response.data.contaBanco.lancamentos, 
-        ...response.data.contaCredito.lancamentos];
+      const initLaunchs = [...response.data.contaBanco.lancamentos,
+      ...response.data.contaCredito.lancamentos];
       const orderedLauchs = initLaunchs.slice().sort((a, b) => {
         return Number(new Date(a.data)) - Number(new Date(b.data));
       }).reverse();
@@ -104,9 +117,9 @@ const Releases: React.FC = () => {
   };
   //hook to call loadDashInformations everytime that it
   //has rendered
-  useEffect( () => {
+  useEffect(() => {
     loadDashInformations();
-  }, [ update ])
+  }, [update])
 
 
   const show = () => {
@@ -126,8 +139,8 @@ const Releases: React.FC = () => {
       useNativeDriver: false,
     }).start();
   };
-  
-  const showMenuLeft = (action:string) => {
+
+  const showMenuLeft = (action: 'hide' | 'show') => {
 
     setHideOrShow(!hideOrShow);
     if (action === 'hide') hide();
@@ -146,7 +159,7 @@ const Releases: React.FC = () => {
           ]}>
             <MenuLeft>
               {
-                store.user && <User hide={showMenuLeft} showCancel={true} hideName={true} fromRealeases={true} user={store.user} />
+                store.user && <User hide={showMenuLeft} showCancel={true} onCancel={() => showMenuLeft('hide')} hideName={true} fromRealeases={true} user={store.user} />
               }
               <MenuContainer>
                 <Paragraph>Seu nome:</Paragraph>
@@ -157,11 +170,16 @@ const Releases: React.FC = () => {
                 <Value>{store.user?.login}</Value>
                 <Paragraph>CPF:</Paragraph>
                 <Value>000.000.000-00</Value>
-                <Line></Line>
+                <Line />
                 <Paragraph>Você tem:</Paragraph>
                 <Value>{plans} planos de conta</Value>
+                <Line />
+                <LogoutButton onPress={handleLogout}>
+                  <Feather size={14} color="#8C52E5" name="log-out" />
+                  <LogoutText>Sair</LogoutText>
+                </LogoutButton>
               </MenuContainer>
-            </MenuLeft> 
+            </MenuLeft>
           </Animated.View>
         </>
       }
@@ -174,19 +192,19 @@ const Releases: React.FC = () => {
             loading && store.user && <User show={showMenuLeft} user={store.user} />
           }
           {
-            loading && accountInfo && <Balance conta={accountInfo?.contaBanco}/>
+            loading && accountInfo && <Balance conta={accountInfo?.contaBanco} />
           }
           {
-            loading && allLaunchs && <Plans lancamentos={allLaunchs}/>
+            loading && allLaunchs && <Plans lancamentos={allLaunchs} />
           }
           {
-            loading && allLaunchs && <Launchs launchs={allLaunchs}/>
+            loading && allLaunchs && <Launchs launchs={allLaunchs} />
           }
         </Container>
       </ScrollView>
       <Bottom />
     </Main>
-    
+
   );
 }
 

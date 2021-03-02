@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import { Lancamentos } from '../../interfaces/dashboard';
 import { Container, Line, NullValues, Paragraph, Title, Value } from './style';

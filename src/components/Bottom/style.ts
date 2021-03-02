@@ -7,9 +7,10 @@ export const Container = styled.View`
   z-index: 2;
 `
 
-
 export const TabContainer = styled.View`
   flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   background-color: #68DE5A;
   height: 80px;
   border-top-left-radius: 19px;
@@ -25,8 +26,13 @@ export const ItemLayout = styled.View`
 export const LabelText = styled.Text<{ isFocused: boolean }>`
     color: ${ props => props.isFocused ? '#FFFFFF' : '#FFFFFA' };
     font-size: 12px;
+    margin-top: 4px;
 `
 
-export const TouchableButton = styled.TouchableOpacity`
+export const TouchableButton = styled.TouchableOpacity<{ isLastOne?: boolean }>`
   flex: 1;
+  ${props => !props.isLastOne && `
+    border-right-width: .5px;
+    border-right-color: lightgray;
+  `}
 `

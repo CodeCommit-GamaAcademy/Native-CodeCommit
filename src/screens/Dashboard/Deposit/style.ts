@@ -8,7 +8,7 @@ export const Container = styled.SafeAreaView`
     background: #8C52E5;
 `;
 
-export const Main = styled.SafeAreaView`
+export const Main = styled.KeyboardAvoidingView`
   flex: 1;
   background: #8C52E5;
 `
@@ -72,7 +72,7 @@ export const InputSelect = styled.View`
     margin-top: 45px;
 `
 
-export const ButtonSubmit = styled.View`
+export const ButtonSubmit = styled.TouchableOpacity`
     width: 100%;
     height: 56px;
     background: #68DE5A;
