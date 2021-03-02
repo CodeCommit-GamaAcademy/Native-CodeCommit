@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { Container, ItemLayout, LabelText, TouchableButton, TabContainer } from './style';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,18 +7,19 @@ import { useNavigation } from '@react-navigation/native';
 import LaunchsSvg from '../../assets/svgs/Launchs';
 import DepositSvg from '../../assets/svgs/Deposit';
 import PlansSvg from '../../assets/svgs/Plans';
-import { useSelector } from 'react-redux';
-import { ApplicationStore } from '../../store';
 
 
 export default function Bottom() {
   const navigator = useNavigation();
 
-  const { currentScreen } = useSelector((store: ApplicationStore) => store.app);
+  const [ currentScreen, setCurrentScreen ] = useState('Lancamentos');
 
   const handleChangePage = useCallback((RouteName: string, optionsToNavige?: object) => {
-    if ( RouteName !== currentScreen ) navigator.navigate(RouteName, optionsToNavige);
-  }, [ currentScreen ]);
+    if ( RouteName != currentScreen ) {
+      setCurrentScreen(RouteName);
+      navigator.navigate(RouteName, optionsToNavige);
+    }
+  }, [ navigator, currentScreen ]);
   
   return (
     <Container>
