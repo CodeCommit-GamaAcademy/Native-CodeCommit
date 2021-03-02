@@ -34,15 +34,9 @@ import Bottom from '../../../components/Bottom';
 import ValidateCurrentToken from '../../../services/ValidateCurrentToken';
 import updateStore from '../../../services/updateStore';
 import User from '../../../components/User';
-import { set_current_screen } from '../../../store/app/actions';
 
 const Plans: React.FC = () => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(set_current_screen('Planos'));
-  }, []);
 
   useEffect(() => {
     const GetAuth = async () => {

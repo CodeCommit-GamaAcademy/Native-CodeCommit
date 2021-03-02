@@ -19,7 +19,6 @@ import { Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { sign_out } from '../../../store/user/actions';
 import maskCPF from '../../../utils/maskCpf';
-import { set_current_screen } from '../../../store/app/actions';
 
 const Releases: React.FC = () => {
   const navigator = useNavigation();
@@ -39,10 +38,6 @@ const Releases: React.FC = () => {
   navigator.addListener('focus', () => {
     setUpdate(!update);
   });
-
-  useEffect(() => {
-    dispatch(set_current_screen('Lancamentos'));
-  }, []);
 
   useEffect(() => {
     const GetAuth = async () => {
