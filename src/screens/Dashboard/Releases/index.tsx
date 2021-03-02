@@ -161,7 +161,7 @@ const Releases: React.FC = () => {
   return (
     <>
       <Main>
-        {isExiting && <LogoutModal />}
+        {isExiting && <LogoutModal accept={ handleLogout } decline={ () => setIsExiting(false) } />}
         <MainContainer
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -208,7 +208,7 @@ const Releases: React.FC = () => {
                 <Paragraph>Você tem:</Paragraph>
                 <Value>{plans} planos de conta</Value>
                 <Line />
-                <LogoutButton onPress={handleLogout}>
+                <LogoutButton onPress={() => setIsExiting(true)}>
                   <Feather size={14} color="#8C52E5" name="log-out" />
                   <LogoutText>Sair</LogoutText>
                 </LogoutButton>
