@@ -18,6 +18,7 @@ import updateStore from '../../../services/updateStore';
 import { Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { sign_out } from '../../../store/user/actions';
+import maskCPF from '../../../utils/maskCpf';
 
 const Releases: React.FC = () => {
   const navigator = useNavigation();
@@ -182,40 +183,34 @@ const Releases: React.FC = () => {
             </Container>
           </ScrollView>
         </MainContainer>
-        {
-          <>
-            <Animated.View style={[
-              styles.fadingContainer,
+          <Animated.View style={[
+            styles.fadingContainer,
+            {
+              left: fadeAnim,
+            }
+          ]}>
+            <MenuLeft>
               {
-                left: fadeAnim,
+                store.user && <User hide={showMenuLeft} showCancel={true} onCancel={() => showMenuLeft('hide')} hideName={true} fromRealeases={true} user={store.user} />
               }
-            ]}>
-              <MenuLeft>
-                {
-                  store.user && <User hide={showMenuLeft} showCancel={true} onCancel={() => showMenuLeft('hide')} hideName={true} fromRealeases={true} user={store.user} />
-                }
-                <MenuContainer>
-                  <Paragraph>Seu nome:</Paragraph>
-                  <Value>{ store.user?.name }</Value>
-                  <Paragraph>Email:</Paragraph>
-                  <Value>email@email.com</Value>
-                  <Paragraph>Username:</Paragraph>
-                  <Value>{ store.user?.login }</Value>
-                  <Paragraph>CPF:</Paragraph>
-                  <Value>{ store.user?.cpf }</Value>
-                  <Line />
-                  <Paragraph>Você tem:</Paragraph>
-                  <Value>{plans} planos de conta</Value>
-                  <Line />
-                  <LogoutButton onPress={handleLogout}>
-                    <Feather size={14} color="#8C52E5" name="log-out" />
-                    <LogoutText>Sair</LogoutText>
-                  </LogoutButton>
-                </MenuContainer>
-              </MenuLeft>
-            </Animated.View>
-          </>
-        }
+              <MenuContainer>
+                <Paragraph>Seu nome:</Paragraph>
+                <Value>{ store.user?.name }</Value>
+                <Paragraph>Username:</Paragraph>
+                <Value>{ store.user?.login }</Value>
+                <Paragraph>CPF:</Paragraph>
+                <Value>{ store.user && maskCPF(store.user.cpf) }</Value>
+                <Line />
+                <Paragraph>Você tem:</Paragraph>
+                <Value>{plans} planos de conta</Value>
+                <Line />
+                <LogoutButton onPress={handleLogout}>
+                  <Feather size={14} color="#8C52E5" name="log-out" />
+                  <LogoutText>Sair</LogoutText>
+                </LogoutButton>
+              </MenuContainer>
+            </MenuLeft>
+          </Animated.View>
       </Main>
       <Bottom />
     </>
