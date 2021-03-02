@@ -5,6 +5,7 @@ import { Platform, View } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import { useSelector } from 'react-redux';
 import Bottom from '../../../components/Bottom';
+import { RouteProp } from '@react-navigation/native';
 
 import User from '../../../components/User';
 import updateStore from '../../../services/updateStore';
@@ -13,9 +14,16 @@ import { ApplicationStore } from '../../../store';
 import { ContainerScrollView, Container, InputForm, ContainerForm, ButtonSubmit, ButtonSubmitText, TitleForm, SelectForm, Main } from './style';
 
 // import { Container } from './styles';
+interface RouterType {
+  routerType: string;
+  params: object;
+  
+}
 
-const Transfer: React.FC = () => {
+const Transfer: React.FC <RouteProp<{ params: { routerType: string } }, 'params'>> = (props) => {
   const navigation = useNavigation();
+
+  console.log(props.params)
 
   useEffect(() => {
     const GetAuth = async () => {
@@ -23,6 +31,7 @@ const Transfer: React.FC = () => {
       const isLogged = await updateStore();
 
       if ( !isLogged ) navigation.navigate('Login');
+      
     }
 
     GetAuth();

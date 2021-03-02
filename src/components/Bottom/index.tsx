@@ -17,7 +17,7 @@ export default function Bottom() {
       <TabContainer>
           <TouchableButton
             accessibilityRole="button"
-            onPress={() => navigator.navigate('Transferir')}
+            onPress={() => navigator.navigate('Transferir') }
           >
             <ItemLayout>
               <Ionicons name="swap-horizontal-outline" size={25} color="white" />
