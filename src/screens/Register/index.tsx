@@ -60,6 +60,18 @@ const Register: React.FC = () => {
                 abortEarly: false
             });
 
+            if (data.password !== data.confirmPassword) {
+                toast({
+                    message: 'As senhas devem ser iguais!',
+                    color: 'error',
+                    iconColor: 'error',
+                    accentColor: 'error',
+                    iconName: 'x'
+                });
+
+                throw new Error('the password must be equal!')
+            };
+
             const { status } = await api.post('/usuarios', {
                 "cpf": data.cpf,
                 "login": data.username,
@@ -95,15 +107,14 @@ const Register: React.FC = () => {
             if (err instanceof yup.ValidationError) {
                 const errors = getValidationErrors(err);
                 formRef.current?.setErrors(errors);
-
-                toast({
-                    message: 'Ocorreu algum erro!',
-                    color: 'error',
-                    iconColor: 'error',
-                    accentColor: 'error',
-                    iconName: 'x'
-                });
             }
+            toast({
+                message: 'Ocorreu algum erro!',
+                color: 'error',
+                iconColor: 'error',
+                accentColor: 'error',
+                iconName: 'x'
+            });
         } finally {
             setLoading(false);
         }
@@ -147,7 +158,6 @@ const Register: React.FC = () => {
 
                             <Input
                                 ref={nameInputRef}
-                                autoCapitalize="words"
                                 name="name"
                                 placeholder="Nome completo"
                                 returnKeyType="next"
