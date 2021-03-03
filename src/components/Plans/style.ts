@@ -5,13 +5,12 @@ export const Container = styled.View`
   margin-top: 30px;
   background-color: #FFFFFF;
   border-radius: 10px;
-  padding: 25px ;
+  padding: 40px 25px;
   width: ${Dimensions.get('window').width - 50}px;
 `;
 
 export const Title = styled.Text`
   margin-left: 60px;
-  margin-top: 20px;
   color: #9B9B9B;
 `
 
