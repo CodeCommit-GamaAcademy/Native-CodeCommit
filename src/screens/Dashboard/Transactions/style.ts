@@ -31,7 +31,7 @@ export const Title = styled.Text`
 export const DepositCard = styled.View`
     width: 336px;
     background: #fff;
-    border-radius: 8px;
+    border-radius: 10px;
     margin: 30px 0;
     padding: 40px;
 `

@@ -29,7 +29,7 @@ export const Card = styled.View`
   width: 325px;
   padding: 30px;
   background: #fff;
-  border-radius: 8px;
+  border-radius: 10px;
   justify-content: space-between;
 `;
 export const Title = styled.Text`

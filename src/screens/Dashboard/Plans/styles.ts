@@ -1,15 +1,13 @@
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 
-export const Container = styled.SafeAreaView`
-    background-color: #8C52E5;
+export const Container = styled.View`
     flex: 1;
+    background-color: #8C52E5;
 
     justify-content: center;
     align-items: center;
-    padding-top: 50px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 40px 25px 0px 25px;
 `;
 
 export const HeaderWrapper = styled.View`
@@ -17,7 +15,7 @@ export const HeaderWrapper = styled.View`
     width: 100%;
 `
 
-export const Main = styled.SafeAreaView`
+export const Main = styled.View`
   flex: 1;
   background: #8C52E5;
 `
@@ -25,9 +23,8 @@ export const Main = styled.SafeAreaView`
 export const PlansContainer = styled.ScrollView`
     background-color: #fff;
     width: 100%;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    padding: 20px;
+    border-radius: 10px;
+    padding: 40px 25px 0px 25px;
     margin-top: -20px;
 `
 
@@ -66,7 +63,7 @@ export const PlusButton = styled.TouchableOpacity`
 
 // Add Plans Modal
 
-export const ModalContainer = styled.SafeAreaView`
+export const ModalContainer = styled.View`
     flex: 1;
     position: absolute;
     top: 0;
@@ -127,7 +124,7 @@ export const AddButton = styled.TouchableOpacity`
     width: 100%;
 
     border: 0;
-    border-radius: 8px;
+    border-radius: 10px;
     background: #8C52E5;
 
     flex-direction: row;

@@ -23,13 +23,15 @@ export const Container = styled.KeyboardAvoidingView`
   justify-content: center;
   flex: 1;
   height: 100%;
+  padding: 40px 25px 0px 25px;
+
 `;
 
 export const CardForm = styled.View`
   background: #fff;
-  width: 90%;
+  width: 100%;
   padding: 42px 36px;
-  border-radius: 8px;
+  border-radius: 10px;
   margin-top: -30px;
 `;
 

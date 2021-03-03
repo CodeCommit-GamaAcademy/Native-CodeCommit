@@ -9,7 +9,7 @@ import Launchs from '../../../components/Launchs';
 import { Contas, Lancamentos, Plano } from '../../../interfaces/dashboard';
 import api from '../../../services/api';
 import { ApplicationStore } from '../../../store';
-import { Animated, StyleSheet, Dimensions, RefreshControl } from 'react-native';
+import { Animated, StyleSheet, Dimensions, RefreshControl, Platform } from 'react-native';
 import Bottom from '../../../components/Bottom';
 import { useNavigation } from '@react-navigation/native';
 import Loader from '../../../components/Loader';
@@ -30,10 +30,9 @@ const Releases: React.FC = () => {
   const [allLaunchs, setAllLaunchs] = useState<Lancamentos[]>();
   const [accountInfo, setAccountInfo] = useState<Contas>();
   const [loading, setLoading] = useState(false);
-  const [hideOrShow, setHideOrShow] = useState(false);
   const [plans, setPlans] = useState(0);
   const [update, setUpdate] = useState(false);
-  const [ isExiting, setIsExiting ] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
 
   //here its a way to update this page everytime when 
   //the navigation turn here
@@ -72,10 +71,10 @@ const Releases: React.FC = () => {
   const handleLogout = useCallback(async () => {
     await AsyncStorage.removeItem('@token_user');
     await AsyncStorage.removeItem('@user_data');
-
     dispatch(sign_out());
-
     navigator.navigate('Login');
+    setIsExiting(false);
+    showMenuLeft('hide');
   }, [dispatch, navigator]);
 
   //function to make month data get a 0 in position [0]
@@ -145,10 +144,8 @@ const Releases: React.FC = () => {
   };
 
   const showMenuLeft = (action: 'hide' | 'show') => {
-
-    setHideOrShow(!hideOrShow);
     if (action === 'hide') hide();
-    if (action === 'show') show();
+    else if (action === 'show') show();
   }
 
   const [refreshing, setRefreshing] = useState(false);
@@ -161,7 +158,7 @@ const Releases: React.FC = () => {
   return (
     <>
       <Main>
-        {isExiting && <LogoutModal accept={ handleLogout } decline={ () => setIsExiting(false) } />}
+        {isExiting && <LogoutModal accept={handleLogout} decline={() => setIsExiting(false)} />}
         <MainContainer
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -173,7 +170,7 @@ const Releases: React.FC = () => {
                 !loading && <Loader changeColor={true} marginTop={34} />
               }
               {
-                loading && store.user && <User show={showMenuLeft} user={store.user} />
+                loading && store.user && <User onAction={() => showMenuLeft('show')} user={store.user} />
               }
               {
                 loading && accountInfo && <Balance conta={accountInfo?.contaBanco} />
@@ -187,34 +184,32 @@ const Releases: React.FC = () => {
             </Container>
           </ScrollView>
         </MainContainer>
-          <Animated.View style={[
-            styles.fadingContainer,
+        <Animated.View style={{
+          ...styles.fadingContainer,
+          left: fadeAnim,
+        }}>
+          <MenuLeft>
             {
-              left: fadeAnim,
+              store.user && <User showCancel={true} onCancel={() => showMenuLeft('hide')} hideName={true} fromRealeases={true} user={store.user} />
             }
-          ]}>
-            <MenuLeft>
-              {
-                store.user && <User hide={showMenuLeft} showCancel={true} onCancel={() => showMenuLeft('hide')} hideName={true} fromRealeases={true} user={store.user} />
-              }
-              <MenuContainer>
-                <Paragraph>Seu nome:</Paragraph>
-                <Value>{ store.user?.name }</Value>
-                <Paragraph>Username:</Paragraph>
-                <Value>{ store.user?.login }</Value>
-                <Paragraph>CPF:</Paragraph>
-                <Value>{ store.user && maskCPF(store.user.cpf) }</Value>
-                <Line />
-                <Paragraph>Você tem:</Paragraph>
-                <Value>{plans} planos de conta</Value>
-                <Line />
-                <LogoutButton onPress={() => setIsExiting(true)}>
-                  <Feather size={14} color="#8C52E5" name="log-out" />
-                  <LogoutText>Sair</LogoutText>
-                </LogoutButton>
-              </MenuContainer>
-            </MenuLeft>
-          </Animated.View>
+            <MenuContainer>
+              <Paragraph>Seu nome:</Paragraph>
+              <Value>{store.user?.name}</Value>
+              <Paragraph>Username:</Paragraph>
+              <Value>{store.user?.login}</Value>
+              <Paragraph>CPF:</Paragraph>
+              <Value>{store.user && maskCPF(store.user.cpf)}</Value>
+              <Line />
+              <Paragraph>Você tem:</Paragraph>
+              <Value>{plans} planos de conta</Value>
+              <Line />
+              <LogoutButton onPress={() => setIsExiting(true)}>
+                <Feather size={14} color="#8C52E5" name="log-out" />
+                <LogoutText>Sair</LogoutText>
+              </LogoutButton>
+            </MenuContainer>
+          </MenuLeft>
+        </Animated.View>
         <Bottom />
       </Main>
     </>

@@ -1,99 +1,129 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
+import { Platform, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import { Feather } from '@expo/vector-icons';
-
-import { SafeAreaContainer, ScrollContainer, Container, FormContainer, Logo, FormTitle, FormInput, SubmitButton, SubmitText, SubmitTextWrapper, ReturnLink, ReturnText } from './styles';
-import Loader from '../../components/Loader';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useToast } from 'react-native-styled-toast';
+import { Form } from '@unform/mobile';
+import { FormHandles } from '@unform/core';
+import * as yup from 'yup';
+import getValidationErrors from '../../utils/getValidationErrors';
 
 import LogoImg from '../../assets/logo.png';
-import { Platform } from 'react-native';
+
 import api from '../../services/api';
-import { useToast } from 'react-native-styled-toast'
+import { SafeAreaContainer, ScrollContainer, Container, FormContainer, Logo, FormTitle, FormInput, SubmitButton, SubmitText, SubmitTextWrapper, ReturnLink, ReturnText } from './styles';
+import Loader from '../../components/Loader';
+import Input from '../../components/Input';
+
+interface RegisterFormData {
+    cpf: string;
+    username: string;
+    name: string;
+    password: string;
+    confirmPassword: string;
+}
+
 import { UserResponse } from '../../types/user';
 
 
 const Register: React.FC = () => {
     const navigator = useNavigation();
     const { toast } = useToast();
-
-    const [cpf, setCpf] = useState('');
-    const [name, setName] = useState('');
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
-
     const [isFilled, setIsFilled] = useState(true);
 
     const handleGoLogin = useCallback(() => {
         navigator.navigate('Login');
     }, [navigator]);
 
-    const handleSubmit = useCallback(async () => {
-        setLoading(true);
-        // Validate TODO
-        if (password !== confirmPassword) {
-            toast(
-                { 
-                  message: 'As senhas não batem!', 
-                  color: 'error', 
-                  iconColor: 'error', 
-                  accentColor: 'error', 
-                  iconName: 'x' 
-                });
-            setLoading(false);
-            
-            return;
-        }
+    const formRef = useRef<FormHandles>(null);
+    const usernameInputRef = useRef<TextInput>(null);
+    const nameInputRef = useRef<TextInput>(null);
+    const passwordInputRef = useRef<TextInput>(null);
+    const confirmPasswordInputRef = useRef<TextInput>(null);
 
+    const handleSubmit = useCallback(async (data: RegisterFormData) => {
+        setLoading(true);
         try {
+            formRef.current?.setErrors({});
+
+            const schema = yup.object().shape({
+                cpf: yup.string().min(14, 'Obrigatório ter 11 digitos'),
+                username: yup.string().required('Nome de usuário obrigatório '),
+                name: yup.string().required('Nome completo obrigatório'),
+                password: yup.string().min(6, 'No mínimo 6 digitos'),
+                confirmPassword: yup.string().min(6, 'No mínimo 6 digitos')
+            });
+
+            await schema.validate(data, {
+                abortEarly: false
+            });
+
+            console.log(data.password);
+            console.log(data.confirmPassword);
+
+
+            if (data.password !== data.confirmPassword) {
+                toast({
+                    message: 'As senhas devem ser iguais!',
+                    color: 'error',
+                    iconColor: 'error',
+                    accentColor: 'error',
+                    iconName: 'x'
+                });
+                setLoading(false);
+                return;
+            }
+
             const { status } = await api.post('/usuarios', {
-                "cpf": cpf,
-                "login": username,
-                "nome": name,
-                "senha": password,
+                "cpf": data.cpf,
+                "login": data.username,
+                "nome": data.name,
+                "senha": data.password,
             });
 
             if (status === 200 || status === 201) {
-                const { data } = await api.post<UserResponse>('/login', {
-                    "usuario": username,
-                    "senha": password
+                const { data: response } = await api.post<UserResponse>('/login', {
+                    "usuario": data.username,
+                    "senha": data.password
                 });
 
-                await AsyncStorage.setItem('@token_user', data.token);
+                await AsyncStorage.setItem('@token_user', response.token);
                 await AsyncStorage.setItem('@user_data', JSON.stringify({
-                    name: data.usuario.nome,
-                    cpf: data.usuario.cpf
+                    name: response.usuario.nome,
+                    cpf: response.usuario.cpf
                 }));
 
                 toast({ message: 'Usuário registrado com sucesso!' });
                 navigator.navigate('RegisterSucceded');
             } else {
-                toast(
-                    { 
-                      message: 'Ocorreu algum erro!', 
-                      color: 'error', 
-                      iconColor: 'error', 
-                      accentColor: 'error', 
-                      iconName: 'x' 
-                    });
-            }
-        } catch (err) {
-            toast(
-                { 
-                  message: 'Preencha todas as informações!', 
-                  color: 'error', 
-                  iconColor: 'error', 
-                  accentColor: 'error', 
-                  iconName: 'x' 
+                toast({
+                    message: 'Ocorreu algum erro!',
+                    color: 'error',
+                    iconColor: 'error',
+                    accentColor: 'error',
+                    iconName: 'x'
                 });
-            console.log(err.response);
+            }
+
+        } catch (err) {
+            if (err instanceof yup.ValidationError) {
+                const errors = getValidationErrors(err);
+                formRef.current?.setErrors(errors);
+
+                toast({
+                    message: 'Ocorreu algum erro!',
+                    color: 'error',
+                    iconColor: 'error',
+                    accentColor: 'error',
+                    iconName: 'x'
+                });
+            }
         } finally {
             setLoading(false);
         }
-    }, [cpf, username, name, password, confirmPassword, navigator]);
+    }, [navigator]);
 
     return (
         <SafeAreaContainer>
@@ -105,54 +135,97 @@ const Register: React.FC = () => {
                 >
                     <Logo source={LogoImg} />
                     <FormContainer>
-                        <FormTitle>Peça sua conta e cartão de crédito do Gama Bank</FormTitle>
+                        <Form ref={formRef} onSubmit={handleSubmit}>
+                            <FormTitle>Peça sua conta e cartão de crédito do Gama Bank</FormTitle>
 
-                        <FormInput
-                            placeholder="Digite seu CPF"
-                            onChangeText={text => setCpf(text)}
-                            value={cpf}
-                        />
-                        <FormInput
-                            placeholder="Escolha um nome de usuário"
-                            onChangeText={text => setUsername(text)}
-                            value={username}
-                        />
-                        <FormInput
-                            placeholder="Nome completo"
-                            onChangeText={text => setName(text)}
-                            value={name}
-                        />
-                        <FormInput
-                            placeholder="Digite sua senha"
-                            onChangeText={text => setPassword(text)}
-                            value={password}
-                            secureTextEntry
-                        />
+                            <Input
+                                autoCorrect={false}
+                                autoCapitalize="none"
+                                name="cpf"
+                                keyboardType="numeric"
+                                placeholder="Digite seu CPF"
+                                returnKeyType="next"
+                                onSubmitEditing={() => {
+                                    usernameInputRef.current?.focus();
+                                }}
+                            />
+
+                            <Input
+                                ref={usernameInputRef}
+                                autoCapitalize="none"
+                                name="username"
+                                placeholder="Escolha um nome de usuário"
+                                returnKeyType="next"
+                                onSubmitEditing={() => {
+                                    nameInputRef.current?.focus();
+                                }}
+                            />
+
+                            <Input
+                                ref={nameInputRef}
+                                autoCapitalize="words"
+                                name="name"
+                                placeholder="Nome completo"
+                                returnKeyType="next"
+                                onSubmitEditing={() => {
+                                    passwordInputRef.current?.focus();
+                                }}
+                            />
+
+                            <Input
+                                ref={passwordInputRef}
+                                autoCapitalize="none"
+                                name="password"
+                                placeholder="Digite sua senha"
+                                returnKeyType="next"
+                                secureTextEntry
+                                onSubmitEditing={() => {
+                                    passwordInputRef.current?.focus();
+                                }}
+                            />
+
+                            <Input
+                                ref={confirmPasswordInputRef}
+                                autoCapitalize="none"
+                                name="confirmPassword"
+                                placeholder="Confirme sua senha"
+                                returnKeyType="send"
+                                secureTextEntry
+                                onSubmitEditing={() => {
+                                    formRef.current?.submitForm();
+                                }}
+                            />
+
+                            {/* 
+                      
                         <FormInput
                             placeholder="Confirme sua senha"
                             onChangeText={text => setConfirmPassword(text)}
                             value={confirmPassword}
                             secureTextEntry
-                        />
+                        /> */}
 
-                        {loading ? (
-                            <Loader marginTop={9} />
-                        ) : (
-                                <SubmitButton
-                                    isActive={isFilled}
-                                    onPress={handleSubmit}
-                                    disabled={!isFilled}
-                                >
-                                    <SubmitTextWrapper>
-                                        <SubmitText isActive={isFilled} >Continuar</SubmitText>
-                                        <Feather name="arrow-right" size={20} color={isFilled ? "#fff" : "#9B9B9B"} />
-                                    </SubmitTextWrapper>
-                                </SubmitButton>
-                            )}
+                            {loading ? (
+                                <Loader marginTop={9} />
+                            ) : (
+                                    <SubmitButton
+                                        isActive={isFilled}
+                                        onPress={() => {
+                                            formRef.current?.submitForm();
+                                        }}
+                                        disabled={!isFilled}
+                                    >
+                                        <SubmitTextWrapper>
+                                            <SubmitText isActive={isFilled} >Continuar</SubmitText>
+                                            <Feather name="arrow-right" size={20} color={isFilled ? "#fff" : "#9B9B9B"} />
+                                        </SubmitTextWrapper>
+                                    </SubmitButton>
+                                )}
 
-                        <ReturnLink onPress={handleGoLogin} >
-                            <ReturnText>&#60; Voltar para login</ReturnText>
-                        </ReturnLink>
+                            <ReturnLink onPress={handleGoLogin} >
+                                <ReturnText>&#60; Voltar para login</ReturnText>
+                            </ReturnLink>
+                        </Form>
                     </FormContainer>
                 </Container>
             </ScrollContainer>

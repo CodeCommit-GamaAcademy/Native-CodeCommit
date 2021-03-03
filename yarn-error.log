@@ -3,9 +3,14 @@ Arguments:
 
 PATH: 
   C:\Users\ana.conceicao\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\ana.conceicao\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\150\Tools\Binn;C:\Program Files\Microsoft SQL Server\150\Tools\Binn;C:\Program Files\Microsoft SQL Server\150\DTS\Binn;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn;C:\Program Files\apache-maven-3.6.3\bin;C:\Program Files\MySQL\MySQL Shell 8.0\bin;C:\Users\ana.conceicao\AppData\Local\Microsoft\WindowsApps;C:\Users\ana.conceicao\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\ana.conceicao\AppData\Roaming\npm;C:\Users\ana.conceicao\codenation;C:\Program Files\MongoDB\Server\4.2\bin;C:\Program Files\7-Zip;C:\Program Files\JetBrains\IntelliJ IDEA 2020.2\bin;C:\Program Files\apache-maven-3.6.3\bin;C:\Program Files\heroku\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
+  /Users/igorsantos/.nvm/versions/node/v12.18.0/bin/node /usr/local/Cellar/yarn/1.22.4/libexec/bin/yarn.js add @unforme/mobile
+  /home/gabriel/.nvm/versions/node/v14.15.5/bin/node /home/gabriel/.nvm/versions/node/v14.15.5/bin/yarn add @types/react-native-styled-toast -D
+
+PATH: 
+  /Users/igorsantos/.composer/vendor/bin:/Applications/MAMP/bin/php/php7.4.2/bin/:/Users/igorsantos/Library/Android/sdk/tools:/Users/igorsantos/Library/Android/sdk/platform-tools:/Users/igorsantos/.nvm/versions/node/v12.18.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/igorsantos/.composer/vendor/bin:/Applications/MAMP/bin/php/php7.4.2/bin/:/Users/igorsantos/Library/Android/sdk/tools:/Users/igorsantos/Library/Android/sdk/platform-tools:/Users/igorsantos/.nvm/versions/node/v12.18.0/bin:~/flutter/bin:~/flutter/bin
 
 Yarn version: 
-  1.22.10
+  1.22.4
 
 Node version: 
   12.16.2
@@ -25,6 +30,34 @@ Trace:
       at IncomingMessage.emit (events.js:322:22)
       at endReadableNT (_stream_readable.js:1187:12)
       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  12.18.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/@unforme%2fmobile: Not found
+      at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:66987:18)
+      at Request.self.callback (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:140748:22)
+      at Request.emit (events.js:315:20)
+      at Request.<anonymous> (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:141720:10)
+      at Request.emit (events.js:315:20)
+      at IncomingMessage.<anonymous> (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:141642:12)
+      at Object.onceWrapper (events.js:421:28)
+      at IncomingMessage.emit (events.js:327:22)
+      at endReadableNT (_stream_readable.js:1221:12)
+      at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: https://registry.yarnpkg.com/@types%2freact-native-styled-toast: Not found
+      at Request.params.callback [as _callback] (/home/gabriel/.nvm/versions/node/v14.15.5/lib/node_modules/yarn/lib/cli.js:66988:18)
+      at Request.self.callback (/home/gabriel/.nvm/versions/node/v14.15.5/lib/node_modules/yarn/lib/cli.js:140662:22)
+      at Request.emit (events.js:315:20)
+      at Request.<anonymous> (/home/gabriel/.nvm/versions/node/v14.15.5/lib/node_modules/yarn/lib/cli.js:141634:10)
+      at Request.emit (events.js:315:20)
+      at IncomingMessage.<anonymous> (/home/gabriel/.nvm/versions/node/v14.15.5/lib/node_modules/yarn/lib/cli.js:141556:12)
+      at Object.onceWrapper (events.js:421:28)
+      at IncomingMessage.emit (events.js:327:22)
+      at endReadableNT (internal/streams/readable.js:1327:12)
+      at processTicksAndRejections (internal/process/task_queues.js:80:21)
 
 npm manifest: 
   {
@@ -43,7 +76,12 @@ npm manifest:
       "@react-navigation/bottom-tabs": "^5.11.8",
       "@react-navigation/native": "^5.9.3",
       "@react-navigation/stack": "^5.14.3",
+<<<<<<< HEAD
       "@types/react-native-datepicker": "^1.7.0",
+=======
+      "@unform/core": "^2.1.6",
+      "@unform/mobile": "^2.1.6",
+>>>>>>> fb6b9b15c3132d7b380ac1fcfe8d68eb7b97ad4e
       "axios": "^0.21.1",
       "expo": "^40.0.1",
       "expo-status-bar": "~1.0.3",
@@ -2166,6 +2204,20 @@ Lockfile:
     dependencies:
       "@types/yargs-parser" "*"
   
+  "@unform/core@2.1.6", "@unform/core@^2.1.6":
+    version "2.1.6"
+    resolved "https://registry.yarnpkg.com/@unform/core/-/core-2.1.6.tgz#75df5fe813d4e94af46ad3570da068ff13d71b99"
+    integrity sha512-coz9rOS1Y+0zygxTTQB+hY1HJ5ee0A40KBdIy/1IdaiFGT5LhZhCWqMorFh8KcqY3J+SInrpGDMmJYObsjEW9w==
+    dependencies:
+      dot-object "^2.1.4"
+  
+  "@unform/mobile@^2.1.6":
+    version "2.1.6"
+    resolved "https://registry.yarnpkg.com/@unform/mobile/-/mobile-2.1.6.tgz#d55bfd2a943662a5783287dbe8d2639792d55c47"
+    integrity sha512-ny5xnzj0tFSRISALgc6dUikG6LSeS1SOKCzYXdV625yZ1r72lc7RUExeps3gmHjdvALeXHQodtot/DuFoBSh3w==
+    dependencies:
+      "@unform/core" "2.1.6"
+  
   "@unimodules/core@~6.0.0":
     version "6.0.0"
     resolved "https://registry.yarnpkg.com/@unimodules/core/-/core-6.0.0.tgz#c76ca5ca92128a059c62bb0c24d0372aaf908408"
@@ -2906,6 +2958,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
     integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
   
+  commander@^4.0.0:
+    version "4.1.1"
+    resolved "https://registry.yarnpkg.com/commander/-/commander-4.1.1.tgz#9fd602bd936294e9e9ef46a3f4d6964044b18068"
+    integrity sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==
+  
   commander@^5.1.0:
     version "5.1.0"
     resolved "https://registry.yarnpkg.com/commander/-/commander-5.1.0.tgz#46abbd1652f8e059bddaef99bbdcb2ad9cf179ae"
@@ -3257,6 +3314,14 @@ Lockfile:
     dependencies:
       dom-serializer "0"
       domelementtype "1"
+  
+  dot-object@^2.1.4:
+    version "2.1.4"
+    resolved "https://registry.yarnpkg.com/dot-object/-/dot-object-2.1.4.tgz#c6c54e9fca510b4d0ea4d65acf33726963843b5f"
+    integrity sha512-7FXnyyCLFawNYJ+NhkqyP9Wd2yzuo+7n9pGiYpkmXCTYa8Ci2U0eUNDVg5OuO5Pm6aFXI2SWN8/N/w7SJWu1WA==
+    dependencies:
+      commander "^4.0.0"
+      glob "^7.1.5"
   
   ee-first@1.1.1:
     version "1.1.1"
@@ -3932,7 +3997,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/getenv/-/getenv-0.7.0.tgz#39b91838707e2086fd1cf6ef8777d1c93e14649e"
     integrity sha1-ObkYOHB+IIb9HPbvh3fRyT4UZJ4=
   
-  glob@7.1.6, glob@^7.1.2, glob@^7.1.3, glob@^7.1.6:
+  glob@7.1.6, glob@^7.1.2, glob@^7.1.3, glob@^7.1.5, glob@^7.1.6:
     version "7.1.6"
     resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.6.tgz#141f33b81a7c2492e125594307480c46679278a6"
     integrity sha512-LwaxwyZ72Lk7vZINtNNrywX0ZuLyStrdDtabefZKAY5ZGJhVtgdznluResxNmPitE0SAO+O26sWTHeKSI2wMBA==

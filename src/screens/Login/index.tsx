@@ -1,27 +1,36 @@
-import React, { useCallback, useState } from 'react';
-
-import { LogoImg, SafeAreaContainer, ContainerScrollView, Container, CardForm, TitleForm, InputForm, ButtonSubmit, ButtonSubmitText, LinkForm, LinkFormText } from './styles';
-
+import React, { useCallback, useRef, useState } from 'react';
+import { TextInput } from 'react-native';
 import { useDispatch } from 'react-redux';
-
 import { Feather } from '@expo/vector-icons';
-import Loader from '../../components/Loader';
+import { useToast } from 'react-native-styled-toast'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import { Form } from '@unform/mobile';
+import { FormHandles } from '@unform/core';
+import * as yup from 'yup';
+import getValidationErrors from '../../utils/getValidationErrors';
 
 import GamaLogo from '../../assets/logo.png';
-import { useNavigation } from '@react-navigation/native';
-import api from '../../services/api';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { sign_in } from '../../store/user/actions';
-import { UserResponse } from '../../types/user';
-import { useToast } from 'react-native-styled-toast'
 
+import { UserResponse } from '../../types/user';
+import { sign_in } from '../../store/user/actions';
+import api from '../../services/api';
+import Loader from '../../components/Loader';
+import Input from '../../components/Input';
+import { LogoImg, SafeAreaContainer, ContainerScrollView, Container, CardForm, TitleForm, InputForm, ButtonSubmit, ButtonSubmitText, LinkForm, LinkFormText } from './styles';
+
+
+interface SignInFormData {
+  username: string;
+  password: string;
+}
 const Login: React.FC = () => {
   const { toast } = useToast();
-  const navigator = useNavigation();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const navigator = useNavigation();
+  const formRef = useRef<FormHandles>(null);
+  const passwordInputRef = useRef<TextInput>(null);
 
   const handleGoForgetPassword = useCallback(() => {
     navigator.navigate('ForgetPassword');
@@ -30,12 +39,23 @@ const Login: React.FC = () => {
     navigator.navigate('Register');
   }, [navigator]);
 
-  const handleGoHome = useCallback(async () => {
+  const handleGoHome = useCallback(async (data: SignInFormData) => {
     setLoading(true);
     try {
+      formRef.current?.setErrors({});
+
+      const schema = yup.object().shape({
+        username: yup.string().required('Nome de usuário obrigatório'),
+        password: yup.string().required('Senha obrigatória'),
+      });
+
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+
       const { data: response } = await api.post<UserResponse>('login', {
-        usuario: username,
-        senha: password,
+        usuario: data.username,
+        senha: data.password,
       });
 
       await AsyncStorage.setItem('@token_user', response.token);
@@ -54,18 +74,17 @@ const Login: React.FC = () => {
       navigator.navigate('Dashboard');
     } catch (err) {
       toast(
-        { 
-          message: 'Usuário ou senha incorretos!', 
-          color: 'error', 
-          iconColor: 'error', 
-          accentColor: 'error', 
-          iconName: 'x' 
+        {
+          message: 'Usuário ou senha incorretos!',
+          color: 'error',
+          iconColor: 'error',
+          accentColor: 'error',
+          iconName: 'x'
         });
     } finally {
       setLoading(false);
     }
-
-  }, [navigator, username, password]);
+  }, [navigator]);
 
   return (
     <ContainerScrollView>
@@ -76,29 +95,43 @@ const Login: React.FC = () => {
           />
 
           <CardForm>
-            <TitleForm>Seja bem vindo, informe seus dados para logar.</TitleForm>
-            <InputForm
-              placeholder="Digite seu usuário"
-              value={username}
-              onChangeText={(text) => setUsername(text)}
-            />
-            <InputForm
-              value={password}
-              onChangeText={(text) => setPassword(text)}
-              isLastChild
-              secureTextEntry
-              placeholder="Digite seu senha"
-            />
+            <Form ref={formRef} onSubmit={handleGoHome}>
+              <TitleForm>Seja bem vindo, informe seus dados para logar.</TitleForm>
+              <Input
+                autoCorrect={false}
+                autoCapitalize="none"
+                name="username"
+                placeholder="Digite seu usuário"
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  passwordInputRef.current?.focus();
+                }}
+              />
 
-            {loading ? (
-              <Loader marginTop={34} />
-            )
-              : (
-                <ButtonSubmit onPress={handleGoHome} >
-                  <ButtonSubmitText>Continuar</ButtonSubmitText>
-                  <Feather name="arrow-right" size={20} color="#fff" />
-                </ButtonSubmit>
-              )}
+              <Input
+                ref={passwordInputRef}
+                name="password"
+                autoCapitalize="none"
+                placeholder="Digite sua senha"
+                secureTextEntry
+                returnKeyType="send"
+                onSubmitEditing={() => {
+                  formRef.current?.submitForm();
+                }}
+              />
+
+              {loading ? (
+                <Loader marginTop={34} />
+              )
+                : (
+                  <ButtonSubmit onPress={() => {
+                    formRef.current?.submitForm(); // inicialmente formRef estará null
+                  }} >
+                    <ButtonSubmitText>Continuar</ButtonSubmitText>
+                    <Feather name="arrow-right" size={20} color="#fff" />
+                  </ButtonSubmit>
+                )}
+            </Form>
 
             <LinkForm onPress={handleGoForgetPassword} >
               <LinkFormText>Esqueci minha senha</LinkFormText>
