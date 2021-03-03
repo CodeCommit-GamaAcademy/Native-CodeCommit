@@ -7,7 +7,7 @@ import { Plano } from '../../../interfaces/dashboard';
 import api from '../../../services/api';
 import { ApplicationStore } from '../../../store';
 import RNPickerSelector from 'react-native-picker-select';
-import { TextInput } from 'react-native-gesture-handler';
+import { BorderlessButton, TextInput } from 'react-native-gesture-handler';
 import { SafeAreaView, SafeAreaViewProps } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 
@@ -186,13 +186,12 @@ const AddPlansModal: React.FC<AddPlansModalProps> = ({ closeModal, setPlans, ...
     <ModalContainer {...props}>
       <ModalContent>
 
-
-        <Feather
-          name='x'
-          size={18}
-          onPress={closeModal}
-          style={{ position: 'absolute', top: 12, left: 12 }}
-        />
+      <BorderlessButton
+        style={{ position: 'absolute', top: 12, left: 12 }}
+        onPress={closeModal}
+      >
+        <Feather name='x' size={18} />
+      </BorderlessButton>
 
         <TitleText>
           <MaterialIcons name="event-note" color="#444444" size={24} style={{ marginRight: 8 }} />
