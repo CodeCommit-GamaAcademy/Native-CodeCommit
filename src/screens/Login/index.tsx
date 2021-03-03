@@ -24,7 +24,6 @@ interface SignInFormData {
   username: string;
   password: string;
 }
-
 const Login: React.FC = () => {
   const { toast } = useToast();
   const dispatch = useDispatch();
@@ -40,54 +39,52 @@ const Login: React.FC = () => {
     navigator.navigate('Register');
   }, [navigator]);
 
-  const handleGoHome = useCallback(
-    async (data: SignInFormData) => {
-      setLoading(true);
-      try {
-        formRef.current?.setErrors({});
+  const handleGoHome = useCallback(async (data: SignInFormData) => {
+    setLoading(true);
+    try {
+      formRef.current?.setErrors({});
 
-        const schema = yup.object().shape({
-          username: yup.string().required('Nome de usuário obrigatório'),
-          password: yup.string().required('Senha obrigatória'),
+      const schema = yup.object().shape({
+        username: yup.string().required('Nome de usuário obrigatório'),
+        password: yup.string().required('Senha obrigatória'),
+      });
+
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+
+      const { data: response } = await api.post<UserResponse>('login', {
+        usuario: data.username,
+        senha: data.password,
+      });
+
+      await AsyncStorage.setItem('@token_user', response.token);
+      await AsyncStorage.setItem('@user_data', JSON.stringify({
+        name: response.usuario.nome,
+        cpf: response.usuario.cpf
+      }));
+
+      dispatch(sign_in({
+        login: response.usuario.login,
+        name: response.usuario.nome,
+        token: response.token,
+        cpf: response.usuario.cpf
+      }))
+      toast({ message: 'Seja bem vindo(a)!' });
+      navigator.navigate('Dashboard');
+    } catch (err) {
+      toast(
+        {
+          message: 'Usuário ou senha incorretos!',
+          color: 'error',
+          iconColor: 'error',
+          accentColor: 'error',
+          iconName: 'x'
         });
-
-        await schema.validate(data, {
-          abortEarly: false,
-        });
-
-        const { data: response } = await api.post<UserResponse>('login', {
-          usuario: data.username,
-          senha: data.password,
-        });
-
-        await AsyncStorage.setItem('@token_user', response.token);
-        await AsyncStorage.setItem('@user_name', response.usuario.nome);
-
-        dispatch(sign_in({
-          login: response.usuario.login,
-          name: response.usuario.nome,
-          token: response.token,
-        }))
-        toast({ message: 'Seja bem vindo(a)!' });
-        navigator.navigate('Dashboard');
-
-      } catch (err) {
-        if (err instanceof yup.ValidationError) {
-          const errors = getValidationErrors(err);
-          formRef.current?.setErrors(errors);
-
-          toast({
-            message: 'Usuário ou senha incorretos!',
-            color: 'error',
-            iconColor: 'error',
-            accentColor: 'error',
-            iconName: 'x'
-          });
-        }
-      } finally {
-        setLoading(false);
-      }
-    }, [navigator]);
+    } finally {
+      setLoading(false);
+    }
+  }, [navigator]);
 
   return (
     <ContainerScrollView>

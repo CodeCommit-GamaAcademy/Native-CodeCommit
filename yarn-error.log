@@ -1,5 +1,6 @@
 Arguments: 
   /Users/igorsantos/.nvm/versions/node/v12.18.0/bin/node /usr/local/Cellar/yarn/1.22.4/libexec/bin/yarn.js add @unforme/mobile
+  /home/gabriel/.nvm/versions/node/v14.15.5/bin/node /home/gabriel/.nvm/versions/node/v14.15.5/bin/yarn add @types/react-native-styled-toast -D
 
 PATH: 
   /Users/igorsantos/.composer/vendor/bin:/Applications/MAMP/bin/php/php7.4.2/bin/:/Users/igorsantos/Library/Android/sdk/tools:/Users/igorsantos/Library/Android/sdk/platform-tools:/Users/igorsantos/.nvm/versions/node/v12.18.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/igorsantos/.composer/vendor/bin:/Applications/MAMP/bin/php/php7.4.2/bin/:/Users/igorsantos/Library/Android/sdk/tools:/Users/igorsantos/Library/Android/sdk/platform-tools:/Users/igorsantos/.nvm/versions/node/v12.18.0/bin:~/flutter/bin:~/flutter/bin
@@ -25,6 +26,17 @@ Trace:
       at IncomingMessage.emit (events.js:327:22)
       at endReadableNT (_stream_readable.js:1221:12)
       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: https://registry.yarnpkg.com/@types%2freact-native-styled-toast: Not found
+      at Request.params.callback [as _callback] (/home/gabriel/.nvm/versions/node/v14.15.5/lib/node_modules/yarn/lib/cli.js:66988:18)
+      at Request.self.callback (/home/gabriel/.nvm/versions/node/v14.15.5/lib/node_modules/yarn/lib/cli.js:140662:22)
+      at Request.emit (events.js:315:20)
+      at Request.<anonymous> (/home/gabriel/.nvm/versions/node/v14.15.5/lib/node_modules/yarn/lib/cli.js:141634:10)
+      at Request.emit (events.js:315:20)
+      at IncomingMessage.<anonymous> (/home/gabriel/.nvm/versions/node/v14.15.5/lib/node_modules/yarn/lib/cli.js:141556:12)
+      at Object.onceWrapper (events.js:421:28)
+      at IncomingMessage.emit (events.js:327:22)
+      at endReadableNT (internal/streams/readable.js:1327:12)
+      at processTicksAndRejections (internal/process/task_queues.js:80:21)
 
 npm manifest: 
   {

@@ -24,6 +24,9 @@ interface RegisterFormData {
     confirmPassword: string;
 }
 
+import { UserResponse } from '../../types/user';
+
+
 const Register: React.FC = () => {
     const navigator = useNavigation();
     const { toast } = useToast();
@@ -81,13 +84,16 @@ const Register: React.FC = () => {
             });
 
             if (status === 200 || status === 201) {
-                const { data: response } = await api.post<{ token: string, usuario: { nome: string } }>('/login', {
+                const { data: response } = await api.post<UserResponse>('/login', {
                     "usuario": data.username,
                     "senha": data.password
                 });
 
                 await AsyncStorage.setItem('@token_user', response.token);
-                await AsyncStorage.setItem('@user_name', response.usuario.nome);
+                await AsyncStorage.setItem('@user_data', JSON.stringify({
+                    name: response.usuario.nome,
+                    cpf: response.usuario.cpf
+                }));
 
                 toast({ message: 'Usuário registrado com sucesso!' });
                 navigator.navigate('RegisterSucceded');

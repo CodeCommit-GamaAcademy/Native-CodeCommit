@@ -3,7 +3,7 @@ import { Feather } from '@expo/vector-icons';
 import Bottom from '../../../components/Bottom';
 import RNPickerSelect from 'react-native-picker-select';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
 import { Container, ScrollContainer, DepositCard, HeaderCardContainer, CardTitle, InputContainer, Input, InputSelect, ButtonSubmit, ButtonText, Main } from './style';
@@ -13,18 +13,33 @@ import api from '../../../services/api';
 import { ApplicationStore } from '../../../store';
 import { Contas, Plano } from '../../../interfaces/dashboard';
 import User from '../../../components/User';
+import { useToast } from 'react-native-styled-toast'
+import Loader from '../../../components/Loader';
 
-const Deposit: React.FC = () => {
+interface RouterType {
+  routerType: string
+}
+
+interface RouteProps {
+  route: {
+    params: RouterType
+  }
+}
+
+const Transactions: React.FC<RouteProps> = (props) => {  
+  const { toast } = useToast();
   const navigation = useNavigation();
   const store = useSelector( (store: ApplicationStore) => store.user );
 
+  const [loading, setLoading] = useState(false);
   const [destinatario, setDestinatario] = useState('');
   const [planoConta, setPlanoConta] = useState('');
   const [transacao, setTransacao] = useState('');
   const [valor, setValor] = useState('');
-  const [isDeposit, setIsdeposit] = useState(true);
-
-  const user = useSelector((store: ApplicationStore) => store.user);
+  const [userExist, setUserExist] = useState(true);
+  const [isDeposit, setIsdeposit] = useState(
+    props.route.params.routerType === 'deposit' ? true : false
+  );
 
   useEffect(() => {
     const GetAuth = async () => {
@@ -38,6 +53,7 @@ const Deposit: React.FC = () => {
   }, []);
 
   const handleSubmit = useCallback(async () => {
+    setLoading(true);
     try {
       const myAccount = await api.get<Contas>(`dashboard?fim=2021-03-22&inicio=2021-02-22&login=${store?.login}`, {
         headers: {
@@ -50,6 +66,39 @@ const Deposit: React.FC = () => {
           Authorization: store?.token,
         }
       });
+      
+      if (!isDeposit) {
+        const check = await api.get<Plano[]>(`lancamentos/planos-conta?login=${destinatario.trim()}`, {
+          headers: {
+            Authorization: store?.token,
+          }
+        });
+        check.data.length === 0 ? setUserExist(false) : setUserExist(true);
+      }
+      
+      if ( !userExist ) {
+        toast(
+          { 
+            message: 'Este usuário parece não existir!', 
+            color: 'error', 
+            iconColor: 'error', 
+            accentColor: 'error', 
+            iconName: 'x' 
+          });
+          return;
+      }
+
+      if ( Number.parseFloat(valor) <= 0 || valor === '' ) {
+        toast(
+          { 
+            message: 'Valor não pode ser nulo ou negativo!', 
+            color: 'error', 
+            iconColor: 'error', 
+            accentColor: 'error', 
+            iconName: 'x' 
+          });
+          return;
+      }
 
       const {status} = await api.post('lancamentos', {
         "conta": planoConta == "CB" ? myAccount.data.contaBanco.id : myAccount.data.contaCredito.id,
@@ -65,14 +114,23 @@ const Deposit: React.FC = () => {
         }
       });
 
-      if (status !== 200) throw new Error('Something went wrong with request');
+      if (status !== 200) throw new Error('Something went wrong with request')
       clearForm()
+      toast({message:"Transferencia feita com sucesso!"});
+      navigation.navigate('Lancamentos');
 
-      const plans = await api.post('lancamentos/planos-conta', {
-        tipoMovimento: transacao
-      }, { headers: { Authorization: user?.token } });
     }catch(err){ 
-      console.log(err)
+      toast(
+        { 
+          message: 'Aconteceu algo de errado!', 
+          color: 'error', 
+          iconColor: 'error', 
+          accentColor: 'error', 
+          iconName: 'x' 
+        });
+      
+    }finally {
+      setLoading(false);
     }
 
   }, isDeposit ? [planoConta, transacao, valor, store?.login, store?.token] : [destinatario, planoConta, transacao, valor, store?.login, store?.token])
@@ -86,16 +144,15 @@ const Deposit: React.FC = () => {
 
   return (
     <Main>
-      <ScrollContainer>
+        <ScrollContainer>
         <Container>
-          {user && <User user={ user } showCancel onCancel={() => navigation.navigate('Lancamentos')} />}
+          {store && <User user={ store } showCancel onCancel={() => navigation.navigate('Lancamentos')} />}
             <DepositCard>
               <HeaderCardContainer>
               { isDeposit ? <CardTitle>Depósitos</CardTitle> :
               <CardTitle>Transferências</CardTitle>
               }
               </HeaderCardContainer>
-              <InputContainer>
               {isDeposit ? 
                 <></>
                 :
@@ -141,11 +198,16 @@ const Deposit: React.FC = () => {
                 value={valor}
                 onChangeText={(text) => setValor(text)}
               />
-              <ButtonSubmit onPress={handleSubmit}>
-                <ButtonText> {isDeposit ? 'Realizar depósito' : 'Realizar transferência'}</ButtonText>
-                <Feather name="arrow-right" size={20} color='#fff' />
-              </ButtonSubmit>
-            </InputContainer>
+              {
+                loading ? (<Loader marginTop={34} />) : 
+                (
+                  <ButtonSubmit onPress={handleSubmit}>
+                    <ButtonText> {isDeposit ? 'Realizar depósito' : 'Realizar transferência'}</ButtonText>
+                    <Feather name="arrow-right" size={20} color='#fff' />
+                  </ButtonSubmit>
+                )
+              }
+              
           </DepositCard>
         </Container>
       </ScrollContainer>
@@ -154,4 +216,4 @@ const Deposit: React.FC = () => {
   );
 }
 
-export default Deposit;
+export default Transactions;

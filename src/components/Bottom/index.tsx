@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { Container, ItemLayout, LabelText, TouchableButton, TabContainer } from './style';
 import { Ionicons } from '@expo/vector-icons';
@@ -17,8 +17,7 @@ export default function Bottom() {
       <TabContainer>
           <TouchableButton
             accessibilityRole="button"
-            onPress={() => navigator.navigate('Transferir') }
-            
+            onPress={() => navigator.navigate('Transferir', { routerType: 'transfer' })  }
           >
             <ItemLayout>
               <Ionicons name="swap-horizontal-outline" size={25} color="white" />
@@ -44,7 +43,7 @@ export default function Bottom() {
           </TouchableButton>
           <TouchableButton
             accessibilityRole="button"
-            onPress={() => navigator.navigate('Depositar')}
+            onPress={() => navigator.navigate('Depositar', { routerType: 'deposit' })}
           >
             <ItemLayout>
               <DepositSvg />

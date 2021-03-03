@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import RNPickerSelect from 'react-native-picker-select';
 
 export const Container = styled.SafeAreaView`
     flex: 1;
@@ -19,7 +18,7 @@ export const ScrollContainer = styled.ScrollView`
 `
 export const TitleContainer = styled.View`
     margin-top: 30px;
-    width: 80%;
+    width: 100%;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
@@ -31,10 +30,10 @@ export const Title = styled.Text`
 
 export const DepositCard = styled.View`
     width: 336px;
-    height: 691px;
     background: #fff;
-    border-radius: 8px;
-    margin-top: 30px;
+    border-radius: 10px;
+    margin: 30px 0;
+    padding: 40px;
 `
 
 export const HeaderCardContainer = styled.View`
@@ -45,7 +44,6 @@ export const CardTitle = styled.Text`
     font-size: 18px;
     color: #9B9B9B;
     margin-top: 22px;
-    margin-left: 68px;
     font-weight: 500;
 `
 
@@ -81,7 +79,7 @@ export const ButtonSubmit = styled.TouchableOpacity`
     justify-content: space-between;
     flex-direction: row;
     padding: 20px;
-    margin-top: 90px;
+    margin-top: 50px;
 `
 
 export const ButtonText = styled.Text`

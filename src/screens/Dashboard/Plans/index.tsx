@@ -6,8 +6,8 @@ import { Plano } from '../../../interfaces/dashboard';
 import api from '../../../services/api';
 import { ApplicationStore } from '../../../store';
 import RNPickerSelector from 'react-native-picker-select';
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
-import { SafeAreaViewProps } from 'react-native-safe-area-context';
+import { TextInput } from 'react-native-gesture-handler';
+import { SafeAreaView, SafeAreaViewProps } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 
 import { AddButton, 
@@ -75,10 +75,13 @@ const Plans: React.FC = () => {
 
   if (plans) return (
     <Main>
+      <SafeAreaView style={{ flex: 1 }} >
       { isAdding && <AddPlansModal closeModal={ () => setIsAdding(false) } setPlans={ setPlans } /> }
+      
       <HeaderWrapper>
         { user && <User user={ user } showCancel onCancel={() => navigation.navigate('Lancamentos')} /> }
       </HeaderWrapper>
+
       <Container>
         <PlansContainer>
           {plans.map((plan, index) => (
@@ -98,16 +101,19 @@ const Plans: React.FC = () => {
           </PlusButton>
         </PlansContainer>
       </Container>
+      </SafeAreaView>
       <Bottom />
     </Main>
   );
   else return (
-    <Main>
-      <Container>
-        <Loader marginTop={0} changeColor />
-      </Container>
+    <>
+      <Main>
+        <Container>
+          <Loader marginTop={0} changeColor />
+        </Container>
+      </Main>
       <Bottom />
-    </Main>
+    </>
   )
 }
 
@@ -117,6 +123,7 @@ interface AddPlansModalProps extends SafeAreaViewProps {
 }
 
 const AddPlansModal: React.FC<AddPlansModalProps> = ({ closeModal, setPlans, ...props }) => {
+
   const [type, setType] = useState('');
   const [description, setDescription] = useState('');
 
