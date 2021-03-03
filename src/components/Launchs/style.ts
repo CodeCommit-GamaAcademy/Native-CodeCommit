@@ -1,7 +1,7 @@
 import { Dimensions } from "react-native";
 import styled from "styled-components/native";
 
-export const Container = styled.SafeAreaView`
+export const Container = styled.View`
   margin-top: 30px;
   margin-bottom: 60px;
   background-color: #FFFFFF;
