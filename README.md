@@ -11,32 +11,37 @@
     <a  href="#features">Features</a> |
     <a  href="#arquitetura-de-pastas">Arquit. de pastas</a> |
     <a  href="#arquitetura-flux">Arquit. Flux - Redux</a> |
-    <a  href="#testes">Testes</a> |
     <a  href="#mindmap">Mindmap</a> |
     <a  href="#como-usar">Como usar</a> |
     <a  href="#licença">Licença</a>
 </p>
+<div>
+    <img src="https://i.imgur.com/JBBd0Bx.png" />
+</div>
 
-<img src="https://i.imgur.com/JBBd0Bx.png" />
 <p>Projeto desenvolvido na academia da <a href="https://www.gama.academy/" target="_blank">Gama Academy</a> em parceria com a <a href="https://www.accenture.com/br-pt" target="_blank">Accenture</a> com objetivo de aplicar todos os conceitos aprendidos durante o curso e apresentar para banca como projeto final!</p>
 
 ## Equipe da CodeCommit
+<div align="center">
+    <a href="https://cutt.ly/blOnLPV" target="_blank"> 
+    <img src="https://cutt.ly/glOknQX" width="90"/></a>     
+    <a href="https://cutt.ly/7lOQfzv" target="_blank"> 
+    <img src="https://cutt.ly/MlOkJaB" width="90"/></a>     
+    <a href="https://cutt.ly/SlOQcBf" target="_blank"> 
+    <img src="https://cutt.ly/1lOlfra" width="90"/></a>     
+    <a href="https://cutt.ly/LlOQCM4" target="_blank"> 
+    <img src="https://cutt.ly/3lOj5ZR" width="90"/></a>      
+    <a href="https://cutt.ly/NlOm8Tm" target="_blank"> 
+    <img src="https://cutt.ly/jlOlWa2" width="90"/></a>
+    <a href="https://cutt.ly/slOQ5xI" target="_blank"> 
+    <img src="https://cutt.ly/JlOvHsQ" width="90"/>
+    </a>
+</div>
 
-<a href="https://cutt.ly/blOnLPV" target="_blank"> 
-<img src="https://cutt.ly/glOknQX" width="90"/></a>     
-<a href="https://cutt.ly/7lOQfzv" target="_blank"> 
-<img src="https://cutt.ly/MlOkJaB" width="90"/></a>     
-<a href="https://cutt.ly/SlOQcBf" target="_blank"> 
-<img src="https://cutt.ly/1lOlfra" width="90"/></a>     
-<a href="https://cutt.ly/LlOQCM4" target="_blank"> 
-<img src="https://cutt.ly/3lOj5ZR" width="90"/></a>      
-<a href="https://cutt.ly/NlOm8Tm" target="_blank"> 
-<img src="https://cutt.ly/jlOlWa2" width="90"/></a>
-<a href="https://cutt.ly/slOQ5xI" target="_blank"> 
-<img src="https://cutt.ly/JlOvHsQ" width="90"/>
-</a>
+<div align="center">
+    &nbsp;&nbsp;<a href="https://cutt.ly/blOnLPV" rel="nofollow">Alisson O.</a>&nbsp; | &nbsp;<a href="https://cutt.ly/7lOQfzv" rel="nofollow">Ana Laura</a>&nbsp; | &nbsp;<a href="https://cutt.ly/SlOQcBf" rel="nofollow">Gabriel M.</a> | &nbsp;<a href="https://cutt.ly/LlOQCM4" rel="nofollow">Gabriel N.</a>&nbsp; | &nbsp;<a href="https://cutt.ly/NlOm8Tm" rel="nofollow">Glauber A.</a>&nbsp; | <a href="https://cutt.ly/slOQ5xI" rel="nofollow">Igor Santos</a>
+</div>
 
-&nbsp;&nbsp;<a href="https://cutt.ly/blOnLPV" rel="nofollow">Alisson O.</a>&nbsp; | &nbsp;<a href="https://cutt.ly/7lOQfzv" rel="nofollow">Ana Laura</a>&nbsp; | &nbsp;<a href="https://cutt.ly/SlOQcBf" rel="nofollow">Gabriel M.</a> | &nbsp;<a href="https://cutt.ly/LlOQCM4" rel="nofollow">Gabriel N.</a>&nbsp; | &nbsp;<a href="https://cutt.ly/NlOm8Tm" rel="nofollow">Glauber A.</a>&nbsp; | <a href="https://cutt.ly/slOQ5xI" rel="nofollow">Igor Santos</a>
 
 ## Libs
 
@@ -63,7 +68,6 @@ Conexão com API para:
 - Fazer depósitos
 - Fazer pagamentos
 - Cadastrar planos
-- Testes
 
 Outras características:
 
@@ -122,11 +126,6 @@ Outras características:
 <img  src="https://raw.githubusercontent.com/CodeCommit-GamaAcademy/React-CodeCommit/prod/src/docs/redux.png?token=ALJFOQHMY7WPIQOBX5A7LQTAHPHKO" />
 <p>Foi utilizado o Redux para globalização dos dados do usuário, necessário para requisições em API e para impedir requisições desnecessárias na API, melhorando significativamente a experiencia do usuário durante a utilização do GamaBank.
 </p>
-
-## Testes
-
-<img src="https://raw.githubusercontent.com/CodeCommit-GamaAcademy/React-CodeCommit/prod/src/docs/tdd-02.png?token=ALJFOQGXQ4IXYHMGD5RIAX3AHPHCA" />
-<p>Foi realizado o teste dos componentes de input, simulando e verificando o funcionamento dos formulários de cadastro, login e recuperação de senha. Tendo êxito em todos os testes.</p>
 
 ## Mindmap
 
