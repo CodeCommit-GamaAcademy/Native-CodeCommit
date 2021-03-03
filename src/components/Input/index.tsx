@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useImperativeHandle, forwardRef, useState, us
 import { TextInputProps } from 'react-native';
 import { useField } from '@unform/core';
 
-import { TextInput } from './styles';
+import { TextInput, ContainerTextInput, ErrorText } from './styles';
 
 interface InputProps extends TextInputProps {
   name: string;
@@ -62,17 +62,23 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = ({ name, ...
   }, [fieldName, registerField]);
 
   return (
-    <TextInput
-      {...rest}
-      isFocused={isFocused}
-      isFilled={isFilled}
-      ref={inputElementRef}
-      onFocus={handleInputFocus}
-      onBlur={handleInputBlur}
-      onChangeText={(value) => {
-        inputValueRef.current.value = value;
-      }}
-    />
+    <>
+      <ContainerTextInput>
+        <TextInput
+          {...rest}
+          isErrored={!!error}
+          isFocused={isFocused}
+          isFilled={isFilled}
+          ref={inputElementRef}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
+          onChangeText={(value) => {
+            inputValueRef.current.value = value;
+          }}
+        />
+        {error && <ErrorText>{error}</ErrorText>}
+      </ContainerTextInput>
+    </>
   )
 };
 
