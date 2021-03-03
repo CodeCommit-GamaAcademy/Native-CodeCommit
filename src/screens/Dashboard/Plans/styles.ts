@@ -26,6 +26,7 @@ export const PlansContainer = styled.ScrollView`
     border-radius: 10px;
     padding: 40px 25px 0px 25px;
     margin-top: -20px;
+    margin-bottom: 20px;
 `
 
 export const PlansCard = styled.View`
@@ -49,7 +50,7 @@ export const CardType = styled.Text`
 `
 
 export const PlusButton = styled.TouchableOpacity`
-    margin-bottom: 50px;
+    margin-bottom: 70px;
     border: 1px solid lightgray;
     padding: 24px;
 
