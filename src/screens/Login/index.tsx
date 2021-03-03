@@ -12,7 +12,7 @@ import getValidationErrors from '../../utils/getValidationErrors';
 
 import GamaLogo from '../../assets/logo.png';
 
-import { UserResponse } from '../../types/User';
+import { UserResponse } from '../../types/user';
 import { sign_in } from '../../store/user/actions';
 import api from '../../services/api';
 import Loader from '../../components/Loader';
