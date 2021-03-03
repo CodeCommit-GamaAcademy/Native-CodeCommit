@@ -1,7 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
+
 import { Lancamentos } from '../../interfaces/dashboard';
-import { Container, Line, NullValues, Paragraph, Title, Value } from './style';
+import { Container, Line, NullValues, Paragraph, Title, Value, HeaderCardContainer } from './style';
+import PlansSvg from '../../assets/svgs/Plans';
 
 interface LaunchsProps {
   launchs: Lancamentos[]
@@ -16,7 +18,11 @@ const Launchs: React.FC<LaunchsProps> = ( { launchs } ) => {
   return (
     <Container>
       {
-        launchs && <Title>Últimos lancamentos</Title>
+        launchs && 
+        <HeaderCardContainer>
+          <PlansSvg color="#9B9B9B" />
+          <Title>Últimos lancamentos</Title>
+        </HeaderCardContainer>
       }
       
       { 

@@ -12,11 +12,18 @@ export const Container = styled.View`
   width: ${Dimensions.get('window').width - 50}px;
 `;
 
-export const Title = styled.Text`
-  margin-top: 20px;
+export const HeaderCardContainer = styled.View`
+  align-items: center;
+  flex-direction: row;
   margin-bottom: 40px;
+  margin-left: 25px;
+  margin-top: 20px;
+`
+
+export const Title = styled.Text`
   color: #9B9B9B;
   text-align: center;
+  margin-left: 10px;
 `
 
 export const Value = styled.Text<{ negative?: boolean }>`

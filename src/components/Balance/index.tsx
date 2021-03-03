@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Conta, Lancamentos } from '../../interfaces/dashboard';
-import { Container, Title, Value, Paragraph } from '../Balance/style';
 
-// import { Container } from './styles';
+import { Conta } from '../../interfaces/dashboard';
+import { Container, HeaderCardContainer, Title, Value, Paragraph } from '../Balance/style';
+import PlansSvg from '../../assets/svgs/Plans';
 
 interface BalanceProps {
   conta: Conta,
@@ -31,7 +31,10 @@ const Balance: React.FC<BalanceProps> = ( props ) => {
 
   return (
     <Container>
-      <Title>Saldo da conta</Title>
+      <HeaderCardContainer>
+        <PlansSvg color="#9B9B9B" />
+        <Title>Saldo da conta</Title>
+      </HeaderCardContainer>
       <Value>{currencyFormat(value)}</Value>
       <Paragraph>Lançamentos de débito: {currencyFormat(releasesValue)}</Paragraph>
     </Container>
