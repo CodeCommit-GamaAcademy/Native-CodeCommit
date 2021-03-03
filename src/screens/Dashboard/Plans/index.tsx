@@ -86,14 +86,13 @@ const Plans: React.FC = () => {
 
   if (plans) return (
     <Main>
+      {isAdding && <AddPlansModal closeModal={() => setIsAdding(false)} setPlans={setPlans} />}
       <ContainerScroll
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
         <SafeAreaView style={{ flex: 1 }} >
-          {isAdding && <AddPlansModal closeModal={() => setIsAdding(false)} setPlans={setPlans} />}
-
           <HeaderWrapper>
             {user && <User user={user} showCancel onCancel={() => navigation.navigate('Lancamentos')} />}
           </HeaderWrapper>
