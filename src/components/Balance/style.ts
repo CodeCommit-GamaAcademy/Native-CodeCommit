@@ -4,7 +4,7 @@ import { Dimensions } from 'react-native';
 export const Container = styled.View`
   margin-top: 20px;
   background-color: #FFFFFF;
-  border-radius: 19px;
+  border-radius: 10px;
   align-content: center;
   padding: 10px 0 40px 0;
   width: ${Dimensions.get('window').width - 50}px;

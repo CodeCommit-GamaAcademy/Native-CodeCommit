@@ -10,13 +10,12 @@ interface IUserProps {
   showCancel?: boolean;
   hideName?: boolean;
   user: UserData,
-  hide?: Function,
-  show?: Function,
+  onAction?: () => void,
   fromRealeases?: boolean,
   onCancel?: () => void
 }
 
-const User: React.FC<IUserProps> = ({ showCancel = false, hideName = false, fromRealeases = false, onCancel, ...props }) => {
+const User: React.FC<IUserProps> = ({ showCancel = false, hideName = false, fromRealeases = false, onAction, onCancel, ...props }) => {
 
   const formatName = (name: string) => {
     const arrayName = name.split(' ');
@@ -28,20 +27,22 @@ const User: React.FC<IUserProps> = ({ showCancel = false, hideName = false, from
       {
         !hideName 
         ? <Welcome fromReleases={fromRealeases}>Olá, { formatName(props.user.name) }</Welcome>
-        : <Ionicons onPress={() => props.show && props.show('show')} name="person-circle-outline" size={30} color={fromRealeases ? '#8c52e5' : '#FBFBFB'}/>
+        : <Ionicons name="person-circle-outline" size={30} color={fromRealeases ? '#8c52e5' : '#FBFBFB'}/>
       }
       
       { !showCancel && !hideName ? (
             <BorderlessButton
               style={styles.button}
+              onPress={onAction ? onAction : () => {}}
             >
-              <Ionicons onPress={() => props.show && props.show('show')} name="person-circle-outline" size={30} color={'#FBFBFB'}/>
+              <Ionicons name="person-circle-outline" size={30} color={'#FBFBFB'}/>
             </BorderlessButton>
           ) : (
             <BorderlessButton
               style={styles.button}
+              onPress={onCancel ? onCancel : () => {}}
             >
-              <Ionicons onPress={onCancel ? onCancel : () => {}} name="close" size={30} color={fromRealeases ? '#8c52e5' : '#FBFBFB'}/>
+              <Ionicons name="close" size={30} color={fromRealeases ? '#8c52e5' : '#FBFBFB'}/>
             </BorderlessButton>
         ) 
       }

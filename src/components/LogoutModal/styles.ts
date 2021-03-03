@@ -47,7 +47,7 @@ export const ButtonsWrapper = styled.View`
 export const ButtonContainer = styled.View<{ isAcceptButton?: boolean }>`
     border-width: 1px;
     border-color: ${props => props.isAcceptButton ? '#68DE5A' : '#8C52E5'};
-    border-radius: 8px;
+    border-radius: 10px;
 `
 
 export const ButtonText = styled.Text`
