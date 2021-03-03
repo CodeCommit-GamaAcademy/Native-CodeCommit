@@ -5,11 +5,11 @@ import { Container, Line, Paragraph, Title, Value, ValueNegative } from './style
 
 interface PlansProps {
   lancamentos: Lancamentos[];
+  update: boolean;
 }
 
-const Plans: React.FC<PlansProps> = ( props ) => {
+const Plans: React.FC<PlansProps> = ( { lancamentos, update } ) => {
 
-  const [ launchs, setLaunchs ] = useState(props.lancamentos);
   const [ recept, setRecept ] = useState(0);
   const [ expenditure, setExpenditure ] = useState(0);
 
@@ -20,7 +20,7 @@ const Plans: React.FC<PlansProps> = ( props ) => {
   useEffect( () => {
     let valueRecept = 0;
     let valueExpenditure = 0;
-    launchs.forEach( (launch) => {
+    lancamentos.forEach( (launch) => {
       if ( launch.planoConta.tipoMovimento === 'R' ) {
         valueRecept += launch.valor;
       } else if ( launch.planoConta.tipoMovimento === 'D' ) {
@@ -29,7 +29,7 @@ const Plans: React.FC<PlansProps> = ( props ) => {
     });
     setRecept(valueRecept);
     setExpenditure(valueExpenditure);
-  }, [ props ])
+  }, [ lancamentos, update ])
 
   return (
     <Container>

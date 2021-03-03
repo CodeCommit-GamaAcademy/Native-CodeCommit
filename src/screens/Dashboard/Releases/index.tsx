@@ -51,23 +51,6 @@ const Releases: React.FC = () => {
     GetAuth();
   }, []);
 
-  //function to get all users plans
-  useEffect(() => {
-    api.get<Plano[]>(`/lancamentos/planos-conta?login=${store.user?.login}`, {
-      headers: {
-        Authorization: store.user?.token
-      }
-    })
-      .then(response => {
-        let count = 0
-        response.data.forEach(() => {
-          count += 1;
-        })
-        setPlans(count);
-      })
-      .catch(err => console.log(err.response));
-  }, []);
-
   const handleLogout = useCallback(async () => {
     await AsyncStorage.removeItem('@token_user');
     await AsyncStorage.removeItem('@user_data');
@@ -124,6 +107,23 @@ const Releases: React.FC = () => {
     loadDashInformations();
   }, [update])
 
+  //function to get all users plans
+  useEffect(() => {
+    api.get<Plano[]>(`/lancamentos/planos-conta?login=${store.user?.login}`, {
+      headers: {
+        Authorization: store.user?.token
+      }
+    })
+      .then(response => {
+        let count = 0
+        response.data.forEach(() => {
+          count += 1;
+        })
+        setPlans(count);
+      })
+      .catch(err => console.log(err.response));
+  }, [update]);
+
 
   const show = () => {
     // Will change fadeAnim value to 0 in 0.7 seconds
@@ -173,10 +173,10 @@ const Releases: React.FC = () => {
                 loading && store.user && <User onAction={() => showMenuLeft('show')} user={store.user} />
               }
               {
-                loading && accountInfo && <Balance conta={accountInfo?.contaBanco} />
+                loading && accountInfo && <Balance update={ update } conta={accountInfo?.contaBanco} />
               }
               {
-                loading && allLaunchs && <Plans lancamentos={allLaunchs} />
+                loading && allLaunchs && <Plans update={ update } lancamentos={allLaunchs} />
               }
               {
                 loading && allLaunchs && <Launchs launchs={allLaunchs} />

@@ -6,11 +6,11 @@ import { Container, Title, Value, Paragraph } from '../Balance/style';
 
 interface BalanceProps {
   conta: Conta,
+  update: boolean
 }
 
-const Balance: React.FC<BalanceProps> = ( props ) => {
+const Balance: React.FC<BalanceProps> = ( { conta, update } ) => {
 
-  const [value, setValue] = useState(0);
   const [releasesValue, setReleasesValue] = useState(0);
 
   function currencyFormat(num: number) {
@@ -19,20 +19,19 @@ const Balance: React.FC<BalanceProps> = ( props ) => {
   
   useEffect( () => {
     //Setting account balance
-    setValue(props.conta.saldo);
 
     //Setting releases value
     let total = 0;
-    props.conta.lancamentos.forEach( (lancamento) => {
+    conta.lancamentos.forEach( (lancamento) => {
       total += lancamento.valor;
     })
     setReleasesValue(total);
-  }, [ props ])
+  }, [ conta, update ]);
 
   return (
     <Container>
       <Title>Saldo da conta</Title>
-      <Value>{currencyFormat(value)}</Value>
+      <Value>{currencyFormat(conta.saldo)}</Value>
       <Paragraph>Lançamentos de débito: {currencyFormat(releasesValue)}</Paragraph>
     </Container>
   );
