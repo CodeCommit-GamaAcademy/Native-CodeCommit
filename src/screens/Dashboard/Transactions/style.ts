@@ -62,12 +62,20 @@ export const Input = styled.TextInput`
     margin-top: 45px;
 `
 
-export const InputSelect = styled.View`
-    margin-bottom: 30px;
-    border-bottom-width: 1px;
-    border-bottom-color: #878686;
-    padding-bottom: 12px;
-    margin-top: 45px;
+export const Calendar = styled.View`
+    background: #8C52E5;
+    border-radius: 10px;
+    font-size: 10px;
+    margin-bottom: 20px;
+    padding: 12px;
+    width: 100%;
+`
+
+export const InputLabel = styled.Text`
+    font-size: 14px;
+    color: #9B9B9B;
+    margin-bottom: 10px;
+    margin-top: 20px;
 `
 
 export const ButtonSubmit = styled.TouchableOpacity`
