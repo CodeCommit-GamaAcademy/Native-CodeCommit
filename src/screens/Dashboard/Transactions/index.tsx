@@ -178,6 +178,7 @@ const Transactions: React.FC<RouteProps> = (props) => {
                   placeholder="Destinatário" 
                   value={destinatario}
                   onChangeText={(text) => setDestinatario(text)}
+                  autoCapitalize='none'
                 />
               }
               <Input
