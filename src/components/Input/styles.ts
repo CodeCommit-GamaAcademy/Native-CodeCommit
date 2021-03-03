@@ -4,7 +4,7 @@ interface TextInputProps {
   isFocused: boolean;
   isFilled: boolean;
   isErrored: boolean;
-  idLastChild?: boolean;
+  isLastChild?: boolean;
 }
 
 export const ContainerTextInput = styled.View`
@@ -18,8 +18,7 @@ export const TextInput = styled.TextInput<TextInputProps>`
   border-bottom-width: 1px;
   font-size: 14px;
   padding: 12px 6px;
-  margin-bottom: 30px;
-  /* margin-bottom: ${({ isLastChild }) => (isLastChild ? 0 : 60)}px; */
+  margin-bottom: ${({ isLastChild }) => (isLastChild ? 0 : 30)}px;
 
   ${(props) =>
     props.isErrored &&
@@ -43,5 +42,5 @@ export const TextInput = styled.TextInput<TextInputProps>`
 export const ErrorText = styled.Text`
   color: #c53030;
   position: absolute;
-  bottom: 8;
+  margin-top: 56px;
 `;

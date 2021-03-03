@@ -73,14 +73,17 @@ const Login: React.FC = () => {
       toast({ message: 'Seja bem vindo(a)!' });
       navigator.navigate('Dashboard');
     } catch (err) {
-      toast(
-        {
-          message: 'Usuário ou senha incorretos!',
-          color: 'error',
-          iconColor: 'error',
-          accentColor: 'error',
-          iconName: 'x'
-        });
+      if (err instanceof yup.ValidationError) {
+        const errors = getValidationErrors(err);
+        formRef.current?.setErrors(errors);
+      }
+      toast({
+        message: 'Usuário ou senha incorretos!',
+        color: 'error',
+        iconColor: 'error',
+        accentColor: 'error',
+        iconName: 'x'
+      });
     } finally {
       setLoading(false);
     }

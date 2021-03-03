@@ -60,22 +60,6 @@ const Register: React.FC = () => {
                 abortEarly: false
             });
 
-            console.log(data.password);
-            console.log(data.confirmPassword);
-
-
-            if (data.password !== data.confirmPassword) {
-                toast({
-                    message: 'As senhas devem ser iguais!',
-                    color: 'error',
-                    iconColor: 'error',
-                    accentColor: 'error',
-                    iconName: 'x'
-                });
-                setLoading(false);
-                return;
-            }
-
             const { status } = await api.post('/usuarios', {
                 "cpf": data.cpf,
                 "login": data.username,
@@ -180,7 +164,7 @@ const Register: React.FC = () => {
                                 returnKeyType="next"
                                 secureTextEntry
                                 onSubmitEditing={() => {
-                                    passwordInputRef.current?.focus();
+                                    confirmPasswordInputRef.current?.focus();
                                 }}
                             />
 
@@ -195,15 +179,6 @@ const Register: React.FC = () => {
                                     formRef.current?.submitForm();
                                 }}
                             />
-
-                            {/* 
-                      
-                        <FormInput
-                            placeholder="Confirme sua senha"
-                            onChangeText={text => setConfirmPassword(text)}
-                            value={confirmPassword}
-                            secureTextEntry
-                        /> */}
 
                             {loading ? (
                                 <Loader marginTop={9} />
