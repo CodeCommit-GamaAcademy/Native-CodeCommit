@@ -37,14 +37,15 @@ export const DepositCard = styled.View`
 `
 
 export const HeaderCardContainer = styled.View`
+    align-items: center;
     flex-direction: row;
 `
 
 export const CardTitle = styled.Text`
-    font-size: 18px;
     color: #9B9B9B;
-    margin-top: 22px;
+    font-size: 18px;
     font-weight: 500;
+    margin-left: 10px;
 `
 
 export const InputContainer = styled.View`

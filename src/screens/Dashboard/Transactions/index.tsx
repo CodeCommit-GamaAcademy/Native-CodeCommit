@@ -5,16 +5,17 @@ import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import CalendarPicker from 'react-native-calendar-picker';
+import { useToast } from 'react-native-styled-toast'
 
-import { Container, ScrollContainer, DepositCard, HeaderCardContainer, CardTitle, InputContainer, Input, Calendar, ButtonSubmit, ButtonText, Main, InputLabel } from './style';
+import { Container, ScrollContainer, DepositCard, HeaderCardContainer, CardTitle, Input, Calendar, ButtonSubmit, ButtonText, Main, InputLabel } from './style';
 import ValidateCurrentToken from '../../../services/ValidateCurrentToken';
 import updateStore from '../../../services/updateStore';
 import api from '../../../services/api';
 import { ApplicationStore } from '../../../store';
 import { Contas, Plano } from '../../../interfaces/dashboard';
 import User from '../../../components/User';
-import { useToast } from 'react-native-styled-toast'
 import Loader from '../../../components/Loader';
+import PlansSvg from '../../../assets/svgs/Plans';
 
 interface RouterType {
   routerType: string
@@ -89,28 +90,15 @@ const Transactions: React.FC<RouteProps> = (props) => {
       }
 
       if ( Number.parseFloat(valor) <= 0 || valor === '' ) {
-        toast(
-          { 
-            message: 'Valor não pode ser nulo ou negativo!', 
-            color: 'error', 
-            iconColor: 'error', 
-            accentColor: 'error', 
-            iconName: 'x' 
-          });
-          return;
+        toast({ 
+          message: 'Valor não pode ser nulo ou negativo!', 
+          color: 'error', 
+          iconColor: 'error', 
+          accentColor: 'error', 
+          iconName: 'x' 
+        });
+        return;
       }
-
-      console.log(
-        {
-          "conta": myAccount.data.contaBanco.id,
-          "contaDestino": isDeposit ? "" : destinatario.trim(),
-          "data": moment(data).format('YYYY-MM-DD'),
-          "descricao": descricao,
-          "login": store?.login,
-          "planoConta": isDeposit ? transactions.data[0].id : transactions.data[3].id ,
-          "valor": +valor
-        }
-      )
 
       const {status} = await api.post('lancamentos', {
         "conta": myAccount.data.contaBanco.id,
@@ -132,14 +120,14 @@ const Transactions: React.FC<RouteProps> = (props) => {
       navigation.navigate('Lancamentos');
 
     }catch(err){ 
-      toast(
-        { 
-          message: 'Aconteceu algo de errado!', 
-          color: 'error', 
-          iconColor: 'error', 
-          accentColor: 'error', 
-          iconName: 'x' 
-        });
+      toast({ 
+        message: 'Aconteceu algo de errado!', 
+        color: 'error', 
+        iconColor: 'error', 
+        accentColor: 'error', 
+        iconName: 'x' 
+      });
+
     }finally {
       setLoading(false);
     }
@@ -167,8 +155,16 @@ const Transactions: React.FC<RouteProps> = (props) => {
           {store && <User user={ store } showCancel onCancel={() => navigation.navigate('Lancamentos')} />}
             <DepositCard>
               <HeaderCardContainer>
-              { isDeposit ? <CardTitle>Depósitos</CardTitle> :
-              <CardTitle>Transferências</CardTitle>
+              { isDeposit ? 
+                <>
+                  <PlansSvg color="#9B9B9B" /> 
+                  <CardTitle>Depósitos</CardTitle> 
+                </>
+                :
+                <>
+                  <PlansSvg color="#9B9B9B" />
+                  <CardTitle>Transferências</CardTitle>
+                </>
               }
               </HeaderCardContainer>
               {isDeposit ? 
@@ -199,6 +195,8 @@ const Transactions: React.FC<RouteProps> = (props) => {
                   nextTitle="Próximo"
                   selectedDayColor="#68DE5A"
                   selectedDayTextColor="#FFF"
+                  todayBackgroundColor="#8C52E5"
+                  todayTextStyle={{ color: "#FFF" }}
                   textStyle={{ color: '#FFF' }}
                 />
               </Calendar>

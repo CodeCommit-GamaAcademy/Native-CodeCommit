@@ -6,6 +6,7 @@ import { TextInput, ContainerTextInput, ErrorText } from './styles';
 
 interface InputProps extends TextInputProps {
   name: string;
+  middleware?: (currentValue: string) => void;
 }
 
 interface InputValueReference {
@@ -16,7 +17,7 @@ interface InputRef {
   focus(): void;
 }
 
-const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = ({ name, ...rest }, ref) => {
+const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = ({ name, middleware, ...rest }, ref) => {
   const inputElementRef = useRef<any>(null);
 
   const inputValueRef = useRef<InputValueReference>({ value: '' });
@@ -74,6 +75,7 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = ({ name, ...
           onBlur={handleInputBlur}
           onChangeText={(value) => {
             inputValueRef.current.value = value;
+            if (middleware) middleware(value);
           }}
         />
         {error && <ErrorText>{error}</ErrorText>}

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Lancamentos } from '../../interfaces/dashboard';
-import { Container, Line, Paragraph, Title, Value, ValueNegative } from './style';
 
+import { Lancamentos } from '../../interfaces/dashboard';
+import { Container, Line, Paragraph, HeaderCardContainer, Title, Value, ValueNegative } from './style';
+import PlansSvg from '../../assets/svgs/Plans';
 
 interface PlansProps {
   lancamentos: Lancamentos[];
@@ -14,7 +15,7 @@ const Plans: React.FC<PlansProps> = ( props ) => {
   const [ expenditure, setExpenditure ] = useState(0);
 
   function currencyFormat(num: number) {
-    return 'R$ ' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    return 'R$ ' + num.toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
   }
 
   useEffect( () => {
@@ -33,7 +34,10 @@ const Plans: React.FC<PlansProps> = ( props ) => {
 
   return (
     <Container>
-      <Title>Planos de conta</Title>
+      <HeaderCardContainer>
+        <PlansSvg color="#9B9B9B" />
+        <Title>Planos de conta</Title>
+      </HeaderCardContainer>
       <Paragraph>Tipo do plano: Receita</Paragraph>
       <Value>{currencyFormat(recept)}</Value>
       <Line></Line>

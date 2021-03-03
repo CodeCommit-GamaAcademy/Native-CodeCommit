@@ -60,7 +60,7 @@ export default function Bottom() {
             onPress={() => navigator.navigate('Planos')}
           >
             <ItemLayout>
-              <PlansSvg />
+              <PlansSvg color="#FFF" />
               <LabelText 
                 isFocused={ true }
               >
