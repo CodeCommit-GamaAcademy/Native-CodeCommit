@@ -9,7 +9,7 @@ import Launchs from '../../../components/Launchs';
 import { Contas, Lancamentos, Plano } from '../../../interfaces/dashboard';
 import api from '../../../services/api';
 import { ApplicationStore } from '../../../store';
-import { Animated, StyleSheet, Dimensions, RefreshControl } from 'react-native';
+import { Animated, StyleSheet, Dimensions, RefreshControl, Platform } from 'react-native';
 import Bottom from '../../../components/Bottom';
 import { useNavigation } from '@react-navigation/native';
 import Loader from '../../../components/Loader';
@@ -145,10 +145,9 @@ const Releases: React.FC = () => {
   };
 
   const showMenuLeft = (action: 'hide' | 'show') => {
-
     setHideOrShow(!hideOrShow);
     if (action === 'hide') hide();
-    if (action === 'show') show();
+    else if (action === 'show') show();
   }
 
   const [refreshing, setRefreshing] = useState(false);
@@ -173,7 +172,7 @@ const Releases: React.FC = () => {
                 !loading && <Loader changeColor={true} marginTop={34} />
               }
               {
-                loading && store.user && <User show={showMenuLeft} user={store.user} />
+                loading && store.user && <User onAction={ () => showMenuLeft('show') } user={store.user} />
               }
               {
                 loading && accountInfo && <Balance conta={accountInfo?.contaBanco} />
@@ -187,15 +186,13 @@ const Releases: React.FC = () => {
             </Container>
           </ScrollView>
         </MainContainer>
-          <Animated.View style={[
-            styles.fadingContainer,
-            {
+          <Animated.View style={{
+              ...styles.fadingContainer,
               left: fadeAnim,
-            }
-          ]}>
+            }}>
             <MenuLeft>
               {
-                store.user && <User hide={showMenuLeft} showCancel={true} onCancel={() => showMenuLeft('hide')} hideName={true} fromRealeases={true} user={store.user} />
+                store.user && <User showCancel={true} onCancel={() => showMenuLeft('hide')} hideName={true} fromRealeases={true} user={store.user} />
               }
               <MenuContainer>
                 <Paragraph>Seu nome:</Paragraph>
