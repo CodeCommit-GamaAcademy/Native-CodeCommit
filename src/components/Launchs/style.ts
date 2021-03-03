@@ -5,7 +5,7 @@ export const Container = styled.SafeAreaView`
   margin-top: 30px;
   margin-bottom: 60px;
   background-color: #FFFFFF;
-  border-radius: 19px;
+  border-radius: 10px;
 
   padding: 20px 0;
   
