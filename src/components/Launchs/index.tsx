@@ -26,6 +26,8 @@ const Launchs: React.FC<LaunchsProps> = ( { launchs } ) => {
                 <Line></Line>
                 <Value negative={ launch.tipo === 'D' }>{currencyFormat(launch.valor)}</Value>
                 <Paragraph>{launch.data}</Paragraph>
+                <Paragraph>{launch.decricao}</Paragraph>
+
               </View>
             );
         })

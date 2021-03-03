@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Feather } from '@expo/vector-icons';
 import Bottom from '../../../components/Bottom';
-import RNPickerSelect from 'react-native-picker-select';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import moment from 'moment';
+import CalendarPicker from 'react-native-calendar-picker';
 
-import { Container, ScrollContainer, DepositCard, HeaderCardContainer, CardTitle, InputContainer, Input, InputSelect, ButtonSubmit, ButtonText, Main } from './style';
+import { Container, ScrollContainer, DepositCard, HeaderCardContainer, CardTitle, InputContainer, Input, Calendar, ButtonSubmit, ButtonText, Main, InputLabel } from './style';
 import ValidateCurrentToken from '../../../services/ValidateCurrentToken';
 import updateStore from '../../../services/updateStore';
 import api from '../../../services/api';
@@ -33,8 +33,8 @@ const Transactions: React.FC<RouteProps> = (props) => {
 
   const [loading, setLoading] = useState(false);
   const [destinatario, setDestinatario] = useState('');
-  const [planoConta, setPlanoConta] = useState('');
-  const [transacao, setTransacao] = useState('');
+  const [data, setData] = useState('');
+  const [descricao, setDescricao] = useState('');
   const [valor, setValor] = useState('');
   const [userExist, setUserExist] = useState(true);
   const [isDeposit, setIsdeposit] = useState(
@@ -100,13 +100,25 @@ const Transactions: React.FC<RouteProps> = (props) => {
           return;
       }
 
+      console.log(
+        {
+          "conta": myAccount.data.contaBanco.id,
+          "contaDestino": isDeposit ? "" : destinatario.trim(),
+          "data": moment(data).format('YYYY-MM-DD'),
+          "descricao": descricao,
+          "login": store?.login,
+          "planoConta": isDeposit ? transactions.data[0].id : transactions.data[3].id ,
+          "valor": +valor
+        }
+      )
+
       const {status} = await api.post('lancamentos', {
-        "conta": planoConta == "CB" ? myAccount.data.contaBanco.id : myAccount.data.contaCredito.id,
+        "conta": myAccount.data.contaBanco.id,
         "contaDestino": isDeposit ? "" : destinatario.trim(),
-        "data": moment().format('YYYY-MM-DD'),
-        "descricao": transactions.data.find(p => p.tipoMovimento == transacao)?.descricao,
+        "data": moment(data).format('YYYY-MM-DD'),
+        "descricao": descricao,
         "login": store?.login,
-        "planoConta": transactions.data.find(p => p.tipoMovimento == transacao)?.id,
+        "planoConta": isDeposit ? transactions.data[0].id : transactions.data[3].id ,
         "valor": +valor
       }, {
         headers: {
@@ -116,7 +128,7 @@ const Transactions: React.FC<RouteProps> = (props) => {
 
       if (status !== 200) throw new Error('Something went wrong with request')
       clearForm()
-      toast({message:"Transferencia feita com sucesso!"});
+      toast({message:"Transferência realizada com sucesso!"});
       navigation.navigate('Lancamentos');
 
     }catch(err){ 
@@ -128,19 +140,25 @@ const Transactions: React.FC<RouteProps> = (props) => {
           accentColor: 'error', 
           iconName: 'x' 
         });
-      
     }finally {
       setLoading(false);
     }
 
-  }, isDeposit ? [planoConta, transacao, valor, store?.login, store?.token] : [destinatario, planoConta, transacao, valor, store?.login, store?.token])
+  }, isDeposit ? [descricao, data, valor, store?.login, store?.token] : [destinatario, descricao, data, valor, store?.login, store?.token])
 
   function clearForm() {
     setDestinatario('')
-    setPlanoConta('')
-    setTransacao('')
+    setDescricao('')
+    setData('')
     setValor('')
   }
+
+  const handleChangeValue = useCallback((e: string) => {
+    const numberToAdd = Number(e);
+
+    if (numberToAdd > 10000) setValor('10000');
+    else setValor(numberToAdd.toString());
+  }, []);
 
   return (
     <Main>
@@ -162,41 +180,31 @@ const Transactions: React.FC<RouteProps> = (props) => {
                   onChangeText={(text) => setDestinatario(text)}
                 />
               }
-              <InputSelect>
-                <RNPickerSelect
-                    placeholder={{label:"Plano de conta"}}
-                    onValueChange={(value) => setPlanoConta(value)}
-                    value={planoConta}
-                    items={[
-                        { label: 'Conta Banco', value: 'CB' },
-                        { label: 'Conta Crédito', value: 'CC' },
-                    ]}
-                    Icon={() => {
-                      return <Feather name="chevron-down" size={24} color="#878686" />;
-                    }}
+              <Input
+                placeholder="Descrição"
+                value={descricao}
+                onChangeText={(text) => setDescricao(text)}
+              />
+              <InputLabel>Escolha a data {isDeposit ? 'do depósito' : 'da transferência'}:</InputLabel>
+              <Calendar>
+                <CalendarPicker
+                  onDateChange={(date) => setData(date.format('YYYY-MM-DD'))}
+                  minDate={new Date()}
+                  width={ 250 }
+                  height={ 250 }
+                  weekdays={['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom']}
+                  months={['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']}
+                  previousTitle="Anterior"
+                  nextTitle="Próximo"
+                  selectedDayColor="#68DE5A"
+                  selectedDayTextColor="#FFF"
+                  textStyle={{ color: '#FFF' }}
                 />
-              </InputSelect>
-              <InputSelect>
-                <RNPickerSelect
-                  placeholder={{label:"Tipo de transação"}}
-                  onValueChange={(value) => setTransacao(value)}
-                  value={transacao}
-                    items={[
-                      { label: 'Receita', value: 'R' },
-                      { label: 'Despesa', value: 'D' },
-                      { label: 'Transferências entre contas', value: 'TC' },
-                      { label: 'Transferências entre usuários', value: 'TU' },
-                    ]}
-    
-                  Icon={() => {
-                    return <Feather name="chevron-down" size={24} color="#878686" />;
-                  }}
-                />
-              </InputSelect>
+              </Calendar>
               <Input 
-                placeholder={isDeposit ? 'Valor de depósito' : 'Valor de transferência'} keyboardType='numeric'
+                placeholder={isDeposit ? 'Valor de depósito em R$' : 'Valor de transferência em R$'} keyboardType='number-pad'
                 value={valor}
-                onChangeText={(text) => setValor(text)}
+                onChangeText={(text) => handleChangeValue(text)}
               />
               {
                 loading ? (<Loader marginTop={34} />) : 

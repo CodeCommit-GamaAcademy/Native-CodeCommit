@@ -1,4 +1,8 @@
 Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\ana.conceicao\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add react-native-masked-text @types/react-native-masked-text
+
+PATH: 
+  C:\Users\ana.conceicao\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\ana.conceicao\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\150\Tools\Binn;C:\Program Files\Microsoft SQL Server\150\Tools\Binn;C:\Program Files\Microsoft SQL Server\150\DTS\Binn;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn;C:\Program Files\apache-maven-3.6.3\bin;C:\Program Files\MySQL\MySQL Shell 8.0\bin;C:\Users\ana.conceicao\AppData\Local\Microsoft\WindowsApps;C:\Users\ana.conceicao\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\ana.conceicao\AppData\Roaming\npm;C:\Users\ana.conceicao\codenation;C:\Program Files\MongoDB\Server\4.2\bin;C:\Program Files\7-Zip;C:\Program Files\JetBrains\IntelliJ IDEA 2020.2\bin;C:\Program Files\apache-maven-3.6.3\bin;C:\Program Files\heroku\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
   /Users/igorsantos/.nvm/versions/node/v12.18.0/bin/node /usr/local/Cellar/yarn/1.22.4/libexec/bin/yarn.js add @unforme/mobile
   /home/gabriel/.nvm/versions/node/v14.15.5/bin/node /home/gabriel/.nvm/versions/node/v14.15.5/bin/yarn add @types/react-native-styled-toast -D
 
@@ -9,6 +13,23 @@ Yarn version:
   1.22.4
 
 Node version: 
+  12.16.2
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/@types%2freact-native-masked-text: Not found
+      at Request.params.callback [as _callback] (C:\Users\ana.conceicao\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66988:18)
+      at Request.self.callback (C:\Users\ana.conceicao\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140662:22)
+      at Request.emit (events.js:310:20)
+      at Request.<anonymous> (C:\Users\ana.conceicao\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141634:10)
+      at Request.emit (events.js:310:20)
+      at IncomingMessage.<anonymous> (C:\Users\ana.conceicao\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141556:12)
+      at Object.onceWrapper (events.js:416:28)
+      at IncomingMessage.emit (events.js:322:22)
+      at endReadableNT (_stream_readable.js:1187:12)
+      at processTicksAndRejections (internal/process/task_queues.js:84:21)
   12.18.0
 
 Platform: 
@@ -55,18 +76,23 @@ npm manifest:
       "@react-navigation/bottom-tabs": "^5.11.8",
       "@react-navigation/native": "^5.9.3",
       "@react-navigation/stack": "^5.14.3",
+<<<<<<< HEAD
+      "@types/react-native-datepicker": "^1.7.0",
+=======
       "@unform/core": "^2.1.6",
       "@unform/mobile": "^2.1.6",
+>>>>>>> fb6b9b15c3132d7b380ac1fcfe8d68eb7b97ad4e
       "axios": "^0.21.1",
       "expo": "^40.0.1",
       "expo-status-bar": "~1.0.3",
       "jwt-decode": "^3.1.2",
       "lottie-ios": "3.1.8",
-      "lottie-react-native": "^3.5.0",
+      "lottie-react-native": "~2.6.1",
       "moment": "^2.29.1",
       "react": "16.13.1",
       "react-dom": "16.13.1",
       "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
+      "react-native-datepicker": "^1.7.2",
       "react-native-gesture-handler": "~1.8.0",
       "react-native-picker-select": "^8.0.4",
       "react-native-reanimated": "~1.13.0",
@@ -2078,6 +2104,15 @@ Lockfile:
     integrity sha512-3UuR4MoWf5spNgrG6cwsmT9DdRghcR4IDFOzNZ6+wcmacxkFykcb5ji0nNVm9ckBT4BCxvCrJJbM4+EYsEEVIg==
     dependencies:
       "@types/react" "^16"
+  
+  "@types/react-native-datepicker@^1.7.0":
+    version "1.7.0"
+    resolved "https://registry.yarnpkg.com/@types/react-native-datepicker/-/react-native-datepicker-1.7.0.tgz#b4dc63ed3bd356ac30c9195b7987aea45f79fe8d"
+    integrity sha512-YbhwgveJSmJRsUNl82UcZbMdNDBzd+RiMmyev3+yiEepGYk56yh/Q3Ypi2dw7XjMEQ5GSNUehcVKVP31EWcUlw==
+    dependencies:
+      "@types/react" "*"
+      "@types/react-native" "*"
+      moment ">=2.14.0"
   
   "@types/react-native@*", "@types/react-native@~0.63.2":
     version "0.63.50"
@@ -4809,25 +4844,25 @@ Lockfile:
     dependencies:
       js-tokens "^3.0.0 || ^4.0.0"
   
+  lottie-ios@2.5.0:
+    version "2.5.0"
+    resolved "https://registry.yarnpkg.com/lottie-ios/-/lottie-ios-2.5.0.tgz#55c808e785d4a6933b0c10b395530b17098b05de"
+    integrity sha1-VcgI54XUppM7DBCzlVMLFwmLBd4=
+  
   lottie-ios@3.1.8:
     version "3.1.8"
     resolved "https://registry.yarnpkg.com/lottie-ios/-/lottie-ios-3.1.8.tgz#2e9b1f4eae0dfc10bf4c0b3ab6b402c1d590d0fa"
     integrity sha512-9bgiVn1n+zqWjDPTk4MVWXA+DgVa91payxV2jz8B2dsDFqWtjEqTZaaVo5IqNUExsaC5XkRbziExtTOtzd39tQ==
   
-  lottie-ios@^3.1.8:
-    version "3.2.0"
-    resolved "https://registry.yarnpkg.com/lottie-ios/-/lottie-ios-3.2.0.tgz#0a0f229e065833c3b54169f5ee6a2624b8fd9c94"
-    integrity sha512-WZco9THmu8/zd1ysqa4kl56BqnZvsOgV2C4UYHj/aOxAYP/3mjeHHxs11l1DFVOyYR5KOs+6FpjTsU5fMgKkXA==
-  
-  lottie-react-native@^3.5.0:
-    version "3.5.0"
-    resolved "https://registry.yarnpkg.com/lottie-react-native/-/lottie-react-native-3.5.0.tgz#749fed964bdc9fabfae24ef81696f90f4d758f59"
-    integrity sha512-yKYj58xynDAG/BqJUhg9LTATBqwD4ATGXJKL2Ho6g4BTmPexOjDBNnPSeRBwjlpBxQ1nP4Qw//0zbuFsTFD1TA==
+  lottie-react-native@~2.6.1:
+    version "2.6.1"
+    resolved "https://registry.yarnpkg.com/lottie-react-native/-/lottie-react-native-2.6.1.tgz#330d24fa6aac5928ea63f8e181b9b7d930a1a119"
+    integrity sha512-Z+6lARvWWhB8n8OSmW7/aHkV71ftsmO7hYXFt0D+REy/G40mpkQt1H7Cdy1HqY4cKAp7EYDWVxhu5+fkdD6o4g==
     dependencies:
       invariant "^2.2.2"
-      lottie-ios "^3.1.8"
+      lottie-ios "2.5.0"
       prop-types "^15.5.10"
-      react-native-safe-modules "^1.0.0"
+      react-native-safe-module "^1.1.0"
   
   lru-cache@^4.0.1:
     version "4.1.5"
@@ -5198,7 +5233,7 @@ Lockfile:
     dependencies:
       minimist "^1.2.5"
   
-  moment@^2.29.1:
+  moment@>=2.14.0, moment@^2.22.0, moment@^2.29.1:
     version "2.29.1"
     resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
     integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
@@ -5819,6 +5854,13 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
     integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
   
+  react-native-datepicker@^1.7.2:
+    version "1.7.2"
+    resolved "https://registry.yarnpkg.com/react-native-datepicker/-/react-native-datepicker-1.7.2.tgz#58d0822591a0ac9b32aba082650222a0ee29669d"
+    integrity sha1-WNCCJZGgrJsyq6CCZQIioO4pZp0=
+    dependencies:
+      moment "^2.22.0"
+  
   react-native-gesture-handler@~1.8.0:
     version "1.8.0"
     resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.8.0.tgz#18f61f51da50320f938957b0ee79bc58f47449dc"
@@ -5854,10 +5896,10 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-3.1.9.tgz#48864ea976b0fa57142a2cc523e1fd3314e7247e"
     integrity sha512-wmcGbdyE/vBSL5IjDPReoJUEqxkZsywZw5gPwsVUV1NBpw5eTIdnL6Y0uNKHE25Z661moxPHQz6kwAkYQyorxA==
   
-  react-native-safe-modules@^1.0.0:
-    version "1.0.0"
-    resolved "https://registry.yarnpkg.com/react-native-safe-modules/-/react-native-safe-modules-1.0.0.tgz#10a918adf97da920adb1e33e0c852b1e80123b65"
-    integrity sha512-ShT8duWBT30W4OFcltZl+UvpPDikZFURvLDQqAsrvbyy6HzWPGJDCpdqM+6GqzPPs4DPEW31YfMNmdJcZ6zI2w==
+  react-native-safe-module@^1.1.0:
+    version "1.2.0"
+    resolved "https://registry.yarnpkg.com/react-native-safe-module/-/react-native-safe-module-1.2.0.tgz#a23824ca24edc2901913694a76646475113d570d"
+    integrity sha1-ojgkyiTtwpAZE2lKdmRkdRE9Vw0=
     dependencies:
       dedent "^0.6.0"
   
