@@ -5,16 +5,13 @@ export const Container = styled.View`
   margin-top: 30px;
   background-color: #FFFFFF;
   border-radius: 10px;
-<<<<<<< HEAD
   padding: 40px 25px;
   width: ${Dimensions.get('window').width - 50}px;
 `;
 
 export const Title = styled.Text`
-  margin-left: 60px;
-=======
-  padding: 20px 0;
-  width: ${Dimensions.get('window').width - 50}px;
+  margin-left: 10px;
+  color: #9b9b9b;
 `;
 
 export const HeaderCardContainer = styled.View`
@@ -22,12 +19,6 @@ export const HeaderCardContainer = styled.View`
   flex-direction: row;
   margin-left: 25px;
   margin-top: 20px;
-`
-
-export const Title = styled.Text`
->>>>>>> a122f7d4d28e24c24debef2fda31911117b4e7b8
-  color: #9B9B9B;
-  margin-left: 10px;
 `
 
 export const Value = styled.Text`
