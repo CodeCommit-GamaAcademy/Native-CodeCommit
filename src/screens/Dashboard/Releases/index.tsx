@@ -30,10 +30,9 @@ const Releases: React.FC = () => {
   const [allLaunchs, setAllLaunchs] = useState<Lancamentos[]>();
   const [accountInfo, setAccountInfo] = useState<Contas>();
   const [loading, setLoading] = useState(false);
-  const [hideOrShow, setHideOrShow] = useState(false);
   const [plans, setPlans] = useState(0);
   const [update, setUpdate] = useState(false);
-  const [ isExiting, setIsExiting ] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
 
   //here its a way to update this page everytime when 
   //the navigation turn here
@@ -72,10 +71,10 @@ const Releases: React.FC = () => {
   const handleLogout = useCallback(async () => {
     await AsyncStorage.removeItem('@token_user');
     await AsyncStorage.removeItem('@user_data');
-
     dispatch(sign_out());
-
     navigator.navigate('Login');
+    setIsExiting(false);
+    showMenuLeft('hide');
   }, [dispatch, navigator]);
 
   //function to make month data get a 0 in position [0]
@@ -145,7 +144,6 @@ const Releases: React.FC = () => {
   };
 
   const showMenuLeft = (action: 'hide' | 'show') => {
-    setHideOrShow(!hideOrShow);
     if (action === 'hide') hide();
     else if (action === 'show') show();
   }
@@ -160,7 +158,7 @@ const Releases: React.FC = () => {
   return (
     <>
       <Main>
-        {isExiting && <LogoutModal accept={ handleLogout } decline={ () => setIsExiting(false) } />}
+        {isExiting && <LogoutModal accept={handleLogout} decline={() => setIsExiting(false)} />}
         <MainContainer
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -172,7 +170,7 @@ const Releases: React.FC = () => {
                 !loading && <Loader changeColor={true} marginTop={34} />
               }
               {
-                loading && store.user && <User onAction={ () => showMenuLeft('show') } user={store.user} />
+                loading && store.user && <User onAction={() => showMenuLeft('show')} user={store.user} />
               }
               {
                 loading && accountInfo && <Balance conta={accountInfo?.contaBanco} />
@@ -186,32 +184,32 @@ const Releases: React.FC = () => {
             </Container>
           </ScrollView>
         </MainContainer>
-          <Animated.View style={{
-              ...styles.fadingContainer,
-              left: fadeAnim,
-            }}>
-            <MenuLeft>
-              {
-                store.user && <User showCancel={true} onCancel={() => showMenuLeft('hide')} hideName={true} fromRealeases={true} user={store.user} />
-              }
-              <MenuContainer>
-                <Paragraph>Seu nome:</Paragraph>
-                <Value>{ store.user?.name }</Value>
-                <Paragraph>Username:</Paragraph>
-                <Value>{ store.user?.login }</Value>
-                <Paragraph>CPF:</Paragraph>
-                <Value>{ store.user && maskCPF(store.user.cpf) }</Value>
-                <Line />
-                <Paragraph>Você tem:</Paragraph>
-                <Value>{plans} planos de conta</Value>
-                <Line />
-                <LogoutButton onPress={() => setIsExiting(true)}>
-                  <Feather size={14} color="#8C52E5" name="log-out" />
-                  <LogoutText>Sair</LogoutText>
-                </LogoutButton>
-              </MenuContainer>
-            </MenuLeft>
-          </Animated.View>
+        <Animated.View style={{
+          ...styles.fadingContainer,
+          left: fadeAnim,
+        }}>
+          <MenuLeft>
+            {
+              store.user && <User showCancel={true} onCancel={() => showMenuLeft('hide')} hideName={true} fromRealeases={true} user={store.user} />
+            }
+            <MenuContainer>
+              <Paragraph>Seu nome:</Paragraph>
+              <Value>{store.user?.name}</Value>
+              <Paragraph>Username:</Paragraph>
+              <Value>{store.user?.login}</Value>
+              <Paragraph>CPF:</Paragraph>
+              <Value>{store.user && maskCPF(store.user.cpf)}</Value>
+              <Line />
+              <Paragraph>Você tem:</Paragraph>
+              <Value>{plans} planos de conta</Value>
+              <Line />
+              <LogoutButton onPress={() => setIsExiting(true)}>
+                <Feather size={14} color="#8C52E5" name="log-out" />
+                <LogoutText>Sair</LogoutText>
+              </LogoutButton>
+            </MenuContainer>
+          </MenuLeft>
+        </Animated.View>
         <Bottom />
       </Main>
     </>
