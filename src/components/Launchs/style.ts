@@ -37,7 +37,6 @@ export const Value = styled.Text<{ negative?: boolean }>`
 export const Paragraph = styled.Text`
   align-self: center;
   margin-top: 10px;
-  margin-bottom: 20px;
   font-size: 12px;
   color: #9B9B9B;
 `

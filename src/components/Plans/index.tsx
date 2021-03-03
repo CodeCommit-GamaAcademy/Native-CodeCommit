@@ -15,7 +15,7 @@ const Plans: React.FC<PlansProps> = ( props ) => {
   const [ expenditure, setExpenditure ] = useState(0);
 
   function currencyFormat(num: number) {
-    return 'R$ ' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    return 'R$ ' + num.toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
   }
 
   useEffect( () => {

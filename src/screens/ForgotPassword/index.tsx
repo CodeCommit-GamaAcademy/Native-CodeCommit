@@ -41,7 +41,7 @@ const ForgotPassword: React.FC = () => {
         navigator.navigate('Login');
     }, [navigator]);
 
-    const handleSubmitUsername = useCallback(async (dataProps: { username: string }) => {
+    const handleSubmitUsername = useCallback(async (dataProps: UsernameFormData) => {
         setLoading(true);
         try {
             formRefUsername.current?.setErrors({});

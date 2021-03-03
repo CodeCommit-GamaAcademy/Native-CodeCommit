@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
+import { RefreshControl } from 'react-native';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import Loader from '../../../components/Loader';
@@ -10,19 +11,21 @@ import { TextInput } from 'react-native-gesture-handler';
 import { SafeAreaView, SafeAreaViewProps } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 
-import { AddButton, 
-  CardTitle, 
-  CardType, 
-  CardUser, 
-  Container, 
-  ModalContainer, 
-  ModalContent, 
-  PlansCard, 
-  PlansContainer, 
-  PlusButton, 
-  SelectView, 
-  TitleText, 
-  ButtonText, 
+import {
+  AddButton,
+  CardTitle,
+  CardType,
+  CardUser,
+  ContainerScroll,
+  Container,
+  ModalContainer,
+  ModalContent,
+  PlansCard,
+  PlansContainer,
+  PlusButton,
+  SelectView,
+  TitleText,
+  ButtonText,
   Main,
   SpanTitle,
   DescriptionWrapper,
@@ -43,18 +46,18 @@ const Plans: React.FC = () => {
       await ValidateCurrentToken();
       const isLogged = await updateStore();
 
-      if ( !isLogged ) navigation.navigate('Login');
+      if (!isLogged) navigation.navigate('Login');
     }
 
     GetAuth();
   }, []);
 
   const [plans, setPlans] = useState<Plano[]>();
-  const [ isAdding, setIsAdding ] = useState(false);
-  const [ update, setUpdate ] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
+  const [update, setUpdate] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const user = useSelector((store: ApplicationStore) => store.user);
 
-  const user = useSelector(( store: ApplicationStore ) => store.user);
-  
   //here its a way to update this page everytime when 
   //the navigation turn here
   navigation.addListener('focus', () => {
@@ -62,46 +65,60 @@ const Plans: React.FC = () => {
   });
 
   useEffect(() => {
-    api.get<Plano[]>(`/lancamentos/planos-conta?login=${ user?.login }`, {
+    getInfoPlans();
+  }, [update]);
+
+  const getInfoPlans = useCallback(() => {
+    api.get<Plano[]>(`/lancamentos/planos-conta?login=${user?.login}`, {
       headers: {
         Authorization: user?.token
       }
     })
-    .then(response => {
-      setPlans(response.data);
-    })
-    .catch(err => console.log(err.response));
-  }, [update, user]);
+      .then(response => {
+        setPlans(response.data);
+      })
+      .catch(err => console.log(err.response));
+  }, [user]);
+
+  const onRefresh = useCallback(() => {
+    getInfoPlans();
+  }, []);
 
   if (plans) return (
     <Main>
-      <SafeAreaView style={{ flex: 1 }} >
-      { isAdding && <AddPlansModal closeModal={ () => setIsAdding(false) } setPlans={ setPlans } /> }
-      
-      <HeaderWrapper>
-        { user && <User user={ user } showCancel onCancel={() => navigation.navigate('Lancamentos')} /> }
-      </HeaderWrapper>
+      <ContainerScroll
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <SafeAreaView style={{ flex: 1 }} >
+          {isAdding && <AddPlansModal closeModal={() => setIsAdding(false)} setPlans={setPlans} />}
 
-      <Container>
-        <PlansContainer>
-          {plans.map((plan, index) => (
-            <PlansCard
-              key={index}
-            >
-              <CardTitle>{plan.descricao}</CardTitle>
-              <CardUser>{plan.login}</CardUser>
-              <CardType>Movimentação do tipo: {plan.tipoMovimento}</CardType>
-            </PlansCard>
-          ))}
+          <HeaderWrapper>
+            {user && <User user={user} showCancel onCancel={() => navigation.navigate('Lancamentos')} />}
+          </HeaderWrapper>
 
-          <PlusButton
-            onPress={ () => setIsAdding(true) }
-          >
-            <Feather name="plus" size={24} color="#fff"  />
-          </PlusButton>
-        </PlansContainer>
-      </Container>
-      </SafeAreaView>
+          <Container>
+            <PlansContainer>
+              {plans.map((plan, index) => (
+                <PlansCard
+                  key={index}
+                >
+                  <CardTitle>{plan.descricao}</CardTitle>
+                  <CardUser>{plan.login}</CardUser>
+                  <CardType>Movimentação do tipo: {plan.tipoMovimento}</CardType>
+                </PlansCard>
+              ))}
+
+              <PlusButton
+                onPress={() => setIsAdding(true)}
+              >
+                <Feather name="plus" size={24} color="#fff" />
+              </PlusButton>
+            </PlansContainer>
+          </Container>
+        </SafeAreaView>
+      </ContainerScroll>
       <Bottom />
     </Main>
   );
@@ -132,7 +149,7 @@ const AddPlansModal: React.FC<AddPlansModalProps> = ({ closeModal, setPlans, ...
   const handleAddPlan = useCallback(async () => {
 
     // Validation TODO
-    if ( !type || !description ) return;
+    if (!type || !description) return;
 
     const data = {
       descricao: description,
@@ -149,9 +166,9 @@ const AddPlansModal: React.FC<AddPlansModalProps> = ({ closeModal, setPlans, ...
         }
       });
 
-      if ( status === 200 || status === 201 ) {
+      if (status === 200 || status === 201) {
         setPlans(previewPlans => {
-          if ( previewPlans )
+          if (previewPlans)
             return [...previewPlans, data];
 
           return undefined;
@@ -167,32 +184,32 @@ const AddPlansModal: React.FC<AddPlansModalProps> = ({ closeModal, setPlans, ...
   }, []);
 
   return (
-    <ModalContainer { ...props }>
+    <ModalContainer {...props}>
       <ModalContent>
 
-        
-          <Feather 
-            name='x' 
-            size={ 18 } 
-            onPress={ closeModal }
-            style={{ position: 'absolute', top: 12, left: 12 }}
-          />
+
+        <Feather
+          name='x'
+          size={18}
+          onPress={closeModal}
+          style={{ position: 'absolute', top: 12, left: 12 }}
+        />
 
         <TitleText>
-          <MaterialIcons name="event-note" color="#444444" size={24} style={{ marginRight: 8 }} /> 
+          <MaterialIcons name="event-note" color="#444444" size={24} style={{ marginRight: 8 }} />
           <SpanTitle >Adicionar um plano</SpanTitle>
         </TitleText>
 
         <SelectView>
-          <RNPickerSelector 
+          <RNPickerSelector
 
             onValueChange={(value) => setType(value)}
 
             items={[
-              {label: 'Receita', value: 'R', color: '#000'},
-              {label: 'Despesa', value: 'D', color: '#000'},
-              {label: 'Transferências entre contas', value: 'TC', color: '#000'},
-              {label: 'Transferências entre usuários', value: 'TU', color: '#000'},
+              { label: 'Receita', value: 'R', color: '#000' },
+              { label: 'Despesa', value: 'D', color: '#000' },
+              { label: 'Transferências entre contas', value: 'TC', color: '#000' },
+              { label: 'Transferências entre usuários', value: 'TU', color: '#000' },
             ]}
 
             style={{ inputAndroid: { color: '#000' }, inputIOS: { color: '#000' } }}
@@ -205,8 +222,8 @@ const AddPlansModal: React.FC<AddPlansModalProps> = ({ closeModal, setPlans, ...
           hasContent={!!description}
         >
 
-          <TextInput 
-            onChangeText={ text => setDescription(text) }
+          <TextInput
+            onChangeText={text => setDescription(text)}
             placeholder="Descrição"
             maxLength={20}
           />
@@ -215,7 +232,7 @@ const AddPlansModal: React.FC<AddPlansModalProps> = ({ closeModal, setPlans, ...
         </DescriptionWrapper>
 
         <AddButton
-          onPress={ handleAddPlan }
+          onPress={handleAddPlan}
         >
           <Feather name="plus" size={14} color="#fff" />
           <ButtonText>Adicionar</ButtonText>

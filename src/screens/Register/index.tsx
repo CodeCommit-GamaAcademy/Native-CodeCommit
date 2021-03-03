@@ -25,6 +25,7 @@ interface RegisterFormData {
 }
 
 import { UserResponse } from '../../types/user';
+import maskCPF from '../../utils/maskCpf';
 
 
 const Register: React.FC = () => {
@@ -37,6 +38,7 @@ const Register: React.FC = () => {
         navigator.navigate('Login');
     }, [navigator]);
 
+    const [cpfMask, setCpfMask] = useState('');
     const formRef = useRef<FormHandles>(null);
     const usernameInputRef = useRef<TextInput>(null);
     const nameInputRef = useRef<TextInput>(null);
@@ -44,33 +46,55 @@ const Register: React.FC = () => {
     const confirmPasswordInputRef = useRef<TextInput>(null);
 
     const handleSubmit = useCallback(async (data: RegisterFormData) => {
+
+        const cleanCPF = cpfMask.slice(0, 14)
+            .split('')
+            .filter((letter) => !isNaN(Number(letter))).join('');
+
         setLoading(true);
         try {
             formRef.current?.setErrors({});
 
             const schema = yup.object().shape({
-                cpf: yup.string().min(14, 'Obrigatório ter 11 digitos'),
+                cpf: yup.string().min(11, 'Obrigatório ter 11 digitos'),
                 username: yup.string().required('Nome de usuário obrigatório '),
                 name: yup.string().required('Nome completo obrigatório'),
                 password: yup.string().min(6, 'No mínimo 6 digitos'),
                 confirmPassword: yup.string().min(6, 'No mínimo 6 digitos')
             });
 
-            await schema.validate(data, {
+            const filteredData: RegisterFormData = {
+                ...data,
+                cpf: cleanCPF
+            }
+
+            await schema.validate(filteredData, {
                 abortEarly: false
             });
 
+            if (filteredData.password !== filteredData.confirmPassword) {
+                toast({
+                    message: 'As senhas devem ser iguais!',
+                    color: 'error',
+                    iconColor: 'error',
+                    accentColor: 'error',
+                    iconName: 'x'
+                });
+
+                throw new Error('the password must be equal!')
+            };
+
             const { status } = await api.post('/usuarios', {
-                "cpf": data.cpf,
-                "login": data.username,
-                "nome": data.name,
-                "senha": data.password,
+                "cpf": filteredData.cpf,
+                "login": filteredData.username,
+                "nome": filteredData.name,
+                "senha": filteredData.password,
             });
 
             if (status === 200 || status === 201) {
                 const { data: response } = await api.post<UserResponse>('/login', {
-                    "usuario": data.username,
-                    "senha": data.password
+                    "usuario": filteredData.username,
+                    "senha": filteredData.password
                 });
 
                 await AsyncStorage.setItem('@token_user', response.token);
@@ -95,24 +119,22 @@ const Register: React.FC = () => {
             if (err instanceof yup.ValidationError) {
                 const errors = getValidationErrors(err);
                 formRef.current?.setErrors(errors);
-
-                toast({
-                    message: 'Ocorreu algum erro!',
-                    color: 'error',
-                    iconColor: 'error',
-                    accentColor: 'error',
-                    iconName: 'x'
-                });
             }
+            toast({
+                message: 'Ocorreu algum erro!',
+                color: 'error',
+                iconColor: 'error',
+                accentColor: 'error',
+                iconName: 'x'
+            });
         } finally {
             setLoading(false);
         }
-    }, [navigator]);
+    }, [navigator, cpfMask]);
 
     return (
         <SafeAreaContainer>
             <ScrollContainer>
-
                 <Container
                     enabled={Platform.OS === 'ios'}
                     behavior="padding"
@@ -123,6 +145,9 @@ const Register: React.FC = () => {
                             <FormTitle>Peça sua conta e cartão de crédito do Gama Bank</FormTitle>
 
                             <Input
+                                middleware={(value) => setCpfMask(maskCPF(value))}
+                                value={cpfMask}
+                                maxLength={14}
                                 autoCorrect={false}
                                 autoCapitalize="none"
                                 name="cpf"
@@ -147,7 +172,6 @@ const Register: React.FC = () => {
 
                             <Input
                                 ref={nameInputRef}
-                                autoCapitalize="words"
                                 name="name"
                                 placeholder="Nome completo"
                                 returnKeyType="next"
