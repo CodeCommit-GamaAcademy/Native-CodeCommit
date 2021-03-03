@@ -5,13 +5,29 @@ export const Container = styled.View`
   margin-top: 30px;
   background-color: #FFFFFF;
   border-radius: 10px;
+<<<<<<< HEAD
   padding: 40px 25px;
   width: ${Dimensions.get('window').width - 50}px;
 `;
 
 export const Title = styled.Text`
   margin-left: 60px;
+=======
+  padding: 20px 0;
+  width: ${Dimensions.get('window').width - 50}px;
+`;
+
+export const HeaderCardContainer = styled.View`
+  align-items: center;
+  flex-direction: row;
+  margin-left: 25px;
+  margin-top: 20px;
+`
+
+export const Title = styled.Text`
+>>>>>>> a122f7d4d28e24c24debef2fda31911117b4e7b8
   color: #9B9B9B;
+  margin-left: 10px;
 `
 
 export const Value = styled.Text`
@@ -42,5 +58,5 @@ export const Line = styled.View`
   align-self: center;
   background: #9B9B9B;
   height: 1px;
-  width: ${Dimensions.get('window').width - 120}px;
+  width: ${Dimensions.get('window').width - 100}px;
 `

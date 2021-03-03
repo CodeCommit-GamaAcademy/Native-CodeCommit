@@ -10,10 +10,15 @@ export const Container = styled.View`
   width: ${Dimensions.get('window').width - 50}px;
 `;
 
+export const HeaderCardContainer = styled.View`
+  align-items: center;
+  flex-direction: row;
+  margin: 20px 0 15px 25px;
+`
+
 export const Title = styled.Text`
-  margin-left: 60px;
-  margin-top: 20px;
   color: #9B9B9B;
+  margin-left: 10px;
 `
 
 export const Value = styled.Text`

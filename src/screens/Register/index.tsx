@@ -26,6 +26,7 @@ interface RegisterFormData {
 
 import { UserResponse } from '../../types/user';
 import maskCPF from '../../utils/maskCpf';
+import updateStore from '../../services/updateStore';
 
 
 const Register: React.FC = () => {
@@ -102,6 +103,8 @@ const Register: React.FC = () => {
                     name: response.usuario.nome,
                     cpf: response.usuario.cpf
                 }));
+
+                await updateStore()
 
                 toast({ message: 'Usuário registrado com sucesso!' });
                 navigator.navigate('RegisterSucceded');

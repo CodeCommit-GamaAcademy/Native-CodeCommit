@@ -18,6 +18,7 @@ import api from '../../services/api';
 import Loader from '../../components/Loader';
 import Input from '../../components/Input';
 import { LogoImg, SafeAreaContainer, ContainerScrollView, Container, CardForm, TitleForm, InputForm, ButtonSubmit, ButtonSubmitText, LinkForm, LinkFormText } from './styles';
+import updateStore from '../../services/updateStore';
 
 
 interface SignInFormData {
@@ -64,12 +65,8 @@ const Login: React.FC = () => {
         cpf: response.usuario.cpf
       }));
 
-      dispatch(sign_in({
-        login: response.usuario.login,
-        name: response.usuario.nome,
-        token: response.token,
-        cpf: response.usuario.cpf
-      }))
+      await updateStore();
+
       toast({ message: 'Seja bem vindo(a)!' });
       navigator.navigate('Dashboard');
     } catch (err) {
