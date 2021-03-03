@@ -5,7 +5,7 @@ export const Container = styled.View`
   margin-top: 30px;
   background-color: #FFFFFF;
   border-radius: 10px;
-  padding: 40px 25px 0px 25px;
+  padding: 25px ;
   width: ${Dimensions.get('window').width - 50}px;
 `;
 
