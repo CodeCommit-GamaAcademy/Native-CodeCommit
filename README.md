@@ -5,6 +5,7 @@
 
 <p align="center">Desenvolvido pela equipe da <strong>CodeCommit
 
+
 <p align="center"> 
     <a  href="#equipe-da-codecommit">Equipe</a> |
     <a  href="#libs">Libs</a> |
@@ -20,6 +21,13 @@
 </div>
 
 <p align="center">Projeto desenvolvido na academia da <a href="https://www.gama.academy/" target="_blank">Gama Academy</a> em parceria com a <a href="https://www.accenture.com/br-pt" target="_blank">Accenture</a> com objetivo de aplicar todos os conceitos aprendidos durante o curso e apresentar para banca como projeto final!</p>
+
+## APK Android
+
+<p> É possível realizar o download e instalação do aplicativo em celulares Android, através do link: </p>
+
+<a href="https://drive.google.com/file/d/1dGg-o6E44Up7z_tVITjU5mVXP3RgXIXX/view?usp=sharing"> Baixar Gama-Bank.apk </a>
+
 
 ## Equipe da CodeCommit
 <div align="center">
