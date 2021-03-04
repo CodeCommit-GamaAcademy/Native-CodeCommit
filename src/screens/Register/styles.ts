@@ -17,6 +17,7 @@ export const Container = styled.KeyboardAvoidingView`
     background-color: #8c52e5;
 
     padding: 40px 25px 0px 25px;
+    margin-bottom: 20px;
 `;
 
 export const Logo = styled.Image`

@@ -15,7 +15,7 @@ export const SafeAreaContainer = styled.SafeAreaView`
   justify-content: center;
   align-items: center;
   height: ${Dimensions.get('window').height}px;
-  margin: 20px 0;
+  margin: 0px 0;
 `;
 
 export const Container = styled.KeyboardAvoidingView`
@@ -23,7 +23,7 @@ export const Container = styled.KeyboardAvoidingView`
   justify-content: center;
   flex: 1;
   height: 100%;
-  padding: 40px 25px 0px 25px;
+  padding: 0 25px 0px 25px;
 
 `;
 
