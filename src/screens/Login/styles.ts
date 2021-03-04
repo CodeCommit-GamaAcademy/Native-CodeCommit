@@ -15,7 +15,7 @@ export const SafeAreaContainer = styled.SafeAreaView`
   justify-content: center;
   align-items: center;
   height: ${Dimensions.get('window').height}px;
-  margin: 20px 0;
+  margin: 0px 0;
 `;
 
 export const Container = styled.KeyboardAvoidingView`
@@ -23,13 +23,15 @@ export const Container = styled.KeyboardAvoidingView`
   justify-content: center;
   flex: 1;
   height: 100%;
+  padding: 0 25px 0px 25px;
+
 `;
 
 export const CardForm = styled.View`
   background: #fff;
-  width: 90%;
+  width: 100%;
   padding: 42px 36px;
-  border-radius: 8px;
+  border-radius: 10px;
   margin-top: -30px;
 `;
 

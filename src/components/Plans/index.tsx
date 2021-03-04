@@ -1,39 +1,43 @@
 import React, { useEffect, useState } from 'react';
-import { Lancamentos } from '../../interfaces/dashboard';
-import { Container, Line, Paragraph, Title, Value, ValueNegative } from './style';
 
+import { Lancamentos } from '../../interfaces/dashboard';
+import { Container, Line, Paragraph, HeaderCardContainer, Title, Value, ValueNegative } from './style';
+import PlansSvg from '../../assets/svgs/Plans';
 
 interface PlansProps {
   lancamentos: Lancamentos[];
+  update: boolean;
 }
 
-const Plans: React.FC<PlansProps> = ( props ) => {
+const Plans: React.FC<PlansProps> = ( { lancamentos, update } ) => {
 
-  const [ launchs, setLaunchs ] = useState(props.lancamentos);
   const [ recept, setRecept ] = useState(0);
   const [ expenditure, setExpenditure ] = useState(0);
 
   function currencyFormat(num: number) {
-    return 'R$ ' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    return 'R$ ' + num.toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
   }
 
   useEffect( () => {
     let valueRecept = 0;
     let valueExpenditure = 0;
-    launchs.forEach( (launch) => {
-      if ( launch.planoConta.tipoMovimento === 'R' ) {
+    lancamentos.forEach( (launch) => {
+      if ( launch.valor >= 0 ) {
         valueRecept += launch.valor;
-      } else if ( launch.planoConta.tipoMovimento === 'D' ) {
+      } else if ( launch.valor <= 0 ) {
         valueExpenditure += launch.valor;
       }
     });
     setRecept(valueRecept);
     setExpenditure(valueExpenditure);
-  }, [ props ])
+  }, [ lancamentos, update ])
 
   return (
     <Container>
-      <Title>Planos de conta</Title>
+      <HeaderCardContainer>
+        <PlansSvg color="#9B9B9B" />
+        <Title>Planos de conta</Title>
+      </HeaderCardContainer>
       <Paragraph>Tipo do plano: Receita</Paragraph>
       <Value>{currencyFormat(recept)}</Value>
       <Line></Line>

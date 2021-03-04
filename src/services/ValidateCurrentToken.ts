@@ -18,7 +18,7 @@ const ValidateCurrentToken = async () => {
 
     if ( expSeconds < nowSeconds ) {
         await AsyncStorage.removeItem('@token_user');
-        await AsyncStorage.removeItem('@user_name');
+        await AsyncStorage.removeItem('@user_data');
         
         await updateStore();
 

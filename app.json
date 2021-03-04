@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "nufake-mobile",
-    "slug": "nufake-mobile",
+    "name": "gama-bank",
+    "slug": "gama-bank",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,6 +27,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": ""
   }
 }

@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
+import { RefreshControl } from 'react-native';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import Loader from '../../../components/Loader';
@@ -6,93 +7,130 @@ import { Plano } from '../../../interfaces/dashboard';
 import api from '../../../services/api';
 import { ApplicationStore } from '../../../store';
 import RNPickerSelector from 'react-native-picker-select';
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
-import { SafeAreaViewProps } from 'react-native-safe-area-context';
+import { BorderlessButton, TextInput } from 'react-native-gesture-handler';
+import { SafeAreaView, SafeAreaViewProps } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 
-import { AddButton, 
-  CardTitle, 
-  CardType, 
-  CardUser, 
-  Container, 
-  ModalContainer, 
-  ModalContent, 
-  PlansCard, 
-  PlansContainer, 
-  PlusButton, 
-  SelectView, 
-  TitleText, 
-  ButtonText, 
+import {
+  AddButton,
+  CardTitle,
+  CardType,
+  CardUser,
+  ContainerScroll,
+  Container,
+  ModalContainer,
+  ModalContent,
+  PlansCard,
+  PlansContainer,
+  PlusButton,
+  SelectView,
+  TitleText,
+  ButtonText,
   Main,
   SpanTitle,
   DescriptionWrapper,
-  DescriptionLabel
+  DescriptionLabel,
+  HeaderWrapper
 } from './styles';
 
 import Bottom from '../../../components/Bottom';
-
-import useChangeIfNotAuth from '../../../services/useChangeIfNotAuth';
+import ValidateCurrentToken from '../../../services/ValidateCurrentToken';
+import updateStore from '../../../services/updateStore';
+import User from '../../../components/User';
+import { useToast } from 'react-native-styled-toast';
 
 const Plans: React.FC = () => {
-  useChangeIfNotAuth();
-  const navigator = useNavigation();
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const GetAuth = async () => {
+      await ValidateCurrentToken();
+      const isLogged = await updateStore();
+
+      if (!isLogged) navigation.navigate('Login');
+    }
+
+    GetAuth();
+  }, []);
 
   const [plans, setPlans] = useState<Plano[]>();
-  const [ isAdding, setIsAdding ] = useState(false);
-  const [ update, setUpdate ] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
+  const [update, setUpdate] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const user = useSelector((store: ApplicationStore) => store.user);
 
-  const user = useSelector(( store: ApplicationStore ) => store.user);
-  
   //here its a way to update this page everytime when 
   //the navigation turn here
-  navigator.addListener('focus', () => {
+  navigation.addListener('focus', () => {
     setUpdate(!update);
   });
 
   useEffect(() => {
-    api.get<Plano[]>(`/lancamentos/planos-conta?login=${ user?.login }`, {
+    getInfoPlans();
+  }, [update]);
+
+  const getInfoPlans = useCallback(() => {
+    api.get<Plano[]>(`/lancamentos/planos-conta?login=${user?.login}`, {
       headers: {
         Authorization: user?.token
       }
     })
-    .then(response => {
-      setPlans(response.data);
-    })
-    .catch(err => console.log(err.response));
-  }, [update, user]);
+      .then(response => {
+        setPlans(response.data);
+      })
+      .catch(err => console.log(err.response));
+  }, [user]);
+
+  const onRefresh = useCallback(() => {
+    getInfoPlans();
+  }, [getInfoPlans]);
 
   if (plans) return (
     <Main>
-      { isAdding && <AddPlansModal closeModal={ () => setIsAdding(false) } setPlans={ setPlans } /> }
-      <Container>
-        <PlansContainer>
-          {plans.map((plan, index) => (
-            <PlansCard
-              key={index}
-            >
-              <CardTitle>{plan.descricao}</CardTitle>
-              <CardUser>{plan.login}</CardUser>
-              <CardType>Movimentação do tipo: {plan.tipoMovimento}</CardType>
-            </PlansCard>
-          ))}
+      {isAdding && <AddPlansModal closeModal={() => setIsAdding(false)} setPlans={setPlans} />}
+      <ContainerScroll
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <HeaderWrapper>
+          {user && <User user={user} showCancel onCancel={() => navigation.navigate('Lancamentos')} />}
+        </HeaderWrapper>
 
-          <PlusButton
-            onPress={ () => setIsAdding(true) }
-          >
-            <Feather name="plus" size={24} color="#fff"  />
-          </PlusButton>
-        </PlansContainer>
-      </Container>
+
+
+        <Container>
+          <PlansContainer>
+            {plans.map((plan, index) => (
+              <PlansCard
+                key={index}
+              >
+                <CardTitle>{plan.descricao}</CardTitle>
+                <CardUser>{plan.login}</CardUser>
+                <CardType>Movimentação do tipo: {plan.tipoMovimento}</CardType>
+              </PlansCard>
+            ))}
+
+            <PlusButton
+              onPress={() => setIsAdding(true)}
+            >
+              <Feather name="plus" size={24} color="#fff" />
+            </PlusButton>
+          </PlansContainer>
+        </Container>
+      </ContainerScroll>
       <Bottom />
     </Main>
   );
   else return (
-    <Main>
-      <Container>
-        <Loader marginTop={0} changeColor />
-      </Container>
+    <>
+      <Main>
+        <Container>
+          <Loader marginTop={0} changeColor />
+        </Container>
+      </Main>
       <Bottom />
-    </Main>
+    </>
   )
 }
 
@@ -102,15 +140,28 @@ interface AddPlansModalProps extends SafeAreaViewProps {
 }
 
 const AddPlansModal: React.FC<AddPlansModalProps> = ({ closeModal, setPlans, ...props }) => {
+
   const [type, setType] = useState('');
   const [description, setDescription] = useState('');
 
   const user = useSelector((store: ApplicationStore) => store.user);
 
+  const { toast } = useToast();
+
   const handleAddPlan = useCallback(async () => {
 
     // Validation TODO
-    if ( !type || !description ) return;
+    if (!type || !description) {
+      toast({
+        message: 'Usuário ou senha incorretos!',
+        color: 'error',
+        iconColor: 'error',
+        accentColor: 'error',
+        iconName: 'x'
+      });
+
+      return;
+    }
 
     const data = {
       descricao: description,
@@ -127,9 +178,9 @@ const AddPlansModal: React.FC<AddPlansModalProps> = ({ closeModal, setPlans, ...
         }
       });
 
-      if ( status === 200 || status === 201 ) {
+      if (status === 200 || status === 201) {
         setPlans(previewPlans => {
-          if ( previewPlans )
+          if (previewPlans)
             return [...previewPlans, data];
 
           return undefined;
@@ -142,35 +193,34 @@ const AddPlansModal: React.FC<AddPlansModalProps> = ({ closeModal, setPlans, ...
     } catch (err) {
       console.log(err.response);
     }
-  }, []);
+  }, [type, description, toast, closeModal, setPlans, user]);
 
   return (
-    <ModalContainer { ...props }>
+    <ModalContainer {...props}>
       <ModalContent>
 
-        
-          <Feather 
-            name='x' 
-            size={ 18 } 
-            onPress={ closeModal }
-            style={{ position: 'absolute', top: 12, left: 12 }}
-          />
+        <BorderlessButton
+          style={{ position: 'absolute', top: 12, left: 12 }}
+          onPress={closeModal}
+        >
+          <Feather name='x' size={18} />
+        </BorderlessButton>
 
         <TitleText>
-          <MaterialIcons name="event-note" color="#444444" size={24} style={{ marginRight: 8 }} /> 
+          <MaterialIcons name="event-note" color="#444444" size={24} style={{ marginRight: 8 }} />
           <SpanTitle >Adicionar um plano</SpanTitle>
         </TitleText>
 
         <SelectView>
-          <RNPickerSelector 
+          <RNPickerSelector
 
             onValueChange={(value) => setType(value)}
 
             items={[
-              {label: 'Receita', value: 'R', color: '#000'},
-              {label: 'Despesa', value: 'D', color: '#000'},
-              {label: 'Transferências entre contas', value: 'TC', color: '#000'},
-              {label: 'Transferências entre usuários', value: 'TU', color: '#000'},
+              { label: 'Receita', value: 'R', color: '#000' },
+              { label: 'Despesa', value: 'D', color: '#000' },
+              { label: 'Transferências entre contas', value: 'TC', color: '#000' },
+              { label: 'Transferências entre usuários', value: 'TU', color: '#000' },
             ]}
 
             style={{ inputAndroid: { color: '#000' }, inputIOS: { color: '#000' } }}
@@ -183,8 +233,8 @@ const AddPlansModal: React.FC<AddPlansModalProps> = ({ closeModal, setPlans, ...
           hasContent={!!description}
         >
 
-          <TextInput 
-            onChangeText={ text => setDescription(text) }
+          <TextInput
+            onChangeText={text => setDescription(text)}
             placeholder="Descrição"
             maxLength={20}
           />
@@ -193,7 +243,7 @@ const AddPlansModal: React.FC<AddPlansModalProps> = ({ closeModal, setPlans, ...
         </DescriptionWrapper>
 
         <AddButton
-          onPress={ handleAddPlan }
+          onPress={handleAddPlan}
         >
           <Feather name="plus" size={14} color="#fff" />
           <ButtonText>Adicionar</ButtonText>

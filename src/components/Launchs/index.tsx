@@ -1,7 +1,9 @@
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 import { View } from 'react-native';
+
 import { Lancamentos } from '../../interfaces/dashboard';
-import { Container, Line, NullValues, Paragraph, Title, Value, ValueNegative } from './style';
+import { Container, Line, NullValues, Paragraph, Title, Value, HeaderCardContainer } from './style';
+import PlansSvg from '../../assets/svgs/Plans';
 
 interface LaunchsProps {
   launchs: Lancamentos[]
@@ -10,37 +12,35 @@ interface LaunchsProps {
 const Launchs: React.FC<LaunchsProps> = ( { launchs } ) => {
 
   function currencyFormat(num: number) {
-    return 'R$ ' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    return 'R$ ' + num.toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
   }
 
   return (
     <Container>
       {
-        launchs && <Title>Últimos lancamentos</Title>
+        launchs && 
+        <HeaderCardContainer>
+          <PlansSvg color="#9B9B9B" />
+          <Title>Últimos lancamentos</Title>
+        </HeaderCardContainer>
       }
       
       { 
         launchs?.map( (launch, index) => {
-          if (launch.tipo === 'R') {
             return (
               <View key={index}>
                 <Line></Line>
-                <Value>{currencyFormat(launch.valor)}</Value>
+                <Value negative={ launch.valor < 0 }>{currencyFormat(launch.valor)}</Value>
                 <Paragraph>{launch.data}</Paragraph>
+                <Paragraph>{launch.decricao}</Paragraph>
+
               </View>
-            )
-          }
-          if (launch.tipo === 'D') {
-            return (
-              <View key={index}>
-                <Line></Line>
-                <ValueNegative>{currencyFormat(launch.valor)}</ValueNegative>
-                <Paragraph>{launch.data}</Paragraph>
-              </View>
-            )
-          }
+            );
         })
-      ?? <NullValues>Nenhum lancamento</NullValues>} 
+      }
+      {
+        launchs.length === 0 && <NullValues>Nenhuma transação encontrada</NullValues>
+      }
     </Container>
   );
 }

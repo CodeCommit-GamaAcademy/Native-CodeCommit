@@ -1,18 +1,24 @@
 import styled from 'styled-components/native';
 import { Dimensions } from 'react-native';
 
-export const Container = styled.SafeAreaView`
+export const Container = styled.View`
   margin-top: 30px;
   background-color: #FFFFFF;
-  border-radius: 19px;
-  padding: 10px 0 40px 0;
+  border-radius: 10px;
+  padding: 40px 25px;
   width: ${Dimensions.get('window').width - 50}px;
 `;
 
 export const Title = styled.Text`
-  margin-left: 60px;
+  margin-left: 10px;
+  color: #9b9b9b;
+`;
+
+export const HeaderCardContainer = styled.View`
+  align-items: center;
+  flex-direction: row;
+  margin-left: 25px;
   margin-top: 20px;
-  color: #9B9B9B;
 `
 
 export const Value = styled.Text`
@@ -43,5 +49,5 @@ export const Line = styled.View`
   align-self: center;
   background: #9B9B9B;
   height: 1px;
-  width: ${Dimensions.get('window').width - 120}px;
+  width: ${Dimensions.get('window').width - 100}px;
 `

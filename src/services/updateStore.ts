@@ -7,11 +7,11 @@ type updateStoreType = () => Promise<boolean>
 
 const updateStore: updateStoreType = async () => {
     const fullToken = await AsyncStorage.getItem('@token_user');
-    const username = await AsyncStorage.getItem('@user_name');
+    const userdataStr = await AsyncStorage.getItem('@user_data') ?? '';
 
-    if ( !fullToken || !username ) {
+    if ( !fullToken || !userdataStr ) {
         await AsyncStorage.removeItem('@token_user');
-        await AsyncStorage.removeItem('@user_name');
+        await AsyncStorage.removeItem('@user_data');
 
         store.dispatch(sign_out());
 
@@ -24,8 +24,9 @@ const updateStore: updateStoreType = async () => {
 
     store.dispatch(sign_in({
         login: sub,
-        name: username,
+        name: JSON.parse(userdataStr).name,
         token: fullToken,
+        cpf: JSON.parse(userdataStr).cpf
     }));
 
     return true;

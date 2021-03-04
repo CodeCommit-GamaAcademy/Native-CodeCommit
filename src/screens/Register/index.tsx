@@ -1,126 +1,233 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
+import { Platform, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import { Feather } from '@expo/vector-icons';
-
-import { SafeAreaContainer, ScrollContainer, Container, FormContainer, Logo, FormTitle, FormInput, SubmitButton, SubmitText, SubmitTextWrapper, ReturnLink, ReturnText } from './styles';
-import Loader from '../../components/Loader';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useToast } from 'react-native-styled-toast';
+import { Form } from '@unform/mobile';
+import { FormHandles } from '@unform/core';
+import * as yup from 'yup';
+import getValidationErrors from '../../utils/getValidationErrors';
 
 import LogoImg from '../../assets/logo.png';
-import { Platform } from 'react-native';
+
 import api from '../../services/api';
+import { SafeAreaContainer, ScrollContainer, Container, FormContainer, Logo, FormTitle, FormInput, SubmitButton, SubmitText, SubmitTextWrapper, ReturnLink, ReturnText } from './styles';
+import Loader from '../../components/Loader';
+import Input from '../../components/Input';
+
+interface RegisterFormData {
+    cpf: string;
+    username: string;
+    name: string;
+    password: string;
+    confirmPassword: string;
+}
+
+import { UserResponse } from '../../types/user';
+import maskCPF from '../../utils/maskCpf';
+import updateStore from '../../services/updateStore';
+
 
 const Register: React.FC = () => {
     const navigator = useNavigation();
-
-    const [cpf, setCpf] = useState('');
-    const [name, setName] = useState('');
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const { toast } = useToast();
     const [loading, setLoading] = useState(false);
-
     const [isFilled, setIsFilled] = useState(true);
 
     const handleGoLogin = useCallback(() => {
         navigator.navigate('Login');
     }, [navigator]);
 
-    const handleSubmit = useCallback(async () => {
-        setLoading(true);
-        // Validate TODO
-        if (password !== confirmPassword) {
-            return;
-        }
+    const [cpfMask, setCpfMask] = useState('');
+    const formRef = useRef<FormHandles>(null);
+    const usernameInputRef = useRef<TextInput>(null);
+    const nameInputRef = useRef<TextInput>(null);
+    const passwordInputRef = useRef<TextInput>(null);
+    const confirmPasswordInputRef = useRef<TextInput>(null);
 
+    const handleSubmit = useCallback(async (data: RegisterFormData) => {
+
+        const cleanCPF = cpfMask.slice(0, 14)
+            .split('')
+            .filter((letter) => !isNaN(Number(letter))).join('');
+
+        setLoading(true);
         try {
+            formRef.current?.setErrors({});
+
+            const schema = yup.object().shape({
+                cpf: yup.string().min(11, 'Obrigatório ter 11 digitos'),
+                username: yup.string().required('Nome de usuário obrigatório '),
+                name: yup.string().required('Nome completo obrigatório'),
+                password: yup.string().min(6, 'No mínimo 6 digitos'),
+                confirmPassword: yup.string().min(6, 'No mínimo 6 digitos')
+            });
+
+            const filteredData: RegisterFormData = {
+                ...data,
+                cpf: cleanCPF
+            }
+
+            await schema.validate(filteredData, {
+                abortEarly: false
+            });
+
+            if (filteredData.password !== filteredData.confirmPassword) {
+                toast({
+                    message: 'As senhas devem ser iguais!',
+                    color: 'error',
+                    iconColor: 'error',
+                    accentColor: 'error',
+                    iconName: 'x'
+                });
+
+                throw new Error('the password must be equal!')
+            };
+
             const { status } = await api.post('/usuarios', {
-                "cpf": cpf,
-                "login": username,
-                "nome": name,
-                "senha": password,
+                "cpf": filteredData.cpf,
+                "login": filteredData.username,
+                "nome": filteredData.name,
+                "senha": filteredData.password,
             });
 
             if (status === 200 || status === 201) {
-                const { data } = await api.post<{ token: string, usuario: { nome: string } }>('/login', {
-                    "usuario": username,
-                    "senha": password
+                const { data: response } = await api.post<UserResponse>('/login', {
+                    "usuario": filteredData.username,
+                    "senha": filteredData.password
                 });
 
-                await AsyncStorage.setItem('@token_user', data.token);
-                await AsyncStorage.setItem('@user_name', data.usuario.nome);
+                await AsyncStorage.setItem('@token_user', response.token);
+                await AsyncStorage.setItem('@user_data', JSON.stringify({
+                    name: response.usuario.nome,
+                    cpf: response.usuario.cpf
+                }));
 
+                await updateStore()
 
+                toast({ message: 'Usuário registrado com sucesso!' });
                 navigator.navigate('RegisterSucceded');
             } else {
-                console.log('error');
+                toast({
+                    message: 'Ocorreu algum erro!',
+                    color: 'error',
+                    iconColor: 'error',
+                    accentColor: 'error',
+                    iconName: 'x'
+                });
             }
+
         } catch (err) {
-            console.log(err.response);
+            if (err instanceof yup.ValidationError) {
+                const errors = getValidationErrors(err);
+                formRef.current?.setErrors(errors);
+            }
+            toast({
+                message: 'Ocorreu algum erro!',
+                color: 'error',
+                iconColor: 'error',
+                accentColor: 'error',
+                iconName: 'x'
+            });
         } finally {
             setLoading(false);
         }
-    }, [cpf, username, name, password, confirmPassword, navigator]);
+    }, [navigator, cpfMask]);
 
     return (
         <SafeAreaContainer>
             <ScrollContainer>
-
                 <Container
                     enabled={Platform.OS === 'ios'}
                     behavior="padding"
                 >
                     <Logo source={LogoImg} />
                     <FormContainer>
-                        <FormTitle>Peça sua conta e cartão de crédito do Gama Bank</FormTitle>
+                        <Form ref={formRef} onSubmit={handleSubmit}>
+                            <FormTitle>Peça sua conta e cartão de crédito do Gama Bank</FormTitle>
 
-                        <FormInput
-                            placeholder="Digite seu CPF"
-                            onChangeText={text => setCpf(text)}
-                            value={cpf}
-                        />
-                        <FormInput
-                            placeholder="Escolha um nome de usuário"
-                            onChangeText={text => setUsername(text)}
-                            value={username}
-                        />
-                        <FormInput
-                            placeholder="Nome completo"
-                            onChangeText={text => setName(text)}
-                            value={name}
-                        />
-                        <FormInput
-                            placeholder="Digite sua senha"
-                            onChangeText={text => setPassword(text)}
-                            value={password}
-                            secureTextEntry
-                        />
-                        <FormInput
-                            placeholder="Confirme sua senha"
-                            onChangeText={text => setConfirmPassword(text)}
-                            value={confirmPassword}
-                            secureTextEntry
-                        />
+                            <Input
+                                middleware={(value) => setCpfMask(maskCPF(value))}
+                                value={cpfMask}
+                                maxLength={14}
+                                autoCorrect={false}
+                                autoCapitalize="none"
+                                name="cpf"
+                                keyboardType="numeric"
+                                placeholder="Digite seu CPF"
+                                returnKeyType="next"
+                                onSubmitEditing={() => {
+                                    usernameInputRef.current?.focus();
+                                }}
+                            />
 
-                        {loading ? (
-                            <Loader marginTop={9} />
-                        ) : (
-                                <SubmitButton
-                                    isActive={isFilled}
-                                    onPress={handleSubmit}
-                                    disabled={!isFilled}
-                                >
-                                    <SubmitTextWrapper>
-                                        <SubmitText isActive={isFilled} >Continuar</SubmitText>
-                                        <Feather name="arrow-right" size={20} color={isFilled ? "#fff" : "#9B9B9B"} />
-                                    </SubmitTextWrapper>
-                                </SubmitButton>
-                            )}
+                            <Input
+                                ref={usernameInputRef}
+                                autoCapitalize="none"
+                                name="username"
+                                placeholder="Escolha um nome de usuário"
+                                returnKeyType="next"
+                                onSubmitEditing={() => {
+                                    nameInputRef.current?.focus();
+                                }}
+                            />
 
-                        <ReturnLink onPress={handleGoLogin} >
-                            <ReturnText>&#60; Voltar para login</ReturnText>
-                        </ReturnLink>
+                            <Input
+                                ref={nameInputRef}
+                                name="name"
+                                placeholder="Nome completo"
+                                returnKeyType="next"
+                                onSubmitEditing={() => {
+                                    passwordInputRef.current?.focus();
+                                }}
+                            />
+
+                            <Input
+                                ref={passwordInputRef}
+                                autoCapitalize="none"
+                                name="password"
+                                placeholder="Digite sua senha"
+                                returnKeyType="next"
+                                secureTextEntry
+                                onSubmitEditing={() => {
+                                    confirmPasswordInputRef.current?.focus();
+                                }}
+                            />
+
+                            <Input
+                                ref={confirmPasswordInputRef}
+                                autoCapitalize="none"
+                                name="confirmPassword"
+                                placeholder="Confirme sua senha"
+                                returnKeyType="send"
+                                secureTextEntry
+                                onSubmitEditing={() => {
+                                    formRef.current?.submitForm();
+                                }}
+                            />
+
+                            {loading ? (
+                                <Loader marginTop={9} />
+                            ) : (
+                                    <SubmitButton
+                                        isActive={isFilled}
+                                        onPress={() => {
+                                            formRef.current?.submitForm();
+                                        }}
+                                        disabled={!isFilled}
+                                    >
+                                        <SubmitTextWrapper>
+                                            <SubmitText isActive={isFilled} >Continuar</SubmitText>
+                                            <Feather name="arrow-right" size={20} color={isFilled ? "#fff" : "#9B9B9B"} />
+                                        </SubmitTextWrapper>
+                                    </SubmitButton>
+                                )}
+
+                            <ReturnLink onPress={handleGoLogin} >
+                                <ReturnText>&#60; Voltar para login</ReturnText>
+                            </ReturnLink>
+                        </Form>
                     </FormContainer>
                 </Container>
             </ScrollContainer>

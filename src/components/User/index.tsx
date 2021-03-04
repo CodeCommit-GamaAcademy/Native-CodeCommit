@@ -4,17 +4,18 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { Container, Welcome } from '../User/style';
 import { UserData } from '../../store/user/types';
+import { BorderlessButton } from 'react-native-gesture-handler';
 
 interface IUserProps {
   showCancel?: boolean;
   hideName?: boolean;
   user: UserData,
-  hide?: Function,
-  show?: Function,
+  onAction?: () => void,
   fromRealeases?: boolean,
+  onCancel?: () => void
 }
 
-const User: React.FC<IUserProps> = ({ showCancel = false, hideName = false, fromRealeases = false, ...props }) => {
+const User: React.FC<IUserProps> = ({ showCancel = false, hideName = false, fromRealeases = false, onAction, onCancel, ...props }) => {
 
   const formatName = (name: string) => {
     const arrayName = name.split(' ');
@@ -26,14 +27,24 @@ const User: React.FC<IUserProps> = ({ showCancel = false, hideName = false, from
       {
         !hideName 
         ? <Welcome fromReleases={fromRealeases}>Olá, { formatName(props.user.name) }</Welcome>
-        : <Ionicons onPress={() => props.show && props.show('show')} name="person-circle-outline" size={30} color={fromRealeases ? '#8c52e5' : '#FBFBFB'}/>
+        : <Ionicons name="person-circle-outline" size={30} color={fromRealeases ? '#8c52e5' : '#FBFBFB'}/>
       }
       
       { !showCancel && !hideName ? (
-        <Ionicons onPress={() => props.show && props.show('show')} name="person-circle-outline" size={30} color={'#FBFBFB'}/>
-        ) : (
-        <Ionicons onPress={() => props.hide && props.hide('hide')} name="close" size={30} color={fromRealeases ? '#8c52e5' : '#FBFBFB'}/>
-      ) 
+            <BorderlessButton
+              style={styles.button}
+              onPress={onAction ? onAction : () => {}}
+            >
+              <Ionicons name="person-circle-outline" size={30} color={'#FBFBFB'}/>
+            </BorderlessButton>
+          ) : (
+            <BorderlessButton
+              style={styles.button}
+              onPress={onCancel ? onCancel : () => {}}
+            >
+              <Ionicons name="close" size={30} color={fromRealeases ? '#8c52e5' : '#FBFBFB'}/>
+            </BorderlessButton>
+        ) 
       }
 
 
@@ -42,3 +53,10 @@ const User: React.FC<IUserProps> = ({ showCancel = false, hideName = false, from
 }
 
 export default User;
+
+const styles = StyleSheet.create({
+    button: {
+      justifyContent: 'center',
+      alignContent: 'center'
+    }
+});
