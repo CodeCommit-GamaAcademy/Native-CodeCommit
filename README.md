@@ -117,14 +117,16 @@ Outras características:
 ```
 
 ## Arquitetura Flux
-
-<img  src="https://raw.githubusercontent.com/CodeCommit-GamaAcademy/React-CodeCommit/prod/src/docs/redux.png?token=ALJFOQHMY7WPIQOBX5A7LQTAHPHKO" />
+<div align="center">
+    <img src="https://raw.githubusercontent.com/CodeCommit-GamaAcademy/React-CodeCommit/prod/src/docs/redux.png?token=ALJFOQHMY7WPIQOBX5A7LQTAHPHKO" width="600"/>
+</div>
 <p align="center">Foi utilizado o Redux para globalização dos dados do usuário, necessário para requisições em API e para impedir requisições desnecessárias na API, melhorando significativamente a experiencia do usuário durante a utilização do GamaBank.
 </p>
 
 ## Mindmap
-
-<img src="https://cutt.ly/llGiL2b" />
+<div align="center">
+    <img src="https://cutt.ly/llGiL2b" width="600"/>
+</div>
 
 ## Como Usar
 
