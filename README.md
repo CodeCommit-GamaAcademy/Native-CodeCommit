@@ -1,5 +1,5 @@
 <div align="center"> 
-<img  src="https://assets.website-files.com/5ff79f3ebebf6b12f6b7747f/5ffe04fc6284b7e90070d985_logo-gama-academy.png" width="250" />
+<img  src="https://assets.website-files.com/5ff79f3ebebf6b12f6b7747f/5ffe04fc6284b7e90070d985_logo-gama-academy.png" width="300" />
 </div>
 <h1 align="center"> GamaBank - Versão Mobile (React Native)</h1>
 
@@ -15,11 +15,11 @@
     <a  href="#como-usar">Como usar</a> |
     <a  href="#licença">Licença</a>
 </p>
-<div>
-    <img src="https://i.imgur.com/JBBd0Bx.png" />
+<div align="center">
+    <img src="https://i.imgur.com/JBBd0Bx.png" width="250" />
 </div>
 
-<p>Projeto desenvolvido na academia da <a href="https://www.gama.academy/" target="_blank">Gama Academy</a> em parceria com a <a href="https://www.accenture.com/br-pt" target="_blank">Accenture</a> com objetivo de aplicar todos os conceitos aprendidos durante o curso e apresentar para banca como projeto final!</p>
+<p align="center">Projeto desenvolvido na academia da <a href="https://www.gama.academy/" target="_blank">Gama Academy</a> em parceria com a <a href="https://www.accenture.com/br-pt" target="_blank">Accenture</a> com objetivo de aplicar todos os conceitos aprendidos durante o curso e apresentar para banca como projeto final!</p>
 
 ## Equipe da CodeCommit
 <div align="center">
@@ -81,55 +81,52 @@ Outras características:
 
 ```
 ├── src
+│   ├── @types
 │   ├── assets
-|   |   ├── svgs
+│   |   ├── svgs
 |   ├── components
-|   |   ├── Button
+|   |   ├── Balance
 |   |   ├── Dashboard
-|   |   |   ├── Balance
-|   |   |   ├── CardMenu
-|   |   |   ├── CardMenuMobile
-|   |   |   ├── Deposit
-|   |   |   ├── Extract
-|   |   |   ├── MenuModal
-|   |   |   ├── Payments
-|   |   |   ├── Plans
-|   |   |   ├── Transactions
-|   |   ├── Header
+|   |   ├── Bottom
 |   |   ├── Input
+|   |   ├── Launchs
+|   |   ├── LeftMenu
 |   |   ├── Loader
-|   |   ├── Logo
-|   |   ├── Tooltip
-|   ├── docs
-|   ├── Pages
+|   |   ├── LogoutModal
+|   |   ├── Plans
+|   |   ├── User
+|   ├── interfaces
+|   ├── routes
+|   ├── screens
 |   |   ├── Dashboard
-|   |   ├── Error
-|   |   ├── ErrorRecover
-|   |   ├── Landing
+|   |   |   ├── Plans
+|   |   |   ├── Releases
+|   |   |   ├── Transactions
+|   |   ├── ForgotPassword
+|   |   ├── Home
 |   |   ├── Login
-|   |   ├── RecoverPassword
+|   |   ├── Register
+|   |   |   ├── Succeded
+|   ├── services
 |   ├── store
-|   |   ├── dashboard
 |   |   ├── user
 |   ├── styles
 |   ├── types
 |   ├── utils
-|   ├── App.tsx
-│   ├── customToast.css
-│   ├── index.tsx
-│   ├── react-app-env.d.ts
 │   ├── routes.tsx
 ```
 
 ## Arquitetura Flux
-
-<img  src="https://raw.githubusercontent.com/CodeCommit-GamaAcademy/React-CodeCommit/prod/src/docs/redux.png?token=ALJFOQHMY7WPIQOBX5A7LQTAHPHKO" />
-<p>Foi utilizado o Redux para globalização dos dados do usuário, necessário para requisições em API e para impedir requisições desnecessárias na API, melhorando significativamente a experiencia do usuário durante a utilização do GamaBank.
+<div align="center">
+    <img src="https://raw.githubusercontent.com/CodeCommit-GamaAcademy/React-CodeCommit/prod/src/docs/redux.png?token=ALJFOQHMY7WPIQOBX5A7LQTAHPHKO" width="600"/>
+</div>
+<p align="center">Foi utilizado o Redux para globalização dos dados do usuário, necessário para requisições em API e para impedir requisições desnecessárias na API, melhorando significativamente a experiencia do usuário durante a utilização do GamaBank.
 </p>
 
 ## Mindmap
-
-<img src="https://cutt.ly/llGiL2b" />
+<div align="center">
+    <img src="https://cutt.ly/llGiL2b" width="600"/>
+</div>
 
 ## Como Usar
 
