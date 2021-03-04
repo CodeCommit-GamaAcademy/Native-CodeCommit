@@ -193,7 +193,7 @@ const AddPlansModal: React.FC<AddPlansModalProps> = ({ closeModal, setPlans, ...
     } catch (err) {
       console.log(err.response);
     }
-  }, [  ]);
+  }, [ type, description, toast, closeModal, setPlans, user ]);
 
   return (
     <ModalContainer {...props}>
