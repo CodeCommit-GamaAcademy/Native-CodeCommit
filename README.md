@@ -133,19 +133,19 @@ Outras características:
 #### Clonando o repositório
 
 ```bash
-git clone https://github.com/igorsantos97/bank-acc-react.git
+git clone https://github.com/CodeCommit-GamaAcademy/Native-CodeCommit
 ```
 
 #### Entrando no diretório do projeto
 
 ```bash
-cd bank-acc-react
+cd Native-CodeCommit
 ```
 
 #### Instalando as Dependências
 
 ```bash
-yarn install
+yarn
 ```
 
 #### Iniciando a Aplicação
