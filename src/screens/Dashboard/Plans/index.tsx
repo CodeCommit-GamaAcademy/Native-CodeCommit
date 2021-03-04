@@ -83,7 +83,7 @@ const Plans: React.FC = () => {
 
   const onRefresh = useCallback(() => {
     getInfoPlans();
-  }, []);
+  }, [getInfoPlans]);
 
   if (plans) return (
     <Main>

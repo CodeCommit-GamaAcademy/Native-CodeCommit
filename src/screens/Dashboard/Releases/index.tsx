@@ -90,9 +90,10 @@ const Releases: React.FC = () => {
       });
       //make launchs ordered
       const initLaunchs = [...response.data.contaBanco.lancamentos,
-      ...response.data.contaCredito.lancamentos];
+        ...response.data.contaCredito.lancamentos];
+        
       const orderedLauchs = initLaunchs.slice().sort((a, b) => {
-        return Number(new Date(a.data)) - Number(new Date(b.data));
+        return new Date(a.data).getTime() - new Date(b.data).getTime();
       }).reverse();
       setAllLaunchs(orderedLauchs);
       setAccountInfo(response.data);
