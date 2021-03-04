@@ -16,7 +16,7 @@
     <a  href="#licença">Licença</a>
 </p>
 <div align="center">
-    <img src="https://i.imgur.com/JBBd0Bx.png" width="250" />
+    <img src="https://github.com/CodeCommit-GamaAcademy/Nufake-Mobile/blob/prod/docs/application.gif" width="250" />
 </div>
 
 <p align="center">Projeto desenvolvido na academia da <a href="https://www.gama.academy/" target="_blank">Gama Academy</a> em parceria com a <a href="https://www.accenture.com/br-pt" target="_blank">Accenture</a> com objetivo de aplicar todos os conceitos aprendidos durante o curso e apresentar para banca como projeto final!</p>
@@ -125,7 +125,7 @@ Outras características:
 
 ## Mindmap
 <div align="center">
-    <img src="https://cutt.ly/llGiL2b" width="600"/>
+    <img src="https://github.com/CodeCommit-GamaAcademy/Nufake-Mobile/blob/prod/docs/Nufake%20Navigation%20.png" width="700"/>
 </div>
 
 ## Como Usar
