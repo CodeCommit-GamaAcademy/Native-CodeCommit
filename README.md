@@ -125,7 +125,7 @@ Outras características:
 
 ## Mindmap
 <div align="center">
-    <img src="https://github.com/CodeCommit-GamaAcademy/Nufake-Mobile/blob/prod/docs/Nufake%20Navigation.png" width="700"/>
+    <img src="https://github.com/CodeCommit-GamaAcademy/Nufake-Mobile/blob/prod/docs/Nufake%20Navigation%20.png" width="700"/>
 </div>
 
 ## Como Usar
