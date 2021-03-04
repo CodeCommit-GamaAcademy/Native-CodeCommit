@@ -93,31 +93,31 @@ const Plans: React.FC = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <SafeAreaView style={{ flex: 1 }} >
-          <HeaderWrapper>
-            {user && <User user={user} showCancel onCancel={() => navigation.navigate('Lancamentos')} />}
-          </HeaderWrapper>
+        <HeaderWrapper>
+          {user && <User user={user} showCancel onCancel={() => navigation.navigate('Lancamentos')} />}
+        </HeaderWrapper>
 
-          <Container>
-            <PlansContainer>
-              {plans.map((plan, index) => (
-                <PlansCard
-                  key={index}
-                >
-                  <CardTitle>{plan.descricao}</CardTitle>
-                  <CardUser>{plan.login}</CardUser>
-                  <CardType>Movimentação do tipo: {plan.tipoMovimento}</CardType>
-                </PlansCard>
-              ))}
 
-              <PlusButton
-                onPress={() => setIsAdding(true)}
+
+        <Container>
+          <PlansContainer>
+            {plans.map((plan, index) => (
+              <PlansCard
+                key={index}
               >
-                <Feather name="plus" size={24} color="#fff" />
-              </PlusButton>
-            </PlansContainer>
-          </Container>
-        </SafeAreaView>
+                <CardTitle>{plan.descricao}</CardTitle>
+                <CardUser>{plan.login}</CardUser>
+                <CardType>Movimentação do tipo: {plan.tipoMovimento}</CardType>
+              </PlansCard>
+            ))}
+
+            <PlusButton
+              onPress={() => setIsAdding(true)}
+            >
+              <Feather name="plus" size={24} color="#fff" />
+            </PlusButton>
+          </PlansContainer>
+        </Container>
       </ContainerScroll>
       <Bottom />
     </Main>
@@ -193,18 +193,18 @@ const AddPlansModal: React.FC<AddPlansModalProps> = ({ closeModal, setPlans, ...
     } catch (err) {
       console.log(err.response);
     }
-  }, [ type, description, toast, closeModal, setPlans, user ]);
+  }, [type, description, toast, closeModal, setPlans, user]);
 
   return (
     <ModalContainer {...props}>
       <ModalContent>
 
-      <BorderlessButton
-        style={{ position: 'absolute', top: 12, left: 12 }}
-        onPress={closeModal}
-      >
-        <Feather name='x' size={18} />
-      </BorderlessButton>
+        <BorderlessButton
+          style={{ position: 'absolute', top: 12, left: 12 }}
+          onPress={closeModal}
+        >
+          <Feather name='x' size={18} />
+        </BorderlessButton>
 
         <TitleText>
           <MaterialIcons name="event-note" color="#444444" size={24} style={{ marginRight: 8 }} />

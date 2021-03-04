@@ -7,7 +7,7 @@ import moment from 'moment';
 import CalendarPicker from 'react-native-calendar-picker';
 import { useToast } from 'react-native-styled-toast'
 
-import { Container, ScrollContainer, DepositCard, HeaderCardContainer, CardTitle, Input, Calendar, ButtonSubmit, ButtonText, Main, InputLabel } from './style';
+import { Container, ScrollContainer, DepositCard, HeaderCardContainer, CardTitle, Input, Calendar, ButtonSubmit, ButtonText, Main, InputLabel, HeaderWrapper } from './style';
 import ValidateCurrentToken from '../../../services/ValidateCurrentToken';
 import updateStore from '../../../services/updateStore';
 import api from '../../../services/api';
@@ -27,10 +27,10 @@ interface RouteProps {
   }
 }
 
-const Transactions: React.FC<RouteProps> = (props) => {  
+const Transactions: React.FC<RouteProps> = (props) => {
   const { toast } = useToast();
   const navigation = useNavigation();
-  const store = useSelector( (store: ApplicationStore) => store.user );
+  const store = useSelector((store: ApplicationStore) => store.user);
 
   const [loading, setLoading] = useState(false);
   const [destinatario, setDestinatario] = useState('');
@@ -47,7 +47,7 @@ const Transactions: React.FC<RouteProps> = (props) => {
       await ValidateCurrentToken();
       const isLogged = await updateStore();
 
-      if ( !isLogged ) navigation.navigate('Login');
+      if (!isLogged) navigation.navigate('Login');
     }
 
     GetAuth();
@@ -67,7 +67,7 @@ const Transactions: React.FC<RouteProps> = (props) => {
           Authorization: store?.token,
         }
       });
-      
+
       if (!isDeposit) {
         const check = await api.get<Plano[]>(`lancamentos/planos-conta?login=${destinatario.trim()}`, {
           headers: {
@@ -76,37 +76,37 @@ const Transactions: React.FC<RouteProps> = (props) => {
         });
         check.data.length === 0 ? setUserExist(false) : setUserExist(true);
       }
-      
-      if ( !userExist ) {
+
+      if (!userExist) {
         toast(
-          { 
-            message: 'Este usuário parece não existir!', 
-            color: 'error', 
-            iconColor: 'error', 
-            accentColor: 'error', 
-            iconName: 'x' 
+          {
+            message: 'Este usuário parece não existir!',
+            color: 'error',
+            iconColor: 'error',
+            accentColor: 'error',
+            iconName: 'x'
           });
-          return;
+        return;
       }
 
-      if ( Number.parseFloat(valor) <= 0 || valor === '' ) {
-        toast({ 
-          message: 'Valor não pode ser nulo ou negativo!', 
-          color: 'error', 
-          iconColor: 'error', 
-          accentColor: 'error', 
-          iconName: 'x' 
+      if (Number.parseFloat(valor) <= 0 || valor === '') {
+        toast({
+          message: 'Valor não pode ser nulo ou negativo!',
+          color: 'error',
+          iconColor: 'error',
+          accentColor: 'error',
+          iconName: 'x'
         });
         return;
       }
 
-      const {status} = await api.post('lancamentos', {
+      const { status } = await api.post('lancamentos', {
         "conta": myAccount.data.contaBanco.id,
         "contaDestino": isDeposit ? "" : destinatario.trim(),
         "data": moment(data).format('YYYY-MM-DD'),
         "descricao": descricao,
         "login": store?.login,
-        "planoConta": isDeposit ? transactions.data[0].id : transactions.data[3].id ,
+        "planoConta": isDeposit ? transactions.data[0].id : transactions.data[3].id,
         "valor": +valor
       }, {
         headers: {
@@ -116,19 +116,19 @@ const Transactions: React.FC<RouteProps> = (props) => {
 
       if (status !== 200) throw new Error('Something went wrong with request')
       clearForm()
-      toast({message:"Transferência realizada com sucesso!"});
+      toast({ message: "Transferência realizada com sucesso!" });
       navigation.navigate('Lancamentos');
 
-    }catch(err){ 
-      toast({ 
-        message: 'Aconteceu algo de errado!', 
-        color: 'error', 
-        iconColor: 'error', 
-        accentColor: 'error', 
-        iconName: 'x' 
+    } catch (err) {
+      toast({
+        message: 'Aconteceu algo de errado!',
+        color: 'error',
+        iconColor: 'error',
+        accentColor: 'error',
+        iconName: 'x'
       });
 
-    }finally {
+    } finally {
       setLoading(false);
     }
 
@@ -150,15 +150,18 @@ const Transactions: React.FC<RouteProps> = (props) => {
 
   return (
     <Main>
-        <ScrollContainer>
+      <ScrollContainer>
+        <HeaderWrapper>
+          {store && <User user={store} showCancel onCancel={() => navigation.navigate('Lancamentos')} />}
+        </HeaderWrapper>
+
         <Container>
-          {store && <User user={ store } showCancel onCancel={() => navigation.navigate('Lancamentos')} />}
-            <DepositCard>
-              <HeaderCardContainer>
-              { isDeposit ? 
+          <DepositCard>
+            <HeaderCardContainer>
+              {isDeposit ?
                 <>
-                  <PlansSvg color="#9B9B9B" /> 
-                  <CardTitle>Depósitos</CardTitle> 
+                  <PlansSvg color="#9B9B9B" />
+                  <CardTitle>Depósitos</CardTitle>
                 </>
                 :
                 <>
@@ -166,55 +169,55 @@ const Transactions: React.FC<RouteProps> = (props) => {
                   <CardTitle>Transferências</CardTitle>
                 </>
               }
-              </HeaderCardContainer>
-              {isDeposit ? 
-                <></>
-                :
-                <Input 
-                  placeholder="Destinatário" 
-                  value={destinatario}
-                  onChangeText={(text) => setDestinatario(text)}
-                  autoCapitalize='none'
-                />
-              }
+            </HeaderCardContainer>
+            {isDeposit ?
+              <></>
+              :
               <Input
-                placeholder="Descrição"
-                value={descricao}
-                onChangeText={(text) => setDescricao(text)}
+                placeholder="Destinatário"
+                value={destinatario}
+                onChangeText={(text) => setDestinatario(text)}
+                autoCapitalize='none'
               />
-              <InputLabel>Escolha a data {isDeposit ? 'do depósito' : 'da transferência'}:</InputLabel>
-              <Calendar>
-                <CalendarPicker
-                  onDateChange={(date) => setData(date.format('YYYY-MM-DD'))}
-                  minDate={new Date()}
-                  width={ 250 }
-                  height={ 250 }
-                  weekdays={['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom']}
-                  months={['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']}
-                  previousTitle="Anterior"
-                  nextTitle="Próximo"
-                  selectedDayColor="#68DE5A"
-                  selectedDayTextColor="#FFF"
-                  todayBackgroundColor="#8C52E5"
-                  todayTextStyle={{ color: "#FFF" }}
-                  textStyle={{ color: '#FFF' }}
-                />
-              </Calendar>
-              <Input 
-                placeholder={isDeposit ? 'Valor de depósito em R$' : 'Valor de transferência em R$'} keyboardType='number-pad'
-                value={valor}
-                onChangeText={(text) => handleChangeValue(text)}
+            }
+            <Input
+              placeholder="Descrição"
+              value={descricao}
+              onChangeText={(text) => setDescricao(text)}
+            />
+            <InputLabel>Escolha a data {isDeposit ? 'do depósito' : 'da transferência'}:</InputLabel>
+            <Calendar>
+              <CalendarPicker
+                onDateChange={(date) => setData(date.format('YYYY-MM-DD'))}
+                minDate={new Date()}
+                width={250}
+                height={250}
+                weekdays={['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom']}
+                months={['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']}
+                previousTitle="Anterior"
+                nextTitle="Próximo"
+                selectedDayColor="#68DE5A"
+                selectedDayTextColor="#FFF"
+                todayBackgroundColor="#8C52E5"
+                todayTextStyle={{ color: "#FFF" }}
+                textStyle={{ color: '#FFF' }}
               />
-              {
-                loading ? (<Loader marginTop={34} />) : 
+            </Calendar>
+            <Input
+              placeholder={isDeposit ? 'Valor de depósito em R$' : 'Valor de transferência em R$'} keyboardType='number-pad'
+              value={valor}
+              onChangeText={(text) => handleChangeValue(text)}
+            />
+            {
+              loading ? (<Loader marginTop={34} />) :
                 (
                   <ButtonSubmit onPress={handleSubmit}>
                     <ButtonText> {isDeposit ? 'Realizar depósito' : 'Realizar transferência'}</ButtonText>
                     <Feather name="arrow-right" size={20} color='#fff' />
                   </ButtonSubmit>
                 )
-              }
-              
+            }
+
           </DepositCard>
         </Container>
       </ScrollContainer>

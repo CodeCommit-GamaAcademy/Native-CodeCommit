@@ -1,10 +1,14 @@
 import styled from 'styled-components/native';
+import { Dimensions } from 'react-native';
 
 export const Container = styled.SafeAreaView`
     flex: 1;
     justify-content: center;
     align-items: center;
     background: #8C52E5;
+    padding: 15px 25px 0px 25px;
+
+    
 `;
 
 export const Main = styled.KeyboardAvoidingView`
@@ -15,9 +19,9 @@ export const Main = styled.KeyboardAvoidingView`
 export const ScrollContainer = styled.ScrollView`
     flex: 1;
     background: #8c52e5;
+    
 `
 export const TitleContainer = styled.View`
-    margin-top: 30px;
     width: 100%;
     flex-direction: row;
     align-items: center;
@@ -28,11 +32,16 @@ export const Title = styled.Text`
     font-size: 26px;
 `
 
+export const HeaderWrapper = styled.View`
+  margin-left: 20px;
+  width: ${Dimensions.get('window').width }px;
+
+`;
+
 export const DepositCard = styled.View`
     width: 336px;
     background: #fff;
     border-radius: 10px;
-    margin: 30px 0;
     padding: 40px;
 `
 

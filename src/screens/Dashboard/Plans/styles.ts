@@ -15,13 +15,15 @@ export const ContainerScroll = styled.ScrollView`
 `;
 
 export const HeaderWrapper = styled.View`
-  padding-left: 20px;
-  width: 100%;
+  margin-left: 20px;
+  width: ${Dimensions.get('window').width }px;
+
 `;
 
 export const Main = styled.View`
   flex: 1;
   background: #8c52e5;
+  padding
 `;
 
 export const PlansContainer = styled.ScrollView`
@@ -85,7 +87,7 @@ export const ModalContainer = styled.View`
 
 export const ModalContent = styled.KeyboardAvoidingView`
   background-color: #fff;
-
+  border-radius: 8px;
   padding: 20px;
   width: 100%;
 `;
