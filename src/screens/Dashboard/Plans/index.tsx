@@ -37,6 +37,7 @@ import Bottom from '../../../components/Bottom';
 import ValidateCurrentToken from '../../../services/ValidateCurrentToken';
 import updateStore from '../../../services/updateStore';
 import User from '../../../components/User';
+import { useToast } from 'react-native-styled-toast';
 
 const Plans: React.FC = () => {
   const navigation = useNavigation();
@@ -145,10 +146,22 @@ const AddPlansModal: React.FC<AddPlansModalProps> = ({ closeModal, setPlans, ...
 
   const user = useSelector((store: ApplicationStore) => store.user);
 
+  const { toast } = useToast();
+
   const handleAddPlan = useCallback(async () => {
 
     // Validation TODO
-    if (!type || !description) return;
+    if (!type || !description) {
+      toast({
+        message: 'Usuário ou senha incorretos!',
+        color: 'error',
+        iconColor: 'error',
+        accentColor: 'error',
+        iconName: 'x'
+      });
+
+      return;
+    }
 
     const data = {
       descricao: description,
@@ -180,7 +193,7 @@ const AddPlansModal: React.FC<AddPlansModalProps> = ({ closeModal, setPlans, ...
     } catch (err) {
       console.log(err.response);
     }
-  }, []);
+  }, [  ]);
 
   return (
     <ModalContainer {...props}>
